@@ -1,0 +1,70 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page {
+  align-items: center;
+  flex-direction: column;
+  font-weight: 300;
+}
+
+.form {
+  margin-left: 30;
+  margin-right: 30;
+  flex-grow: 2;
+  vertical-align: middle;
+}
+
+.logo {
+  margin-bottom: 12;
+  height: 150;
+  font-weight: bold;
+}
+
+.header {
+  text-align: center;
+  font-size: 25;
+  margin-bottom: 70;
+  font-weight: 700;
+}
+
+.input-field {
+  margin-bottom: 25;
+}
+
+.input {
+  font-size: 18;
+  placeholder-color: #a8a8a8;
+}
+
+.error-label {
+  color: #f83754;
+  font-size: 14;
+  font-weight: 300;
+  padding: 10 5;
+}
+
+.capitalize {
+  text-transform: uppercase;
+}
+
+.login-label {
+  horizontal-align: center;
+  font-size: 15;
+  font-weight: 300;
+}
+
+.sign-up-label {
+  margin-bottom: 20;
+}
+.bold {
+  color: #212121;
+  font-weight: 300;
+}
+
+.btn-primary {
+  background-color: #212121;
+}
