@@ -1,0 +1,15 @@
+<ActionBar title="PimpoPay" visibility="collapsed"> </ActionBar>
+
+<GridLayout rows="*,auto">
+  <GridLayout rows="auto,*" row="0">
+    <StackLayout row="0" height="80" backgroundColor="#313131" verticalAlignment="middle">
+      <Label text="INFO SOBRE USUARIO"  horizontalAlignment="center"  color="#FFF" textWrap="true"></Label>
+    </StackLayout>
+
+    <StackLayout row="1"> 
+        <router-outlet></router-outlet>
+    </StackLayout>
+  </GridLayout>
+
+  <PimpoBottomBar row="1" (tabSelected)="navigateToPage($event)"></PimpoBottomBar>
+</GridLayout>

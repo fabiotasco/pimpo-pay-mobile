@@ -1,0 +1,103 @@
+<ScrollView class="container" height="100%">
+  <FlexboxLayout class="page" id="flexbox">
+    <StackLayout class="form">
+      <image class="logo" src="~/assets/logo.png"></image>
+      <GridLayout *ngIf="!showRegister" rows="auto,auto">
+        <StackLayout row="0" class="input-field">
+          <TextField
+            hint="Documento"
+            [(ngModel)]="username"
+            class="input"
+            autocorrect="false"
+            keyboardType="phone"
+            autocapitalizationType="none"
+          ></TextField>
+          <StackLayout class="hr-light"> </StackLayout>
+        </StackLayout>
+
+        <StackLayout row="1" class="input-field">
+          <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
+          <StackLayout class="hr-light"> </StackLayout>
+        </StackLayout>
+      </GridLayout>
+
+      <GridLayout *ngIf="showRegister" rows="auto,auto,auto,auto,auto,auto">
+        <StackLayout row="0" class="input-field">
+          <DropDown
+            #typeDropdown
+            hint="Tipo de conta"
+            class="input"
+            [items]="optionsType"
+            [(ngModel)]="type"
+          ></DropDown>
+          <StackLayout class="hr-light"> </StackLayout>
+          <label *ngIf="errorMessage.type" [text]="errorMessage.type" class="error-label" textWrap="true"></label>
+        </StackLayout>
+
+        <StackLayout row="1" class="input-field">
+          <TextField
+            hint="Documento"
+            [(ngModel)]="username"
+            class="input"
+            autocorrect="false"
+            keyboardType="phone"
+            autocapitalizationType="none"
+          ></TextField>
+          <StackLayout class="hr-light"> </StackLayout>
+          <label *ngIf="errorMessage.username" [text]="errorMessage.username" class="error-label" textWrap="true"></label>
+        </StackLayout>
+
+        <StackLayout row="2" class="input-field">
+          <DropDown
+            #typeDropdown
+            hint="Operadora"
+            class="input capitalize"
+            [items]="operatorlist"
+            [(ngModel)]="operator"
+          ></DropDown>
+          <StackLayout class="hr-light"> </StackLayout>
+          <label *ngIf="errorMessage.operator" [text]="errorMessage.operator" class="error-label" textWrap="true"></label>
+        </StackLayout>
+
+        <StackLayout row="3" class="input-field">
+          <TextField
+            hint="Celular"
+            [(ngModel)]="phoneNumber"
+            class="input"
+            autocorrect="false"
+            keyboardType="phone"
+          ></TextField>
+          <StackLayout class="hr-light"> </StackLayout>
+          <label *ngIf="errorMessage.phoneNumber" [text]="errorMessage.phoneNumber" class="error-label" textWrap="true"></label>
+        </StackLayout>
+
+        <StackLayout row="4" class="input-field">
+          <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
+          <StackLayout class="hr-light"> </StackLayout>
+          <label *ngIf="errorMessage.password" [text]="errorMessage.password" class="error-label" textWrap="true"></label>
+        </StackLayout>
+
+        <StackLayout row="5" class="input-field">
+          <TextField hint="Confirme o password" class="input" secure="true" [(ngModel)]="confirmPassword"></TextField>
+          <StackLayout class="hr-light"> </StackLayout>
+          <label *ngIf="errorMessage.confirmPassword" [text]="errorMessage.confirmPassword" class="error-label" textWrap="true"></label>
+        </StackLayout>
+      </GridLayout>
+
+      <button
+        [text]="showRegister ? 'Registrar' : 'Entrar'"
+        (tap)="submitLogin()"
+        class="btn btn-primary m-t-20"
+        [isEnabled]="!proccessing"
+      ></button>
+      <label *ngIf="!showRegister" text="Esqueceu a senha?" class="login-label"></label>
+      <label *ngIf="showRegister" text="Voltar" (tap)="showRegister = false" class="login-label"></label>
+    </StackLayout>
+
+    <label class="login-label sign-up-label" *ngIf="!showRegister" (tap)="showRegisterForm()">
+      <FormattedString>
+        <Span text="Não tem conta? "></Span> <Span text="Cadastre-se" class="bold"></Span>
+      </FormattedString>
+    </label>
+  </FlexboxLayout>
+</ScrollView>
