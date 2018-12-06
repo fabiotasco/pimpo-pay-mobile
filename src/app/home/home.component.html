@@ -2,10 +2,7 @@
 
 <GridLayout rows="*,auto">
   <GridLayout rows="auto,*" row="0">
-    <StackLayout row="0" height="80" backgroundColor="#313131" verticalAlignment="middle">
-      <Label text="INFO SOBRE USUARIO"  horizontalAlignment="center"  color="#FFF" textWrap="true"></Label>
-    </StackLayout>
-
+    <PimpoHeaderBar row="0" [username]="(userData$ | async)?.phones[0].number"></PimpoHeaderBar>
     <StackLayout row="1"> 
         <router-outlet></router-outlet>
     </StackLayout>

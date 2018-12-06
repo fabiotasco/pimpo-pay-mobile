@@ -10,9 +10,10 @@ import { CreditPageComponent } from './credit-page/credit-page.component';
 import { BalancePageComponent } from './balance-page/balance.component';
 import { TransferPageComponent } from './transfer-page/transfer.component';
 import { UserPageComponent } from './user-page/user.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  imports: [NativeScriptCommonModule, NativeScriptFormsModule, HomeRoutingModule, BottomModule],
+  imports: [HomeRoutingModule, SharedModule],
   exports: [],
   declarations: [
     HomePageComponent,

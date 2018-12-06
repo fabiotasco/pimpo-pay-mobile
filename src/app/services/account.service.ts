@@ -2,19 +2,24 @@ import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { HttpClientCustom } from '../core/http-client-custom.service';
 import { Credentials } from '../models/credentials';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { GlobalEventService } from './global-event.service';
 import { btoa } from '../utils/variables';
 import { tap } from 'rxjs/operators';
 import * as storage from 'nativescript-localstorage';
 import { Enroll } from '../models/enroll';
 import { ToastHelperService } from '../core/toast-helper.service';
+import { UserData } from '../models/user-data';
 
 const HASH = 'hash';
 const CREDENTIALS = 'credentials';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService extends BaseService<AccountService> {
+  
+  private subject = new BehaviorSubject(new UserData());
+  userData$: Observable<UserData> = this.subject.asObservable();
+
   constructor(
     private globalEvent: GlobalEventService,
     protected httpClient: HttpClientCustom,
@@ -28,6 +33,7 @@ export class AccountService extends BaseService<AccountService> {
       tap(res => {
         if (res.success) {
           this.saveSession(res.content.hash, credential);
+          this.subject.next(res.content);
         } else {
           this.toastHepler.showToast(`${res.errors[0].code} ${res.errors[0].message} `);
         }
@@ -38,6 +44,7 @@ export class AccountService extends BaseService<AccountService> {
   logout(): void {
     storage.clear();
     this.globalEvent.disconneted.emit();
+    this.subject.next(new UserData());
   }
 
   isLogged(): boolean {

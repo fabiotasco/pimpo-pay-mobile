@@ -1,0 +1,20 @@
+<GridLayout color="#fefefe" rows="auto,*,*" columns="*,80" height="120" backgroundColor="#434245">
+  <label padding="5" row="0" col="0" colSpan="3" backgroundColor="#212121" textWrap="true">
+    <FormattedString>
+      <Span fontWeight="300" text="Ola, "></Span><Span fontWeight="600" [text]="username"></Span>
+    </FormattedString>
+  </label>
+
+  <GridLayout rows="*,*" columns="*,auto" row="1" rowSpan="2" col="0">
+    <label text="Saldo Disponivel" row="0" col="0" class="balance-label" textWrap="true"></label>
+    <label text="R$ 1.500,00" row="1" col="0" class="balance-value" textWrap="true"></label>
+  </GridLayout>
+
+  <GridLayout columns="28,*" backgroundColor="#333" height="100%" row="1" rowSpan="2" col="1" colSpan="2" verticalAlignment="center">
+    <StackLayout height="100%" col="0" verticalAlignment="center" class="rotate-bar">
+        <image src="res://back" width="24"></image>
+    </StackLayout>
+    
+    <label text="Ocultar" horizontalAlignment="center" verticalAlignment="center" col="1" textWrap="true"></label>
+  </GridLayout>
+</GridLayout> 
