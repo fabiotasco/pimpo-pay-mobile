@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TransactionService } from '~/app/services/trasaction.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'PimpoHeaderBar',
@@ -7,12 +9,17 @@ import { Component, OnInit, Input } from '@angular/core';
   moduleId: module.id,
 })
 export class HeaderBarComponent implements OnInit {
-
   @Input() username:string;
+  balance$:Observable<number>;
+  hideBalance = false;
   
-  constructor() { }
+  constructor(private transactionService:TransactionService) { }
 
   ngOnInit() {
+    this.balance$ = this.transactionService.accountBalance$;
   }
 
+  closeBalance():void{
+    this.hideBalance = !this.hideBalance;
+  }
 }

@@ -1,10 +1,10 @@
 {
   "nativescript": {
     "id": "org.nativescript.pimpopaymobile",
-    "tns-android": {
+    "tns-ios": {
       "version": "5.0.0"
     },
-    "tns-ios": {
+    "tns-android": {
       "version": "5.0.0"
     }
   },
@@ -21,7 +21,9 @@
     "@angular/platform-browser": "~7.0.0",
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
+    "moment": "^2.22.2",
     "nativescript-angular": "~7.0.0",
+    "nativescript-barcodescanner": "^2.7.9",
     "nativescript-drop-down": "^4.0.1",
     "nativescript-localstorage": "^2.0.0",
     "nativescript-theme-core": "~1.0.4",

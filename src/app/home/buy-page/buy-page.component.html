@@ -1,3 +1,56 @@
-<StackLayout  verticalAlignment="middle">
-    <Label text="CONTEUDO TELA COMPRA" padding="20" horizontalAlignment="center" textWrap="true"></Label>
-</StackLayout>
+<GridLayout *ngIf="!showCheckout" backgroundColor="#c8c8c8" rows="*,auto,auto" paddingBottom="60">
+  <StackLayout row="0" class="scan-container">
+    <label
+      text="Escanei o código do estabelecimento"
+      class="title-scan"
+      paddingBottom="10"
+      paddingTop="20"
+      horizontalAlignment="center"
+      textWrap="true"
+    ></label>
+    <image src="res://scan" width="150"></image> <button (tap)="scanCode()" class="btn btn-primary" text="Escanear" width="150"></button>
+    <Label [text]="hash" color="#212121" class="text-center" textWrap="true"></Label>
+    
+  </StackLayout>
+  <label row="1" text="OU" class=" divider-or text-center" textWrap="true"></label>
+
+  <StackLayout row="2" class="form-container">
+    <label text="Digite o telefone do estabelecimento" class="title-scan" paddingBottom="10" horizontalAlignment="center" textWrap="true"></label>
+
+    <StackLayout class="form-group">
+      <TextField hint="EX:11 98815-2864" [(ngModel)]="phone" name="phone" keyboardType="phone" class="text-center form-control"></TextField>
+      <button class="btn btn-light" marginTop="40" text="Próximo" width="150"></button>
+    </StackLayout>
+  </StackLayout>
+</GridLayout>
+
+<GridLayout *ngIf="showCheckout" backgroundColor="#c8c8c8"  paddingBottom="60">
+ 
+  <StackLayout class="checkout-container">
+    <label text="CHECKOUT" class="title-scan" padding="15" fontSize="20" horizontalAlignment="center" textWrap="true"></label>
+
+    <Label textWrap="true" paddingLeft="15" paddingBotom="10">
+      <FormattedString>
+        <Span fontWeight="bold" fontSize="16" text="Estabelecimento: "></Span>
+        <Span fontSize="16" text="Estabelecimento ABC LTDA "></Span>
+      </FormattedString>
+    </Label>
+
+    <Label textWrap="true" paddingLeft="15" paddingBottom="20">
+        <FormattedString>
+          <Span fontWeight="bold" fontSize="16" text="CNPJ: "></Span>
+          <Span fontSize="16" text="20.506.980/0001-68"></Span>
+        </FormattedString>
+      </Label>
+    
+    <StackLayout class="form-group">
+      <Label text="INFORME O VALOR" fontSize="20" fontWeight="300" marginBottom="15" class="text-center" textWrap="true"></Label>
+      <TextField hint="0,00" fontSize="22" [(ngModel)]="payValue" name="payValue" keyboardType="number" class="text-center form-control"></TextField>
+      
+      <button class="btn btn-primary" (tap)="finalizeBuy()" marginTop="40"  marginBottom="20" text="Pagar" width="150"></button>
+
+      <Label text="Cancelar" (tap)="backToScan()" class="cancel-btn" textWrap="true"></Label>
+      
+    </StackLayout>
+  </StackLayout>
+</GridLayout>

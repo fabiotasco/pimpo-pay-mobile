@@ -5,6 +5,7 @@ import { redirectTo } from '../utils/variables';
 import { AccountService } from '../services/account.service';
 import { UserData } from '../models/user-data';
 import { Observable } from 'rxjs';
+import { TransactionService } from '../services/trasaction.service';
 
 @Component({
   moduleId: module.id,
@@ -16,11 +17,12 @@ export class HomePageComponent implements OnInit {
 
   userData$:Observable<UserData>;
 
-  constructor(private page: Page, private routes: RouterExtensions, private accountService: AccountService) {}
+  constructor(private page: Page, private routes: RouterExtensions, private accountService: AccountService,private transactionService:TransactionService) {}
 
   ngOnInit() {
     this.page.actionBarHidden = true;
     this.userData$ = this.accountService.userData$;
+    this.transactionService.getBalance();
   }
 
   navigateToPage(index: number): void {
