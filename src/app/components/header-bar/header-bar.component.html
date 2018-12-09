@@ -1,0 +1,33 @@
+<GridLayout color="#fefefe" rows="auto,*,*" columns="*,80" height="100" backgroundColor="#434245">
+  <label padding="5" row="0" col="0" colSpan="3" backgroundColor="#212121" textWrap="true">
+    <FormattedString> <span fontWeight="300" text="Ola, "></span><span fontWeight="600" [text]="username"></span> </FormattedString>
+  </label>
+
+  <GridLayout *ngIf="!hideBalance" rows="*,*" columns="*,auto" row="1" rowSpan="2" col="0">
+    <label text="Saldo Disponivel" row="0" col="0" class="balance-label" textWrap="true"></label>
+    <label [text]="balance$ | async | currency: 'BRL':'symbol'" row="1" col="0" class="balance-value" textWrap="true"></label>
+  </GridLayout>
+
+  <GridLayout
+    (tap)="closeBalance()"
+    [columns]="hideBalance ? 'auto,28' : '28,*'"
+    backgroundColor="#333"
+    height="100%"
+    row="1"
+    rowSpan="2"
+    [col]="hideBalance ? '0' : '1'"
+    colSpan="2"
+    verticalAlignment="center"
+  >
+    <StackLayout *ngIf="!hideBalance" height="100%" col="0" verticalAlignment="center" class="rotate-bar">
+      <image src="res://back" width="24"></image>
+    </StackLayout>
+
+    <label *ngIf="!hideBalance" text="Ocultar" horizontalAlignment="center" verticalAlignment="center" col="1" textWrap="true"></label>
+    <label *ngIf="hideBalance" class="balance-label" text="Exibir Saldo" verticalAlignment="center" col="0" textWrap="true"></label>
+
+    <StackLayout *ngIf="hideBalance" height="100%" col="1" verticalAlignment="center" class="rotate-bar">
+      <image src="res://next" horizontalAlignment="right" class="m-t-10" width="24"></image>
+    </StackLayout>
+  </GridLayout>
+</GridLayout>

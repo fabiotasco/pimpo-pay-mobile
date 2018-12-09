@@ -1,0 +1,13 @@
+/* Add mobile styles for the component here.  */
+
+.balance-label {
+  font-size: 20;
+  padding-top: 10;
+  padding-left: 10;
+  font-weight: 300;
+}
+
+.balance-value{
+  font-size: 20;
+  padding-left: 10;
+}

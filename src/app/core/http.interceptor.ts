@@ -10,7 +10,6 @@ export class HeaderInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let headers: HttpHeaders;
-    console.log(req.url);
     if (this.accountService.isLogged()) {
       headers = req.headers
         .set('Authorization', 'Basic ' + this.accountService.getSession())

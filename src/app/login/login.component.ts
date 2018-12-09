@@ -31,6 +31,8 @@ export class LoginPageComponent implements OnInit {
   constructor(private page: Page, private toastHelper: ToastHelperService, private accountService: AccountService) {}
 
   ngOnInit() {
+    this.username = '11564763722';
+    this.password = '123456';
     this.page.actionBarHidden = true;
     this.optionsType = ['CPF', 'CNPJ'];
     this.operatorlist = mobileOperatorList().map(item => {
@@ -83,20 +85,23 @@ export class LoginPageComponent implements OnInit {
         },
         phone: {
           number: formatPhoneNumber(this.phoneNumber),
-          networkOperator: mobileOperatorList()[this.operator + 1]
+          networkOperator: mobileOperatorList()[this.operator + 1],
+          status:'Active'
         }
       };
 
-      this.accountService.saveRegister(this.enroll).subscribe(res => {
-        if(res.success){
-          this.resetFields();
-          this.toastHelper.showToast('Usuário cadastrado');
-        }else{
-          this.toastHelper.showToast(`${res.errors[0].code} ${res.errors[0].message}`);
-          this.proccessing = false;
-        }
-        
-      },err => this.proccessing = false);
+      this.accountService.saveRegister(this.enroll).subscribe(
+        res => {
+          if (res.success) {
+            this.resetFields();
+            this.toastHelper.showToast('Usuário cadastrado');
+          } else {
+            this.toastHelper.showToast(`${res.errors[0].code} ${res.errors[0].message}`);
+            this.proccessing = false;
+          }
+        },
+        err => (this.proccessing = false)
+      );
     } else {
       this.proccessing = false;
     }

@@ -8,7 +8,7 @@ declare var android: any;
 
 /* Endpoints enviroments */
 
-export const endpoint: string = 'http://10.0.0.2:8081/api';
+export const endpoint: string = 'http://10.0.0.5:8081/api';
 //export const endpoint:string = 'http://pimpopay.com/api';
 
 /* Endpoints enviroments */
