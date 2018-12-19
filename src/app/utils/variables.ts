@@ -8,7 +8,7 @@ declare var android: any;
 
 /* Endpoints enviroments */
 
-export const endpoint: string = 'http://10.0.0.5:8081/api';
+export const endpoint: string = 'http://192.168.1.2:8081/api';
 //export const endpoint:string = 'http://pimpopay.com/api';
 
 /* Endpoints enviroments */
@@ -49,5 +49,10 @@ export const mobileOperatorList = () => {
 
 export const formatPhoneNumber = (phone: string) => {
   phone = phone.replace(/\D/, '');
-  return '+55'+phone;
+  return '+55' + phone;
+};
+
+export const adjustDecimal = (nr:number, decimal:number): number => {
+  var og = Math.pow(10, decimal);
+  return Math.floor(nr * og) / og;
 };

@@ -15,7 +15,7 @@ const HASH = 'hash';
 const CREDENTIALS = 'credentials';
 
 @Injectable({ providedIn: 'root' })
-export class AccountService extends BaseService<AccountService> {
+export class AccountService extends BaseService {
   
   private subject = new BehaviorSubject(new UserData());
   userData$: Observable<UserData> = this.subject.asObservable();

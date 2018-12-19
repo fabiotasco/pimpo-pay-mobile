@@ -6,6 +6,8 @@ import { AccountService } from '~/app/services/account.service';
 import { TransactionService } from '~/app/services/trasaction.service';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
 import * as moment from 'moment';
+import { Enroll } from '~/app/models/enroll';
+import { UserData } from '~/app/models/user-data';
 
 @Component({
   moduleId: module.id,
@@ -14,10 +16,11 @@ import * as moment from 'moment';
   styleUrls: ['./buy-page.component.css']
 })
 export class BuyPageComponent implements OnInit {
-  hash: string;
-  phone: string;
-  showCheckout = false;
-  payValue: number;
+  public hash: string;
+  public phone: string;
+  public establishmentPhone: string;
+  public showCheckout = false;
+  public payValue: number;
 
   constructor(
     private page: Page,
@@ -27,11 +30,14 @@ export class BuyPageComponent implements OnInit {
     private toastHelper: ToastHelperService
   ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.page.actionBarHidden = true;
+    this.accountService.userData$.subscribe((data: UserData) => {
+      this.phone = data.phones[0].number;
+    });
   }
 
-  scanCode(): void {
+  public scanCode(): void {
     this.barcode.hasCameraPermission().then(permission => {
       if (permission) {
         this.readQrCode(permission);
@@ -41,19 +47,41 @@ export class BuyPageComponent implements OnInit {
     });
   }
 
-  backToScan(): void {
+  public usePhoneNumber(): void {
+    // nessa parte é preciso fazer uma pesquisa pelo telefone informado para conseguir o hash da loja.
+    this.establishmentPhone = '+55' + this.establishmentPhone.replace(/\D/, '');
+    this.hash = '953cbf7548995abbc2dbb261ea926c3afcf74cc656d6887648ef70cdc8110ebe';
+    this.showCheckout = true;
+  }
+
+  public backToScan(): void {
     this.showCheckout = false;
   }
 
-  finalizeBuy(): void {
-    if (!this.phone) {
-      this.accountService.userData$.subscribe(data => {
-        this.phone = data.phones[0].number;
-        this.checkoutBuy();
-      });
-    } else {
-      this.checkoutBuy();
-    }
+  public checkoutBuy() {
+    const purchase: Purchase = {
+      amount: this.payValue,
+      currency: 'BRL',
+      date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      destinationAccount: {
+        hash: this.hash
+      },
+      holderAccount: {
+        number: this.phone
+      },
+      installments: 1,
+      plan: 'Prepaid'
+    };
+
+    this.transactionService.executePurchase(purchase).subscribe(res => {
+      if (res.success) {
+        this.showCheckout = false;
+        this.toastHelper.showToast('Compra realizada!');
+        this.resetData();
+      } else {
+        this.toastHelper.showToast(res.errors[0].code + ' - ' + res.errors[0].message);
+      }
+    });
   }
 
   private readQrCode(permission) {
@@ -66,7 +94,6 @@ export class BuyPageComponent implements OnInit {
         showTorchButton: true
       })
       .then(result => {
-        console.log(result);
         if (result) {
           this.hash = result.text;
           this.showCheckout = true;
@@ -82,32 +109,7 @@ export class BuyPageComponent implements OnInit {
     });
   }
 
-  private checkoutBuy() {
-    const purchase: Purchase = {
-      amount: this.payValue,
-      currency: 'BRL',
-      date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      destinationAccount: {
-        hash: this.hash
-      },
-      holderAccount: {
-        number: this.phone
-      },
-      installments: 1,
-      plan: 'Prepaid'
-    };
-    this.transactionService.executePurchase(purchase).subscribe(res => {
-      if (res.success) {
-        this.showCheckout = false;
-        this.toastHelper.showToast('Compra realizada!');
-        this.resetData();
-      } else {
-        this.toastHelper.showToast(res.errors[0].code+' - '+res.errors[0].message);
-      }
-    });
-  }
-
-  private resetData():void{
+  private resetData(): void {
     this.payValue = null;
     this.phone = null;
     this.hash = null;

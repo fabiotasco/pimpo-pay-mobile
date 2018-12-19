@@ -4,7 +4,7 @@ import { HttpClientCustom } from '../core/http-client-custom.service';
 import { Observable } from 'rxjs';
 import { endpoint } from '../utils/variables';
 
-export abstract class BaseService<T> {
+export abstract class BaseService {
   protected endpointService: string;
 
   constructor(protected httpClient: HttpClientCustom, protected urlService: string) {
