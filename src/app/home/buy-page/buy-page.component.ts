@@ -16,11 +16,11 @@ import { UserData } from '~/app/models/user-data';
   styleUrls: ['./buy-page.component.css']
 })
 export class BuyPageComponent implements OnInit {
-  hash: string;
-  phone: string;
-  establishmentPhone: string;
-  showCheckout = false;
-  payValue: number;
+  public hash: string;
+  public phone: string;
+  public establishmentPhone: string;
+  public showCheckout = false;
+  public payValue: number;
 
   constructor(
     private page: Page,
@@ -30,14 +30,14 @@ export class BuyPageComponent implements OnInit {
     private toastHelper: ToastHelperService
   ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.page.actionBarHidden = true;
     this.accountService.userData$.subscribe((data: UserData) => {
       this.phone = data.phones[0].number;
     });
   }
 
-  scanCode(): void {
+  public scanCode(): void {
     this.barcode.hasCameraPermission().then(permission => {
       if (permission) {
         this.readQrCode(permission);
@@ -47,18 +47,18 @@ export class BuyPageComponent implements OnInit {
     });
   }
 
-  usePhoneNumber(): void {
+  public usePhoneNumber(): void {
     // nessa parte é preciso fazer uma pesquisa pelo telefone informado para conseguir o hash da loja.
     this.establishmentPhone = '+55' + this.establishmentPhone.replace(/\D/, '');
     this.hash = '953cbf7548995abbc2dbb261ea926c3afcf74cc656d6887648ef70cdc8110ebe';
     this.showCheckout = true;
   }
 
-  backToScan(): void {
+  public backToScan(): void {
     this.showCheckout = false;
   }
 
-  checkoutBuy() {
+  public checkoutBuy() {
     const purchase: Purchase = {
       amount: this.payValue,
       currency: 'BRL',
