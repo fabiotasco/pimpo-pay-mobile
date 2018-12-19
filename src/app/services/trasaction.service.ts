@@ -4,9 +4,10 @@ import { HttpClientCustom } from '../core/http-client-custom.service';
 import { Purchase } from '../models/purchase';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { Deposit } from '../models/deposit';
 
 @Injectable({ providedIn: 'root' })
-export class TransactionService extends BaseService<TransactionService> {
+export class TransactionService extends BaseService {
   private subject: BehaviorSubject<number> = new BehaviorSubject(0);
   accountBalance$: Observable<number> = this.subject.asObservable();
 
@@ -16,6 +17,16 @@ export class TransactionService extends BaseService<TransactionService> {
 
   executePurchase(purchase: Purchase): Observable<any> {
     return this.save('/purchase', purchase).pipe(
+      tap((res: any) => {
+        if (res.success) {
+          this.getBalance();
+        }
+      })
+    );
+  }
+
+  executeDeposit(deposit: Deposit): Observable<any> {
+    return this.save('/deposit', deposit).pipe(
       tap((res: any) => {
         if (res.success) {
           this.getBalance();

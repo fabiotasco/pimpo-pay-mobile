@@ -18,8 +18,8 @@
     <label text="Digite o telefone do estabelecimento" class="title-scan" paddingBottom="10" horizontalAlignment="center" textWrap="true"></label>
 
     <StackLayout class="form-group">
-      <TextField hint="EX:11 98815-2864" [(ngModel)]="phone" name="phone" keyboardType="phone" class="text-center form-control"></TextField>
-      <button class="btn btn-light" marginTop="40" text="Próximo" width="150"></button>
+      <TextField hint="EX:11 98815-2864" [(ngModel)]="establishmentPhone" name="phone" keyboardType="phone" class="text-center form-control"></TextField>
+      <button class="btn btn-light" (tap)="usePhoneNumber()" marginTop="40" text="Próximo" width="150"></button>
     </StackLayout>
   </StackLayout>
 </GridLayout>
@@ -47,7 +47,7 @@
       <Label text="INFORME O VALOR" fontSize="20" fontWeight="300" marginBottom="15" class="text-center" textWrap="true"></Label>
       <TextField hint="0,00" fontSize="22" [(ngModel)]="payValue" name="payValue" keyboardType="number" class="text-center form-control"></TextField>
       
-      <button class="btn btn-primary" (tap)="finalizeBuy()" marginTop="40"  marginBottom="20" text="Pagar" width="150"></button>
+      <button class="btn btn-primary" (tap)="checkoutBuy()" marginTop="40"  marginBottom="20" text="Pagar" width="150"></button>
 
       <Label text="Cancelar" (tap)="backToScan()" class="cancel-btn" textWrap="true"></Label>
       

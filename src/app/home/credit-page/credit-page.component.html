@@ -1,3 +1,23 @@
-<StackLayout  verticalAlignment="middle">
-    <Label text="CONTEUDO TELA CREDITO" padding="20" horizontalAlignment="center" textWrap="true"></Label>
-</StackLayout>
+<GridLayout backgroundColor="#c8c8c8"  paddingBottom="60">
+ 
+    <StackLayout class="checkout-container">
+      <label text="ADICIONAR A CARTEIRA" class="title-scan" padding="15" fontSize="20" horizontalAlignment="center" textWrap="true"></label>
+  
+      <Label textWrap="true" paddingLeft="15" paddingBotom="10">
+        <FormattedString>
+          <Span fontWeight="bold" fontSize="16" text="Tipo de conta: "></Span>
+          <Span fontSize="16" text="Pré Pago"></Span>
+        </FormattedString>
+      </Label>
+  
+      <Label textWrap="true" text="O valor será debitado de seu saldo" class="body" paddingLeft="15" paddingBottom="20">
+        </Label>
+      
+      <StackLayout class="form-group">
+        <Label text="INFORME O VALOR" fontSize="20" fontWeight="300" marginBottom="15" class="text-center" textWrap="true"></Label>
+        <TextField hint="0,00" fontSize="22" name="payValue" [(ngModel)]="value" keyboardType="number" class="text-center form-control"></TextField>
+        
+        <button class="btn btn-primary"  marginTop="40" (tap)="addFunds()"  marginBottom="20" text="Adicionar" width="150"></button>      
+      </StackLayout>
+    </StackLayout>
+  </GridLayout>
