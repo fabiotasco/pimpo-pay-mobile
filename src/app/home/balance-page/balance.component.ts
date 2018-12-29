@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
-import { Observable } from 'rxjs';
 import { Transaction } from '~/app/models/transaction';
 import { TransactionService } from '~/app/services/trasaction.service';
-import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
+import { Observable } from 'rxjs';
+import { ListView } from 'ui/list-view';
+import * as dialogs from 'tns-core-modules/ui/dialogs';
 
 @Component({
   moduleId: module.id,
@@ -12,18 +13,39 @@ import { ObservableArray } from 'tns-core-modules/data/observable-array/observab
   styleUrls: ['./balance.component.css']
 })
 export class BalancePageComponent implements OnInit {
-  transactions$: ObservableArray<Transaction>;
-
+  transactions$: Observable<Transaction[]>;
+  lista: any[] = [];
   constructor(private page: Page, private transactionService: TransactionService) {}
 
   ngOnInit() {
+    this.lista = [
+      { name: 'Maique', description: 'Rosa da silva' },
+      { name: 'Maique', description: 'Rosa da silva' },
+      { name: 'Maique', description: 'Rosa da silva' }
+    ];
     this.page.actionBarHidden = true;
-    this.transactionService.transactions$.subscribe(res => {
-      this.transactions$ = new ObservableArray(res);
-    });
+    this.transactions$ = this.transactionService.transactions$;
   }
 
   onItemLoad($event): void {
-    console.log('Item Load', $event.object);
+    const view: ListView = $event.object;
+  }
+
+  cancelTransaction(index: number): void {
+    dialogs
+      .confirm({
+        title: 'Cancelar Transação',
+        message: 'Deseja realmente cancelar esta transação?',
+        okButtonText: 'Sim',
+        cancelButtonText: 'Cancelar',
+      })
+      .then(result => {
+        if (result) {
+          dialogs.alert('Transação foi cancelada e seu saldo atualizado');
+        } else {
+          console.log('Cancelou');
+        }
+      });
+    
   }
 }

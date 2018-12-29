@@ -1,24 +1,26 @@
-<!-- <StackLayout verticalAlignment="middle">
+<StackLayout verticalAlignment="middle">
   <ListView [items]="transactions$ | async" (itemLoading)="onItemLoad($event)" class="list-group">
-    <ng-template let-item="item" let-odd="odd" let-even="even">
-      <GridLayout rows="*, *" columns="auto, *,auto" class="list-group-item">
+    <ng-template let-item="item" let-odd="odd" let-index="index" let-even="even">
+      <GridLayout rows="*, *" columns="auto, *,100,100" class="list-group-item">
         <Label [text]="item.date | date: 'dd/mm'" row="0" col="0" rowSpan="2" class="p-5"></Label>
         <Label [text]="item.type === 'Purchase' ? 'Compra' : 'Depósito'" row="0" col="1" class="p-x-10"></Label>
-        <Label [text]="item.amount | currency: 'BRL':'symbol'" row="0" col="2"></Label>
+        <Label [text]="item.amount | currency: 'BRL':'symbol'" row="0" class="text-center" col="2"></Label>
         <Label [text]="'Plano: ' + item.planType" row="1" col="1" class="p-x-10"></Label>
-        <Label [text]="item.status" row="1" col="2"></Label>
+        <Label [text]="item.status" class="text-center" row="1" col="2"></Label>
+        <Label text="CANCEL" (tap)="cancelTransaction(index)" class="text-center text-danger" row="0" rowSpan="2" col="3"></Label>
       </GridLayout>
     </ng-template>
   </ListView>
 </StackLayout>
- -->
-<GridLayout tkExampleTitle tkToggleNavButton>
-  <RadListView [items]="transactions$">
+
+<!-- <GridLayout tkExampleTitle tkToggleNavButton>
+  <RadListView [items]="transactions$ | async">
     <ng-template tkListItemTemplate let-item="item">
       <StackLayout orientation="vertical">
-        <Label class="nameLabel" [text]="item.name"></Label>
-        <Label class="descriptionLabel" [text]="item.description"></Label>
+        <Label class="nameLabel" [text]="item.type+'aaas'"></Label>
+        <Label class="descriptionLabel" [text]="item.status"></Label>
       </StackLayout>
     </ng-template>
   </RadListView>
 </GridLayout>
+ -->

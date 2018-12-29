@@ -39,7 +39,7 @@ export class TransactionService extends BaseService {
   }
 
   getBalance(): void {
-    this.search('/statement', { page: 0, size: 1 }).subscribe((result: any) => {
+    this.search('/statement', { page: 0, size: 10}).subscribe((result: any) => {
       if (result.success) {
         this.subjectBalance.next(result.content.balance);
         this.subjectTransactions.next(result.content.transactions);
