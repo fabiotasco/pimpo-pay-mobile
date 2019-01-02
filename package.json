@@ -28,6 +28,7 @@
     "nativescript-localstorage": "^2.0.0",
     "nativescript-theme-core": "~1.0.4",
     "nativescript-toast": "^1.4.6",
+    "nativescript-ui-listview": "^5.0.1",
     "reflect-metadata": "~0.1.8",
     "rxjs": "~6.3.0",
     "tns-core-modules": "~5.0.2",

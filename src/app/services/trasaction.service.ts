@@ -5,11 +5,14 @@ import { Purchase } from '../models/purchase';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Deposit } from '../models/deposit';
+import { Transaction } from '../models/transaction';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService extends BaseService {
-  private subject: BehaviorSubject<number> = new BehaviorSubject(0);
-  accountBalance$: Observable<number> = this.subject.asObservable();
+  private subjectBalance: BehaviorSubject<number> = new BehaviorSubject(0);
+  accountBalance$: Observable<number> = this.subjectBalance.asObservable();
+  private subjectTransactions: BehaviorSubject<Transaction[]> = new BehaviorSubject([]);
+  transactions$: Observable<Transaction[]> = this.subjectTransactions.asObservable();
 
   constructor(protected httpClient: HttpClientCustom) {
     super(httpClient, '/transactions');
@@ -36,9 +39,10 @@ export class TransactionService extends BaseService {
   }
 
   getBalance(): void {
-    this.search('/statement?page=0&size=1', { page: 0, size: 1 }).subscribe((result: any) => {
+    this.search('/statement', { page: 0, size: 10}).subscribe((result: any) => {
       if (result.success) {
-        this.subject.next(result.content.balance);
+        this.subjectBalance.next(result.content.balance);
+        this.subjectTransactions.next(result.content.transactions);
       }
     });
   }

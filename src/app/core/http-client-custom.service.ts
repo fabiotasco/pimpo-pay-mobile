@@ -7,7 +7,7 @@ import { ToastHelperService } from './toast-helper.service';
 
 @Injectable({ providedIn: 'root' })
 export class HttpClientCustom {
-  constructor(private httpClient: HttpClient, private toastHelper: ToastHelperService) {}
+  constructor(public httpClient: HttpClient, private toastHelper: ToastHelperService) {}
 
   public search(url, params: any = {}, headers: any = {}): Observable<Array<any>> {
     let httpOptions: HttpOptions = this.buildHttpOptions(params, headers);
