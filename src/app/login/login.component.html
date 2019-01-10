@@ -1,11 +1,11 @@
 <ScrollView class="container" height="100%">
   <FlexboxLayout class="page" id="flexbox">
     <StackLayout class="form">
-      <image class="logo" src="~/assets/logo.png"></image>
+      <image class="logo" width="300" src="res://logo"></image>
       <GridLayout *ngIf="!showRegister" rows="auto,auto">
         <StackLayout row="0" class="input-field">
           <TextField
-            hint="Documento"
+            hint="Usuário"
             [(ngModel)]="username"
             class="input"
             autocorrect="false"
@@ -87,7 +87,7 @@
       <button
         [text]="showRegister ? 'Registrar' : 'Entrar'"
         (tap)="submitLogin()"
-        class="btn btn-primary m-t-20"
+        class="btn  btn-secondary"
         [isEnabled]="!proccessing"
       ></button>
       <label *ngIf="!showRegister" text="Esqueceu a senha?" class="login-label"></label>
@@ -96,7 +96,7 @@
 
     <label class="login-label sign-up-label" *ngIf="!showRegister" (tap)="showRegisterForm()">
       <FormattedString>
-        <Span text="Não tem conta? "></Span> <Span text="Cadastre-se" class="bold"></Span>
+        <Span text="Não tem conta? "></Span> <Span text="Cadastre-se" class="text-secondary"></Span>
       </FormattedString>
     </label>
   </FlexboxLayout>

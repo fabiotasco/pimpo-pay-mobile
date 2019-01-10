@@ -8,13 +8,13 @@ declare var android: any;
 
 /* Endpoints enviroments */
 
-export const endpoint: string = 'http://10.0.0.4:8081/api';
+export const endpoint: string = 'http://10.0.0.6:8081/api';
 //export const endpoint:string = 'http://pimpopay.com/api';
 
 /* Endpoints enviroments */
 
 export const redirectTo = (index): string => {
-  const urls = ['/home/buy', '/home/credit', '/home/balance', '/home/transfer', '/home/user'];
+  const urls = ['/home/balance', '/home/credit','/home/buy', '/home/transfer', '/home/user'];
   return urls[index];
 };
 

@@ -1,11 +1,15 @@
-<ActionBar title="PimpoPay" visibility="collapsed"> </ActionBar>
+<ActionBar class="action-bar bg-primary text-light">
+  <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
+    <img src="res://logo" width=48 alt="" verticalAlignment="middle">
+    <Label text="Pimpo Pay" class="action-title h1" verticalAlignment="middle"></Label>
+  </StackLayout>
+  <ActionItem ios.position="right" text="Sair" android.position="popup"> </ActionItem>
+</ActionBar>
 
 <GridLayout rows="*,auto">
-  <GridLayout rows="auto,*" row="0">
-    <PimpoHeaderBar row="0" [username]="(userData$ | async)?.phones[0].number"></PimpoHeaderBar>
-    <StackLayout row="1"> 
-        <router-outlet></router-outlet>
-    </StackLayout>
+  <GridLayout row="0">
+    <!-- <PimpoHeaderBar row="0" [username]="((userData$ | async)?.phones)[0].number"></PimpoHeaderBar> -->
+    <StackLayout> <router-outlet></router-outlet> </StackLayout>
   </GridLayout>
 
   <PimpoBottomBar row="1" (tabSelected)="navigateToPage($event)"></PimpoBottomBar>

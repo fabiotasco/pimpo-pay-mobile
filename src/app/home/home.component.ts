@@ -20,7 +20,6 @@ export class HomePageComponent implements OnInit {
   constructor(private page: Page, private routes: RouterExtensions, private accountService: AccountService,private transactionService:TransactionService) {}
 
   ngOnInit() {
-    this.page.actionBarHidden = true;
     this.userData$ = this.accountService.userData$;
     this.transactionService.getBalance();
   }

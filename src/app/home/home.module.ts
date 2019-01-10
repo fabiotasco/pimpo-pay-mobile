@@ -1,10 +1,7 @@
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { NativeScriptCommonModule } from 'nativescript-angular/common';
-import { NativeScriptFormsModule } from 'nativescript-angular/forms';
 
 import { HomePageComponent } from './home.component';
 import { HomeRoutingModule } from './home.routing';
-import { BottomModule } from '../components/bottom-bar/bottom-bar.module';
 import { BuyPageComponent } from './buy-page/buy-page.component';
 import { CreditPageComponent } from './credit-page/credit-page.component';
 import { BalancePageComponent } from './balance-page/balance.component';

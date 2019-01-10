@@ -21,8 +21,7 @@ export class AppComponent implements OnInit {
 
   private subscribeEvents(): void {
     this.globalEvent.loggedIn.subscribe(() => {
-      this.toastHelper.showToast('Usuário Logado');
-      this.routes.navigate(['/home/buy'], { clearHistory: true });
+      this.routes.navigate(['/home/balance'], { clearHistory: true });
     });
 
     this.globalEvent.disconneted.subscribe(() => {

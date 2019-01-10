@@ -31,7 +31,6 @@ export class BuyPageComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.page.actionBarHidden = true;
     this.accountService.userData$.subscribe((data: UserData) => {
       this.phone = data.phones[0].number;
     });

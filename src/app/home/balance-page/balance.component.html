@@ -1,26 +1,90 @@
-<StackLayout verticalAlignment="middle">
-  <ListView [items]="transactions$ | async" (itemLoading)="onItemLoad($event)" class="list-group">
-    <ng-template let-item="item" let-odd="odd" let-index="index" let-even="even">
-      <GridLayout rows="*, *" columns="auto, *,100,100" class="list-group-item">
-        <Label [text]="item.date | date: 'dd/mm'" row="0" col="0" rowSpan="2" class="p-5"></Label>
-        <Label [text]="item.type === 'Purchase' ? 'Compra' : 'Depósito'" row="0" col="1" class="p-x-10"></Label>
-        <Label [text]="item.amount | currency: 'BRL':'symbol'" row="0" class="text-center" col="2"></Label>
-        <Label [text]="'Plano: ' + item.planType" row="1" col="1" class="p-x-10"></Label>
-        <Label [text]="item.status" class="text-center" row="1" col="2"></Label>
-        <Label text="CANCEL" (tap)="cancelTransaction(index)" class="text-center text-danger" row="0" rowSpan="2" col="3"></Label>
-      </GridLayout>
-    </ng-template>
-  </ListView>
-</StackLayout>
+<ScrollView class="bg-light" height="100%">
+  <FlexboxLayout class="gutters" flexDirection="column" paddingBottom="80">
+    <Label text="SALDO" class="text-bold m-y-10" fontSize="16" textWrap="true"></Label>
 
-<!-- <GridLayout tkExampleTitle tkToggleNavButton>
-  <RadListView [items]="transactions$ | async">
-    <ng-template tkListItemTemplate let-item="item">
-      <StackLayout orientation="vertical">
-        <Label class="nameLabel" [text]="item.type+'aaas'"></Label>
-        <Label class="descriptionLabel" [text]="item.status"></Label>
-      </StackLayout>
-    </ng-template>
-  </RadListView>
-</GridLayout>
- -->
+    <GridLayout columns="*,auto" verticalAlignment="middle" shadow="1" marginBottom="16" orientation="horizontal">
+      <Label
+        text="Conta Corrente"
+        fontSize="15"
+        col="0"
+        class="h4 text-uppercase text-complementary-dark gutters text-bold"
+        textWrap="true"
+      ></Label>
+      <Label
+        text="R$ 15.700,00"
+        fontSize="15"
+        col="1"
+        class="h4 text-uppercase text-complementary-dark gutters text-bold"
+        textWrap="true"
+      ></Label>
+    </GridLayout>
+
+    <Label text="EXTRADO" class="text-bold m-y-10" fontSize="16" textWrap="true"></Label>
+
+    <StackLayout *ngFor="let item of [1, 2, 3, 4]" marginBottom="16" shadow="1">
+      <GridLayout rows="*,*,*" columns="auto,*,auto" class="card-list">
+        <StackLayout col="0" row="0" rowSpan="3" class="thumbnail sm" marginRight="16"> </StackLayout>
+
+        <Label
+          [text]="item === 1 ? 'Comprou' : item === 2 ? 'Depositou' : item === 3 ? 'Transferiu' : 'Recarregou'"
+          col="1"
+          row="0"
+          [class]="'card-title text-bold text-complementary-dark'"
+          textWrap="true"
+        ></Label>
+        <Label text="09/01/2019 15:45:20" class="card-subtitle" col="1" row="1" marginTop="4" textWrap="true"></Label>
+
+        <Label
+          verticalAlignment="middle"
+          [class]="
+            item === 1
+              ? 'text-bold text-danger'
+              : item === 2
+              ? 'text-bold text-dark'
+              : item === 3
+              ? 'text-bold text-danger'
+              : 'text-bold text-dark'
+          "
+          [text]="item === 1 ? '-R$ 15,50' : item === 2 ? 'R$ 100,00' : item === 3 ? '-R$ 50,00' : '-R$ 250,00'"
+          row="0"
+          col="2"
+          rowSpan="2"
+          class="text-bold text-primary"
+          textWrap="true"
+        ></Label>
+
+        <Label
+          verticalAlignment="middle"
+          [class]="
+            item === 1
+              ? 'text-bold text-danger'
+              : item === 2
+              ? 'text-bold text-complementary-dark'
+              : item === 3
+              ? 'text-bold text-danger'
+              : 'text-bold text-complementary-dark'
+          "
+          [text]="item === 1 ? '-R$ 15,50' : item === 2 ? 'R$ 100,00' : item === 3 ? '-R$ 50,00' : '-R$ 250,00'"
+          row="0"
+          col="2"
+          rowSpan="2"
+          textWrap="true"
+        ></Label>
+
+        <Label
+          class="text-right card-subtitle"
+          [text]="item === 1 ? 'Crédito' : item === 2 ? 'Débito' : item === 3 ? 'Débito' : 'Cancelada'"
+          row="1"
+          col="2"
+          rowSpan="2"
+          marginTop="8"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+    </StackLayout>
+
+    <!--  <StackLayout class="hr-light"> </StackLayout>
+
+    <Button text="ver todos" class="btn btn-link" horizontalAlignment="right"></Button> -->
+  </FlexboxLayout>
+</ScrollView>
