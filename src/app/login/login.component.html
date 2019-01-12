@@ -3,22 +3,24 @@
     <StackLayout class="form">
       <image class="logo" width="300" src="res://logo"></image>
       <GridLayout *ngIf="!showRegister" rows="auto,auto">
-        <StackLayout row="0" class="input-field">
-          <TextField
-            hint="Usuário"
-            [(ngModel)]="username"
-            class="input"
-            autocorrect="false"
-            keyboardType="phone"
-            autocapitalizationType="none"
-          ></TextField>
-          <StackLayout class="hr-light"> </StackLayout>
-        </StackLayout>
+        <FlexboxLayout row="1" flexDirection="column" marginLeft="16" marginRight="16" marginBottom="0">
+          <StackLayout orientation="horizontal" class="input-field">
+            <image width="24" src="res://baseline_person_white_24" class="m-r-5"></image>
+            <TextField
+              hint="CPF ou CNPJ"
+              [(ngModel)]="username"
+              class="input"
+              autocorrect="false"
+              keyboardType="phone"
+              autocapitalizationType="none"
+            ></TextField>
+          </StackLayout>
 
-        <StackLayout row="1" class="input-field">
-          <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
-          <StackLayout class="hr-light"> </StackLayout>
-        </StackLayout>
+          <StackLayout orientation="horizontal" class="input-field">
+              <image width="24" src="res://baseline_lock_white_24" class="m-r-5"></image>
+            <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
+          </StackLayout>
+        </FlexboxLayout>
       </GridLayout>
 
       <GridLayout *ngIf="showRegister" rows="auto,auto,auto,auto,auto,auto">
@@ -44,7 +46,12 @@
             autocapitalizationType="none"
           ></TextField>
           <StackLayout class="hr-light"> </StackLayout>
-          <label *ngIf="errorMessage.username" [text]="errorMessage.username" class="error-label" textWrap="true"></label>
+          <label
+            *ngIf="errorMessage.username"
+            [text]="errorMessage.username"
+            class="error-label"
+            textWrap="true"
+          ></label>
         </StackLayout>
 
         <StackLayout row="2" class="input-field">
@@ -56,7 +63,12 @@
             [(ngModel)]="operator"
           ></DropDown>
           <StackLayout class="hr-light"> </StackLayout>
-          <label *ngIf="errorMessage.operator" [text]="errorMessage.operator" class="error-label" textWrap="true"></label>
+          <label
+            *ngIf="errorMessage.operator"
+            [text]="errorMessage.operator"
+            class="error-label"
+            textWrap="true"
+          ></label>
         </StackLayout>
 
         <StackLayout row="3" class="input-field">
@@ -68,19 +80,34 @@
             keyboardType="phone"
           ></TextField>
           <StackLayout class="hr-light"> </StackLayout>
-          <label *ngIf="errorMessage.phoneNumber" [text]="errorMessage.phoneNumber" class="error-label" textWrap="true"></label>
+          <label
+            *ngIf="errorMessage.phoneNumber"
+            [text]="errorMessage.phoneNumber"
+            class="error-label"
+            textWrap="true"
+          ></label>
         </StackLayout>
 
         <StackLayout row="4" class="input-field">
           <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
           <StackLayout class="hr-light"> </StackLayout>
-          <label *ngIf="errorMessage.password" [text]="errorMessage.password" class="error-label" textWrap="true"></label>
+          <label
+            *ngIf="errorMessage.password"
+            [text]="errorMessage.password"
+            class="error-label"
+            textWrap="true"
+          ></label>
         </StackLayout>
 
         <StackLayout row="5" class="input-field">
           <TextField hint="Confirme o password" class="input" secure="true" [(ngModel)]="confirmPassword"></TextField>
           <StackLayout class="hr-light"> </StackLayout>
-          <label *ngIf="errorMessage.confirmPassword" [text]="errorMessage.confirmPassword" class="error-label" textWrap="true"></label>
+          <label
+            *ngIf="errorMessage.confirmPassword"
+            [text]="errorMessage.confirmPassword"
+            class="error-label"
+            textWrap="true"
+          ></label>
         </StackLayout>
       </GridLayout>
 
@@ -101,3 +128,32 @@
     </label>
   </FlexboxLayout>
 </ScrollView>
+
+<!-- <FlexboxLayout class="login-background" flexDirection="column" justifyContent="space-around">
+  
+  <GridLayout rows="auto,auto" class="form">
+      <image width="250" marginTop="50" horizontalAlignment="center" row="0" src="res://logo"></image>
+      <FlexboxLayout row="1" flexDirection="column" margin="30" marginBottom="0">
+          <ActivityIndicator *ngIf="false" width="50" height="50"   [busy]="false" class="activity-indicator"></ActivityIndicator>
+        <StackLayout height="30">
+          <label [visibility]="false ? 'visible' : 'collapsed'" text="Login Incorreto" class="text-danger text-center" textWrap="true"></label>
+        </StackLayout>
+    
+        <StackLayout orientation="horizontal" class="input-field">
+          <image width="24" src="res://baseline_person_white_24" class="m-r-5"></image>
+          <TextField name="username" height="auto" width="100%" [(ngModel)]="username" required #username="ngModel" class="input" hint="Usuário"></TextField>
+        </StackLayout>
+    
+    
+        <StackLayout orientation="horizontal" class="input-field">
+          <image width="24" src="res://baseline_lock_white_24" class="m-r-5"></image>
+          <TextField name="password" height="auto" width="100%" [(ngModel)]="password" class="input" #password="ngModel" required hint="Senha" secure="true"></TextField>
+        </StackLayout>
+    
+        <button text="Entrar" [isEnabled]="!isLoading" (tap)="submitLogin()" class="btn btn-primary btn-default"></button>
+      </FlexboxLayout>
+    </GridLayout>
+    <StackLayout class="hr-darke" marginTop="5" backgroundColor="#1567b6">
+        
+    </StackLayout>  
+</FlexboxLayout> -->

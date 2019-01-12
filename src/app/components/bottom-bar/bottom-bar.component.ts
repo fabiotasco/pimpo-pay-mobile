@@ -18,12 +18,12 @@ export class BottomBarComponent implements OnInit {
   @ViewChild('image4') image4: ElementRef;
   @ViewChild('image5') image5: ElementRef;
 
-  @Output() tabSelected = new EventEmitter<number>();
+  @Output() tabSelected = new EventEmitter<any>();
   constructor() {}
 
   ngOnInit() {}
 
-  selectTab(index: number) {
+  selectTab(index: number, tabName: string) {
     let previousTab = this.selectedTab;
     if (index != this.selectedTab) {
       this.selectedTab = index;
@@ -34,7 +34,7 @@ export class BottomBarComponent implements OnInit {
       });
       this.animateCurrentImage(this.getImage(index));
       this.animatePreviousImage(this.getImage(previousTab));
-      this.tabSelected.emit(this.selectedTab);
+      this.tabSelected.emit({ tabIndex: this.selectedTab, tabName: tabName });
     }
   }
 

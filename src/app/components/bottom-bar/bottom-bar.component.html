@@ -1,23 +1,23 @@
 <GridLayout height="60" verticalAlignment="bottom">
   <GridLayout columns="*,*,*,*,*" class="bg-primary">
     <GridLayout #tabHighlight col="0" class="bg-secondary"></GridLayout>
-    <GridLayout rows="*,*" col="0" (tap)="selectTab(0)" paddingTop="10">
-      <Image #image1 src="res://baseline_account_balance_white_24" row="0" ></Image>
-      <Label text="Inicio" class="text-center" row="1" textWrap="true"></Label>
+    <GridLayout rows="*,*" col="0" (tap)="selectTab(0,'Extrato')" paddingTop="10">
+      <Image #image1 src="res://baseline_menu_white_24" row="0" ></Image>
+      <Label text="Extrato" class="text-center" row="1" textWrap="true"></Label>
     </GridLayout>
-    <GridLayout rows="*,*" col="1" (tap)="selectTab(1)" paddingTop="10">
-      <Image #image2 src="res://baseline_account_balance_wallet_white_24" row="0" ></Image>
-      <Label text="Deposito" class="text-center" row="1" textWrap="true"></Label>
+    <GridLayout rows="*,*" col="1" (tap)="selectTab(1,'Compra')" paddingTop="10">
+      <Image #image2 src="res://baseline_shopping_basket_white_24" row="0" ></Image>
+      <Label text="Depósito" class="text-center" row="1" textWrap="true"></Label>
     </GridLayout>
-    <GridLayout rows="*,*" col="2" (tap)="selectTab(2)" paddingTop="10">
+    <GridLayout rows="*,*" col="2" (tap)="selectTab(2,'Deposito')" paddingTop="10">
       <Image #image3 src="res://baseline_attach_money_white_24" row="0"></Image>
       <Label text="Pagar" class="text-center" row="1" textWrap="true"></Label>
     </GridLayout>
-    <GridLayout rows="*,*" col="3" (tap)="selectTab(3)" paddingTop="10">
+    <GridLayout rows="*,*" col="3" (tap)="selectTab(3,'Transferência')" paddingTop="10">
       <Image #image4 src="res://baseline_transform_white_24" row="0" ></Image>
       <Label text="Transferir" class="text-center" row="1" textWrap="true"></Label>
     </GridLayout>
-    <GridLayout rows="*,*" col="4" (tap)="selectTab(4)" paddingTop="10">
+    <GridLayout rows="*,*" col="4" (tap)="selectTab(4,'Perfil')" paddingTop="10">
       <Image #image5 src="res://baseline_person_white_24" row="0" ></Image>
       <Label text="Perfil" class="text-center" row="1" textWrap="true"></Label>
     </GridLayout>

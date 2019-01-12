@@ -15,8 +15,8 @@
 }
 
 .form {
-  margin-left: 30;
-  margin-right: 30;
+  margin-left:16;
+  margin-right: 16;
   flex-grow: 2;
   vertical-align: middle;
 }
@@ -34,13 +34,16 @@
 }
 
 .input-field {
-  margin-bottom: 25;
+  border-width: 0 0 1 0;
+  border-color: #fff;
+  padding: 5 0 0 0;
 }
 
 .input {
-  font-size: 18;
-  placeholder-color: $light;
-  color: $light;
+  placeholder-color: #fff;
+  color:#fff;
+  padding-top: 15;
+  padding-left: 5;
 }
 
 .error-label {
