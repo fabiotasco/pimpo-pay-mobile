@@ -1,6 +1,56 @@
 @import '../../../app-common';
 
-.border-sep{
-    border-width: 0,1,0,0;
-    border-color: $light;
+.border-sep {
+  border-width: 0, 1, 0, 0;
+  border-color: $light;
+}
+
+.circle {
+  width: 30;
+  height: 30;
+  border-radius: 50%;
+  border-width: 1;
+  border-color: $light;
+  background-color: $gray-light;
+}
+
+.input-transaction {
+  widows: 100%;
+  border-bottom-width: 1;
+  border-color: $light;
+  text-align: right;
+  margin-bottom: 4;
+  font-size: 18;
+}
+
+.no-border {
+  border-width: 0;
+}
+
+.btn-transaction {
+  width: 80;
+  height: 40;
+  font-size: 12;
+}
+
+.link-label {
+  font-size: 16;
+  color: $pink;
+}
+.qr-code {
+  text-decoration: underline;
+}
+
+.approved {
+  width: 120;
+  height: 120;
+  border-radius: 100%;
+  background-color: $dark;
+}
+
+.rejected{
+  width: 120;
+  height: 120;
+  border-radius: 100%;
+  background-color: $redError;
 }

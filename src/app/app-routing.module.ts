@@ -6,11 +6,11 @@ import { LoginPageComponent } from './login/login.component';
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component:LoginPageComponent},
-  { path: 'home', loadChildren: './app/home/home.module#HomeModule' }
+  { path: 'home', loadChildren: './app/home/home.module#HomeModule', }
 ];
 
 @NgModule({
-  imports: [NativeScriptRouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  imports: [NativeScriptRouterModule.forRoot(routes)],
   exports: [NativeScriptRouterModule]
 })
 export class AppRoutingModule {}
