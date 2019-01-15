@@ -269,7 +269,7 @@
             text=""
           ></TextField>
           <button
-            (tap)="setPlan('Pospaid', installment.value)"
+            (tap)="setPlan('Credit', installment.value)"
             horizontalAlignment="right"
             [shadow]="btnShadow"
             class="btn btn-secondary btn-transaction"
@@ -351,10 +351,9 @@
       fontSize="16"
       textWrap="true"
       paddingTop="16"
-      paddingBottom="16"
     ></Label>
 
-    <StackLayout row="3" class="text-center" marginTop="24">
+    <StackLayout row="3" class="text-center" marginTop="16">
       <StackLayout class="circle approved" [ngClass]="transactionSuccess ? 'approved' : 'rejected'"> </StackLayout>
       <Label
         [text]="transactionSuccess ? 'Compra Aprovada' : errorMessage"
