@@ -11,11 +11,9 @@ import { Plan } from '~/app/models/plan';
 import { UserData } from '~/app/models/user-data';
 import { Purchase } from '~/app/models/purchase';
 import * as moment from 'moment';
+import { PositionChevron } from '~/app/utils/variables';
 
-enum PositionChevron {
-  CLOSE = 0,
-  OPEN = -90
-}
+
 
 @Component({
   moduleId: module.id,

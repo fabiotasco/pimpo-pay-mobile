@@ -13,7 +13,7 @@ export const endpoint: string = 'http://35.243.251.185:8080/api';
 
 /* Endpoints enviroments */
 
-export const redirectTo = (index:number): string => {
+export const redirectTo = (index: number): string => {
   const urls = ['/home/balance', '/home/buy', '/home/credit', '/home/transfer', '/home/user'];
   return urls[index];
 };
@@ -56,3 +56,8 @@ export const adjustDecimal = (nr: number, decimal: number): number => {
   var og = Math.pow(10, decimal);
   return Math.floor(nr * og) / og;
 };
+
+export enum PositionChevron {
+  CLOSE = 0,
+  OPEN = -90
+}
