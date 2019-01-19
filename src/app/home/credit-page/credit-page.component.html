@@ -199,70 +199,72 @@
     ></button>
   </GridLayout>
 
-  <GridLayout
-    *ngIf="transactionFinish && !isLoading"
-    rows="auto,*,auto,*,*"
-    paddingBottom="60"
-    marginLeft="16"
-    marginRight="16"
-    marginTop="16"
-  >
-    <Label
+  <GridLayout rows="*,auto"  *ngIf="transactionFinish && !isLoading">
+    <GridLayout
       row="0"
-      text="RESUMO DO DEPOSITO"
-      class="text-bold m-y-10"
-      fontSize="16"
-      textWrap="true"
-      paddingBottom="16"
-    ></Label>
-
-    <GridLayout shadow="2" row="1" rows="*,auto,*" columns="*,auto" padding="16">
-      <Label padding="8" row="0" col="0" text="Valor" textWrap="true" fontSize="16"></Label>
+      rows="auto,*,auto,*,*"
+      paddingBottom="60"
+      marginLeft="16"
+      marginRight="16"
+      marginTop="16"
+    >
       <Label
-        padding="8"
         row="0"
-        col="1"
-        [text]="selectedValue | currency: 'BRL':'symbol'"
+        text="RESUMO DO DEPOSITO"
+        class="text-bold m-y-10"
         fontSize="16"
-        class="text-bold"
         textWrap="true"
+        paddingBottom="16"
       ></Label>
-      <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
 
-      <Label padding="8" row="2" col="0" text="Plano" textWrap="true" fontSize="16"></Label>
+      <GridLayout shadow="2" row="1" rows="*,auto,*" columns="*,auto" padding="16">
+        <Label padding="8" row="0" col="0" text="Valor" textWrap="true" fontSize="16"></Label>
+        <Label
+          padding="8"
+          row="0"
+          col="1"
+          [text]="selectedValue | currency: 'BRL':'symbol'"
+          fontSize="16"
+          class="text-bold"
+          textWrap="true"
+        ></Label>
+        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
+
+        <Label padding="8" row="2" col="0" text="Plano" textWrap="true" fontSize="16"></Label>
+        <Label
+          row="2"
+          col="1"
+          class="text-bold"
+          fontSize="16"
+          padding="8"
+          [text]="selectedPlan.name === 'Prepaid' ? 'Pré Pago' : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+
       <Label
         row="2"
-        col="1"
-        class="text-bold"
+        text="STATUS PROCESSAMENTO"
+        class="text-bold m-y-10"
         fontSize="16"
-        padding="8"
-        [text]="selectedPlan.name === 'Prepaid' ? 'Pré Pago' : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'"
         textWrap="true"
+        paddingTop="16"
       ></Label>
+
+      <StackLayout row="3" class="text-center" marginTop="16">
+        <StackLayout class="circle approved" [ngClass]="transactionSuccess ? 'approved' : 'rejected'"> </StackLayout>
+        <Label
+          [text]="transactionSuccess ? 'Depósito Aprovada' : errorMessage"
+          padding="8"
+          fontSize="20"
+          class="text-bold"
+          [ngClass]="transactionSuccess ? 'text-dark' : 'text-danger'"
+          textWrap="true"
+        ></Label>
+      </StackLayout>
     </GridLayout>
 
-    <Label
-      row="2"
-      text="STATUS PROCESSAMENTO"
-      class="text-bold m-y-10"
-      fontSize="16"
-      textWrap="true"
-      paddingTop="16"
-    ></Label>
-
-    <StackLayout row="3" class="text-center" marginTop="16">
-      <StackLayout class="circle approved" [ngClass]="transactionSuccess ? 'approved' : 'rejected'"> </StackLayout>
-      <Label
-        [text]="transactionSuccess ? 'Compra Aprovada' : errorMessage"
-        padding="8"
-        fontSize="20"
-        class="text-bold"
-        [ngClass]="transactionSuccess ? 'text-dark' : 'text-danger'"
-        textWrap="true"
-      ></Label>
-    </StackLayout>
-
-    <StackLayout row="4">
+    <StackLayout row="1">
       <FAB
         (tap)="newTransaction()"
         icon="res://baseline_autorenew_white_48"

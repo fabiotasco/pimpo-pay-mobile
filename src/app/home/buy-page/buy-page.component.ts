@@ -37,8 +37,8 @@ export class BuyPageComponent implements OnInit {
   public showAccountCard = false;
   public showPlanCard = false;
 
-  public selectedValue: number = 250;
-  public selectedAccount: string = '5521986772992';
+  public selectedValue: number;
+  public selectedAccount: string;
   public selectedPlan: Plan;
   public valueOk = false;
   public accountOk = false;
@@ -200,6 +200,7 @@ export class BuyPageComponent implements OnInit {
         message: 'Para melhorar a iluminação, use as teclas de volume.',
         showFlipCameraButton: false,
         showTorchButton: true,
+        resultDisplayDuration: 100,
         openSettingsIfPermissionWasPreviouslyDenied: true
       })
       .then(result => {
@@ -211,13 +212,6 @@ export class BuyPageComponent implements OnInit {
       });
   }
 
-  private requestCamPermission(): void {
-    this.barcode.requestCameraPermission().then(permission => {
-      if (permission) {
-        this.readQrCode();
-      }
-    });
-  }
 
   private executeAnimation(view: View): void {
     if (this.actualPosition === PositionChevron.CLOSE) {

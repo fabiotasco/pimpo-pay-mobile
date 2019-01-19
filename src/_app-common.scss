@@ -9,12 +9,12 @@
 @import './colors';
 
 .fab-button {
-	height: 60;
-	width: 60; /// this is required on iOS - Android does not require width so you might need to adjust styles
-	margin: 15;
-	background-color: #ff4081;
-	horizontal-align: right;
-	vertical-align: bottom;
+  height: 60;
+  width: 60; /// this is required on iOS - Android does not require width so you might need to adjust styles
+  margin: 15;
+  background-color: #ff4081;
+  horizontal-align: right;
+  vertical-align: bottom;
 }
 
 .gutters {
@@ -38,8 +38,12 @@
   background-color: $complementary;
 }
 
+.bg-success {
+  background-color: $success;
+}
+
 .bg-light {
-  background-color: lighten($light,4%);
+  background-color: lighten($light, 4%);
 }
 
 .bg-dark {
@@ -62,6 +66,10 @@
   color: $complementary;
 }
 
+.text-success {
+  color:$success;
+}
+
 .text-light {
   color: $light;
 }
@@ -70,7 +78,7 @@
   color: $dark;
 }
 
-.text-complementary-dark{
+.text-complementary-dark {
   color: $complementary-dark;
 }
 

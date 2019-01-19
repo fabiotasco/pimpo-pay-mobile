@@ -11,9 +11,8 @@ import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layo
 import { Plan } from '~/app/models/plan';
 import { Button } from 'tns-core-modules/ui/button/button';
 import { UserData } from '~/app/models/user-data';
-import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { ShapeEnum, AndroidData } from 'nativescript-ng-shadow';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Component({
   moduleId: module.id,
