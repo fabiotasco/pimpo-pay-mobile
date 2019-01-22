@@ -11,18 +11,25 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './core/http.interceptor';
 import { DropDownModule } from 'nativescript-drop-down/angular';
 import { NativeScriptUIListViewModule } from 'nativescript-ui-listview/angular';
+import { NewAccountComponent } from './login/new-account/new-account.component';
+import { NgShadowModule } from 'nativescript-ng-shadow';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   bootstrap: [AppComponent],
   imports: [
     NativeScriptModule,
+    SharedModule,
     NativeScriptFormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     NativeScriptHttpClientModule,
     NativeScriptUIListViewModule,
-    DropDownModule,
+    NgShadowModule,
+    DropDownModule
   ],
-  declarations: [AppComponent, LoginPageComponent],
+  declarations: [AppComponent, LoginPageComponent, NewAccountComponent],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
   schemas: [NO_ERRORS_SCHEMA]
 })

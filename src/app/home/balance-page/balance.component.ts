@@ -43,7 +43,6 @@ export class BalancePageComponent implements OnInit {
         if (result) {
           dialogs.alert('Transação foi cancelada e seu saldo atualizado');
         } else {
-          console.log('Cancelou');
         }
       });
     

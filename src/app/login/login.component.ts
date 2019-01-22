@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Page } from 'tns-core-modules/ui/page/page';
+import { Page, View } from 'tns-core-modules/ui/page/page';
 import { Credentials } from '../models/credentials';
 import { ToastHelperService } from '../core/toast-helper.service';
 import { AccountService } from '../services/account.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { mobileOperatorList, formatPhoneNumber } from '../utils/variables';
 import { Enroll } from '../models/enroll';
+import { Router } from '@angular/router';
+
 @Component({
   moduleId: module.id,
   selector: 'LoginPage',
@@ -28,7 +30,12 @@ export class LoginPageComponent implements OnInit {
 
   enroll: Enroll;
 
-  constructor(private page: Page, private toastHelper: ToastHelperService, private accountService: AccountService) {}
+  constructor(
+    private page: Page,
+    private toastHelper: ToastHelperService,
+    private accountService: AccountService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.username = '11564763722';
@@ -50,8 +57,13 @@ export class LoginPageComponent implements OnInit {
     }
   }
 
-  showRegisterForm() {
-    this.showRegister = true;
+  showRegisterForm(event: any) {
+    const view: View = event.view;
+
+    view.animate({ scale: { x: 1, y: 1.2 }, duration: 200 }).then(() => {
+      view.animate({ scale: { x: 1, y: 1 }, duration: 200 });
+      this.router.navigate(['new-account']);
+    });
   }
 
   private doLogin() {
@@ -86,7 +98,7 @@ export class LoginPageComponent implements OnInit {
         phone: {
           number: formatPhoneNumber(this.phoneNumber),
           networkOperator: mobileOperatorList()[this.operator + 1],
-          status:'Active'
+          status: 'Active'
         }
       };
 
