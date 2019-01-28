@@ -1,3 +1,4 @@
+
 <ScrollView class="bg-light" height="100%">
   <FlexboxLayout class="gutters" flexDirection="column" paddingBottom="80">
     <Label text="SALDO" class="text-bold m-y-10" fontSize="16" textWrap="true"></Label>
@@ -11,7 +12,7 @@
         textWrap="true"
       ></Label>
       <Label
-        text="R$ 15.700,00"
+        [text]="accountBalance$ | async | currency: 'BRL':'symbol'"
         fontSize="15"
         col="1"
         class="h4 text-uppercase text-complementary-dark gutters text-bold"
@@ -21,31 +22,35 @@
 
     <Label text="EXTRATO" class="text-bold m-y-10" fontSize="16" textWrap="true"></Label>
 
-    <StackLayout *ngFor="let item of [1, 2, 3, 4]" marginBottom="16" shadow="1">
-      <GridLayout rows="*,*,*" columns="auto,*,auto" class="card-list">
+    <StackLayout *ngFor="let item of (transactions$ | async)" marginBottom="16" shadow="1">
+      <GridLayout rows="*,*,*" columns="auto,*,auto" (tap)="onItemTap($event,item)" class="card-list">
         <StackLayout col="0" row="0" rowSpan="3" class="thumbnail sm" marginRight="16"> </StackLayout>
 
         <Label
-          [text]="item === 1 ? 'Comprou' : item === 2 ? 'Depositou' : item === 3 ? 'Transferiu' : 'Recarregou'"
+          [nsTransactionType]
+          [text]="getTransactionType(item.type)"
           col="1"
           row="0"
           [class]="'card-title text-bold text-complementary-dark'"
           textWrap="true"
         ></Label>
-        <Label text="09/01/2019 15:45:20" class="card-subtitle" col="1" row="1" marginTop="4" textWrap="true"></Label>
+        <Label
+          [text]="item.date | date: 'dd/MM/yyyy HH:mm'"
+          class="card-subtitle"
+          col="1"
+          row="1"
+          marginTop="4"
+          textWrap="true"
+        ></Label>
 
         <Label
           verticalAlignment="middle"
-          [class]="
-            item === 1
-              ? 'text-bold text-danger'
-              : item === 2
-              ? 'text-bold text-dark'
-              : item === 3
-              ? 'text-bold text-danger'
-              : 'text-bold text-dark'
+          [class]="item.type === 'Purchase' ? 'text-danger text-bold' : 'text-bold'"
+          [text]="
+            item.type === 'Purchase'
+              ? ('-' + item.amount | currency: 'BRL':'symbol')
+              : (item.amount | currency: 'BRL':'symbol')
           "
-          [text]="item === 1 ? '-R$ 15,50' : item === 2 ? 'R$ 100,00' : item === 3 ? '-R$ 50,00' : '-R$ 250,00'"
           row="0"
           col="2"
           rowSpan="2"
@@ -54,26 +59,8 @@
         ></Label>
 
         <Label
-          verticalAlignment="middle"
-          [class]="
-            item === 1
-              ? 'text-bold text-danger'
-              : item === 2
-              ? 'text-bold text-complementary-dark'
-              : item === 3
-              ? 'text-bold text-danger'
-              : 'text-bold text-complementary-dark'
-          "
-          [text]="item === 1 ? '-R$ 15,50' : item === 2 ? 'R$ 100,00' : item === 3 ? '-R$ 50,00' : '-R$ 250,00'"
-          row="0"
-          col="2"
-          rowSpan="2"
-          textWrap="true"
-        ></Label>
-
-        <Label
           class="text-right card-subtitle"
-          [text]="item === 1 ? 'Crédito' : item === 2 ? 'Débito' : item === 3 ? 'Débito' : 'Cancelada'"
+          [text]="getPaymentType(item.planType)"
           row="1"
           col="2"
           rowSpan="2"

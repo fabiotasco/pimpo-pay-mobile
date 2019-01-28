@@ -76,8 +76,12 @@ export class NewAccountComponent implements OnInit {
       }
     };
     this.accountService.saveRegister(enroll).subscribe(res => {
-      this.toast.showToast('Conta cadastrada com sucesso');
-      this.router.back();
+      if (res.success) {
+        this.toast.showToast('Conta cadastrada com sucesso');
+        this.router.back();
+        return;
+      }
+      this.toast.showToast(res.errors[0].code + '-' + res.errors[0].message);
     });
   }
 
