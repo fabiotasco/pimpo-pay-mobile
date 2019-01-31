@@ -14,7 +14,13 @@ export const endpoint: string = 'http://35.243.251.185:8080/api';
 /* Endpoints enviroments */
 
 export const redirectTo = (index: number): string => {
-  const urls = ['/home/balance', '/home/buy', '/home/credit', '/home/transfer', '/home/user'];
+  const urls = [
+    '/home/balance',
+    '/home/buy',
+    '/home/credit',
+    '/home/transfer',
+    '/home/user'
+  ];
   return urls[index];
 };
 
@@ -33,13 +39,20 @@ export const openRoute = (route): boolean => {
 
 export const btoa = (creditials: Credentials): string => {
   if (isIOS) {
-    let text = NSString.stringWithString(creditials.username + ':' + creditials.password);
+    let text = NSString.stringWithString(
+      creditials.username + ':' + creditials.password
+    );
     let data = text.dataUsingEncoding(NSUTF8StringEncoding);
     return data.base64EncodedStringWithOptions(0);
   } else {
-    let text = new java.lang.String(creditials.username + ':' + creditials.password);
+    let text = new java.lang.String(
+      creditials.username + ':' + creditials.password
+    );
     let data = text.getBytes('UTF-8');
-    return android.util.Base64.encodeToString(data, android.util.Base64.DEFAULT);
+    return android.util.Base64.encodeToString(
+      data,
+      android.util.Base64.DEFAULT
+    );
   }
 };
 
@@ -60,4 +73,25 @@ export const adjustDecimal = (nr: number, decimal: number): number => {
 export enum PositionChevron {
   CLOSE = 0,
   OPEN = -90
+}
+
+export enum TransactionStatus {
+  AUTHORIZED = 'AUTHORIZED',
+  /** Negada */
+  DENIED = 'DENIED',
+
+  /** Cancelada */
+  CANCELLED = 'CANCELLED',
+
+  /** Liquidada */
+  SETTLED = 'SETTLED',
+
+  /** Disputada */
+  DISPUTED = 'DISPUTED',
+
+  /** Disputa respondida */
+  DISPUTE_RESPONDED = 'DISPUTE_RESPONDED',
+
+  /** Arbitrada */
+  ARBITRATED = 'ARBITRATED'
 }

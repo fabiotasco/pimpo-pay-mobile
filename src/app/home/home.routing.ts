@@ -7,7 +7,6 @@ import { CreditPageComponent } from './credit-page/credit-page.component';
 import { BalancePageComponent } from './balance-page/balance.component';
 import { TransferPageComponent } from './transfer-page/transfer.component';
 import { UserPageComponent } from './user-page/user.component';
-import { DetailTransactionComponent } from './balance-page/detail-transaction/detail-transaction.component';
 
 const routes: Routes = [
   {
@@ -17,7 +16,6 @@ const routes: Routes = [
       { path: 'buy', component: BuyPageComponent },
       { path: 'credit', component: CreditPageComponent },
       { path: 'balance', component: BalancePageComponent },
-      { path: 'balance/detail', component: DetailTransactionComponent },
       { path: 'transfer', component: TransferPageComponent },
       { path: 'user', component: UserPageComponent }
     ]

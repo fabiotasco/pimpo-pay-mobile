@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+  HttpHeaders
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AccountService } from '../services/account.service';
 import { openRoute, btoa } from '../utils/variables';
@@ -8,7 +14,10 @@ import { openRoute, btoa } from '../utils/variables';
 export class HeaderInterceptor implements HttpInterceptor {
   constructor(private accountService: AccountService) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     let headers: HttpHeaders;
     if (this.accountService.isLogged()) {
       headers = req.headers
@@ -16,7 +25,9 @@ export class HeaderInterceptor implements HttpInterceptor {
         .set('Content-Type', 'application/json');
     } else if (openRoute(req.url)) {
       const token = btoa({ username: 'Pimpo Pay', password: 'Pimpo Pay Test' });
-      headers = req.headers.set('Authorization', 'Basic ' + token).set('Content-Type', 'application/json');
+      headers = req.headers
+        .set('Authorization', 'Basic ' + token)
+        .set('Content-Type', 'application/json');
     }
 
     const authReq = req.clone({ headers });

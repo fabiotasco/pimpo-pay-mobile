@@ -1,15 +1,16 @@
 <ActionBar title="Detalhe" class="action-bar bg-primary text-light">
   <NavigationButton
     text="Back"
+    (tap)="goBack()"
     android.systemIcon="ic_ab_back_material_dark"
   ></NavigationButton>
 </ActionBar>
 
-<ScrollView class="bg-light" height="100%">
-  <GridLayout rows="*,auto">
+<ScrollView class="bg-light" height="auto">
+  <GridLayout rows="*,*">
     <GridLayout
       row="0"
-      rows="auto,*,auto,*,*,*"
+      rows="auto,*,auto,*,*,*,*"
       paddingBottom="60"
       marginLeft="16"
       marginRight="16"
@@ -27,7 +28,7 @@
       <GridLayout
         shadow="2"
         row="1"
-        rows="*,auto"
+        rows="*,auto,*"
         columns="*,auto"
         padding="16"
       >
@@ -44,11 +45,57 @@
           row="0"
           col="1"
           fontSize="16"
-          [text]="transaction.status"
-          color="#0022ee"
+          [text]="getTransactionName(transaction.status)"
+          [color]="getTransactionStatusColor(transaction.status)"
           class="text-bold"
           textWrap="true"
         ></Label>
+        <StackLayout
+          *ngIf="
+            transaction.status.toUpperCase() === transactionStatus.DENIED ||
+            transaction.status.toUpperCase() === transactionStatus.CANCELLED
+          "
+          class="hr-light"
+          row="1"
+          col="0"
+          colSpan="2"
+        >
+        </StackLayout>
+        <Label
+          padding="8"
+          *ngIf="
+            transaction.status.toUpperCase() === transactionStatus.DENIED ||
+            transaction.status.toUpperCase() === transactionStatus.CANCELLED
+          "
+          row="2"
+          col="0"
+          fontSize="16"
+          text="Motivo"
+          class="text-bold"
+          textWrap="true"
+        ></Label>
+
+        <StackLayout
+          *ngIf="
+            transaction.status.toUpperCase() === transactionStatus.DENIED ||
+            transaction.status.toUpperCase() === transactionStatus.CANCELLED
+          "
+          padding="8"
+          row="2"
+          col="1"
+        >
+          <Label
+            fontSize="16"
+            [text]="transaction.reasonCode"
+            class="text-bold"
+            textWrap="true"
+          ></Label>
+          <Label
+            fontSize="16"
+            text="Definir texto de cada reasonCode"
+            textWrap="true"
+          ></Label>
+        </StackLayout>
       </GridLayout>
 
       <Label
@@ -79,8 +126,16 @@
           row="0"
           col="1"
           fontSize="16"
-          [text]="transaction.amount | currency: 'BRL':'symbol'"
-          class="text-bold text-danger"
+          [text]="
+            transaction.planType === 'Credit'
+              ? '-' + (transaction.amount | currency: 'BRL':'symbol')
+              : (transaction.amount | currency: 'BRL':'symbol')
+          "
+          [class]="
+            transaction.planType === 'Credit'
+              ? 'text-bold text-danger'
+              : 'text-bold'
+          "
           textWrap="true"
         ></Label>
         <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light">
@@ -99,7 +154,7 @@
           col="1"
           fontSize="16"
           [text]="transaction.planType === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'"
-          class="text-bold text-danger"
+          class="text-bold"
           textWrap="true"
         ></Label>
         <StackLayout padding="8" row="3" col="0" colSpan="2" class="hr-light">
@@ -118,7 +173,7 @@
           col="1"
           fontSize="16"
           [text]="transaction.planType === 'Prepaid' ? 'A Vista' : 'Crédito'"
-          class="text-bold text-danger"
+          class="text-bold"
           textWrap="true"
         ></Label>
       </GridLayout>
@@ -136,7 +191,9 @@
         row="5"
         rows="*,auto,*,auto,*"
         columns="*,auto"
-        padding="16"
+        paddingLeft="16"
+        paddingRight="16"
+        paddingTop="16"
       >
         <Label
           padding="8"
@@ -175,6 +232,16 @@
           textWrap="true"
         ></Label>
       </GridLayout>
+
+      <Button
+        row="6"
+        id="btnCancel"
+        (tap)="cancelTransaction()"
+        text="Cancelar"
+        class="btn btn-outline secondary"
+        marginTop="32"
+        height="50"
+      ></Button>
     </GridLayout>
   </GridLayout>
 </ScrollView>

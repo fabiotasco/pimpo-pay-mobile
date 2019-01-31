@@ -205,7 +205,7 @@ export class BuyPageComponent implements OnInit {
       })
       .then(result => {
         const scannerResult: any = JSON.parse(result.text);
-        console.log(scannerResult)
+
         this.useQrCode = true;
         this.selectedAccount = scannerResult.phone.trim();
         this.destinationHash = scannerResult.hash;
