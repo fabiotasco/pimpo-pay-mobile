@@ -6,7 +6,12 @@ import { TransactionStatus } from '~/app/utils/variables';
 import { RouterExtensions } from 'nativescript-angular/router';
 
 import { TransactionService } from '~/app/services/trasaction.service';
-import { ConfirmOptions, confirm } from 'tns-core-modules/ui/dialogs/dialogs';
+import {
+  ConfirmOptions,
+  confirm,
+  AlertOptions,
+  alert
+} from 'tns-core-modules/ui/dialogs/dialogs';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
 
 @Component({
@@ -60,9 +65,14 @@ export class DetailTransactionComponent implements OnInit {
               return;
             }
 
-            this.toast.showToast(
-              res.errors[0].code + ' - ' + res.errors[0].message
-            );
+            const error: AlertOptions = {
+              message: 'Não foi possivel cancelar a transação',
+              title: res.errors[0].code,
+              okButtonText: 'Ok',
+              cancelable: false
+            };
+
+            alert(error);
           });
       }
     });
