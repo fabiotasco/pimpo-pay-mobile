@@ -29,6 +29,10 @@ export class HomePageComponent implements OnInit {
     this.transactionService.getBalance();
   }
 
+  logOut(): void {
+    this.routes.navigate(['login'], { clearHistory: true });
+  }
+
   navigateToPage(tab: any): void {
     this.actionTitle = tab.tabName;
     this.routes.navigate([redirectTo(tab.tabIndex)], { clearHistory: true });
