@@ -67,7 +67,7 @@
         ></Label>
       </StackLayout>
 
-      <TextField
+     <!--  <TextField
         *ngIf="showBuyCard"
         marginTop="16"
         [(ngModel)]="selectedValue"
@@ -75,7 +75,16 @@
         hint="0,00"
         row="1"
         class="input-transaction"
-      ></TextField>
+      ></TextField> -->
+
+      <TextFieldCurrency
+        row="1"
+        className="input-transaction"
+        *ngIf="showBuyCard"
+        marginTop="16"
+        [(ngModel)]="selectedValue"
+        hint="0,00"
+      ></TextFieldCurrency>
 
       <button
         *ngIf="showBuyCard"
@@ -215,6 +224,7 @@
         textWrap="true"
       ></Label>
     </GridLayout>
+
     <GridLayout
       row="2"
       *ngIf="!planOk"
@@ -349,7 +359,8 @@
       <StackLayout row="2" class="hr-light m-t-30"> </StackLayout>
 
       <StackLayout row="3" class="text-center" marginTop="16">
-        <StackLayout class="circle approved" [ngClass]="transactionSuccess ? 'approved bg-success' : 'rejected'"> </StackLayout>
+        <StackLayout class="circle approved" [ngClass]="transactionSuccess ? 'approved bg-success' : 'rejected'">
+        </StackLayout>
         <Label
           [text]="transactionSuccess ? 'Compra Aprovada' : errorMessage"
           padding="8"

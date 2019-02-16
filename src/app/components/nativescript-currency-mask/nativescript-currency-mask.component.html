@@ -1,0 +1,13 @@
+<TextField
+  [hint]="hint"
+  [row]="row"
+  [class]="className"
+  [col]="col"
+  [colSpan]="colSpan"
+  [isEnabled]="isEnabled"
+  (blur)="focusOut($event)"
+  id="fieldValue"
+  [text]="inputValue"
+  keyboardType="number"
+  (textChange)="changeValue($event)"
+></TextField>

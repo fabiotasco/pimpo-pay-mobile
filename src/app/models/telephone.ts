@@ -1,5 +1,5 @@
 export interface Telephone {
   number: string;
   networkOperator: string;
-  status:string;
+  status?:string;
 }
