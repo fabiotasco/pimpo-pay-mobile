@@ -8,13 +8,13 @@ declare var android: any;
 
 /* Endpoints enviroments */
 
-export const endpoint: string = 'http://10.0.0.4:8081/api';
+export const endpoint: string = 'http://35.243.251.185:8080/api';
 //export const endpoint:string = 'http://pimpopay.com/api';
 
 /* Endpoints enviroments */
 
-export const redirectTo = (index): string => {
-  const urls = ['/home/buy', '/home/credit', '/home/balance', '/home/transfer', '/home/user'];
+export const redirectTo = (index: number): string => {
+  const urls = ['/home/balance', '/home/buy', '/home/credit', '/home/transfer', '/home/user'];
   return urls[index];
 };
 
@@ -52,7 +52,12 @@ export const formatPhoneNumber = (phone: string) => {
   return '+55' + phone;
 };
 
-export const adjustDecimal = (nr:number, decimal:number): number => {
+export const adjustDecimal = (nr: number, decimal: number): number => {
   var og = Math.pow(10, decimal);
   return Math.floor(nr * og) / og;
 };
+
+export enum PositionChevron {
+  CLOSE = 0,
+  OPEN = -90
+}

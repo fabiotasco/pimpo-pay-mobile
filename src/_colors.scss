@@ -1,0 +1,26 @@
+$green: #4db6ac;
+$dark: #00867d;
+$greenSuccess:#009900;
+$light: #e1e2e1;
+$pink: #ec407a;
+$pink-light: #ff77a9;
+$pink-dark: #b4004e;
+$gray: #333633;
+$gray-light: #5c605c;
+$gray-dark: #0c100c;
+$red: #ff0000;
+$redError: #cc0000;
+$blue: #004c99;
+$orange: #f76b00;
+$light-green: #99f9bb;
+
+$principal: $green !default;
+$complementary: $pink !default;
+$complementary-light: $gray-light !default;
+$complementary-dark: $gray-dark !default;
+$info: $blue !default;
+$success: $greenSuccess !default;
+$warning: $orange !default;
+$danger: $redError !default;
+$light: $light !default;
+$dark: $dark !default;

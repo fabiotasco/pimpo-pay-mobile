@@ -1,0 +1,140 @@
+@import '~nativescript-theme-core/scss/light';
+
+// Customize any of the theme’s variables here, for instance $btn-color: red;
+
+// Import the theme’s main ruleset.
+@import '~nativescript-theme-core/scss/index';
+
+@import '~nativescript-theme-core/css/core.light.css';
+@import './colors';
+
+.fab-button {
+  height: 60;
+  width: 60; /// this is required on iOS - Android does not require width so you might need to adjust styles
+  margin: 15;
+  background-color: #ff4081;
+  horizontal-align: right;
+  vertical-align: bottom;
+}
+
+.gutters {
+  margin: 16;
+}
+.action-title {
+  font-size: 20;
+  color: $light;
+}
+
+.btn {
+  border-radius: 8;
+  text-transform: uppercase;
+}
+
+.bg-primary {
+  background-color: $principal;
+}
+
+.bg-secondary {
+  background-color: $complementary;
+}
+
+.bg-success {
+  background-color: $success;
+}
+
+.bg-light {
+  background-color: lighten($light, 4%);
+}
+
+.bg-dark {
+  background-color: $dark;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-bold {
+  font-weight: 800;
+}
+
+.text-primary {
+  color: $principal;
+}
+
+.text-secondary {
+  color: $complementary;
+}
+
+.text-success {
+  color:$success;
+}
+
+.text-light {
+  color: $light;
+}
+
+.text-dark {
+  color: $dark;
+}
+
+.text-complementary-dark {
+  color: $complementary-dark;
+}
+
+.btn-primary {
+  background-color: $principal;
+  color: $light;
+}
+
+.btn-secondary {
+  background-color: $complementary;
+  color: $light;
+}
+
+.btn-light {
+  background-color: #fff;
+  color: #212121;
+  font-weight: 300;
+}
+
+.thumbnail {
+  border-radius: 50%;
+  border-color: $secondary;
+  background-color: $pink-light;
+
+  &.sm {
+    width: 56;
+    height: 56;
+  }
+
+  &.lg {
+    width: 80;
+    height: 80;
+  }
+}
+
+.card-list {
+  padding: 8 16;
+  border-radius: 4;
+  height: auto;
+}
+
+.card {
+  padding: 16;
+  border-radius: 4;
+  height: 110;
+}
+
+.card-title {
+  font-size: 16;
+}
+
+.card-subtitle {
+  font-size: 14;
+}
+
+.card-category {
+  font-size: 10;
+  text-transform: uppercase;
+}

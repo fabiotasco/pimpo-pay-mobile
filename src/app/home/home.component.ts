@@ -14,18 +14,23 @@ import { TransactionService } from '../services/trasaction.service';
   styleUrls: ['./home.component.css']
 })
 export class HomePageComponent implements OnInit {
+  actionTitle: string = 'Extrato';
+  userData$: Observable<UserData>;
 
-  userData$:Observable<UserData>;
-
-  constructor(private page: Page, private routes: RouterExtensions, private accountService: AccountService,private transactionService:TransactionService) {}
+  constructor(
+    private page: Page,
+    private routes: RouterExtensions,
+    private accountService: AccountService,
+    private transactionService: TransactionService
+  ) {}
 
   ngOnInit() {
-    this.page.actionBarHidden = true;
     this.userData$ = this.accountService.userData$;
     this.transactionService.getBalance();
   }
 
-  navigateToPage(index: number): void {
-    this.routes.navigate([redirectTo(index)], { clearHistory: true });
+  navigateToPage(tab: any): void {
+    this.actionTitle = tab.tabName;
+    this.routes.navigate([redirectTo(tab.tabIndex)], { clearHistory: true });
   }
 }

@@ -21,9 +21,9 @@ export class BalancePageComponent implements OnInit {
     this.lista = [
       { name: 'Maique', description: 'Rosa da silva' },
       { name: 'Maique', description: 'Rosa da silva' },
+      { name: 'Maique', description: 'Rosa da silva' },
       { name: 'Maique', description: 'Rosa da silva' }
     ];
-    this.page.actionBarHidden = true;
     this.transactions$ = this.transactionService.transactions$;
   }
 

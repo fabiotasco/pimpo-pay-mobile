@@ -11,6 +11,5 @@ export class TransferPageComponent implements OnInit {
   constructor(private page:Page) {}
 
   ngOnInit() {
-    this.page.actionBarHidden = true;
   }
 }

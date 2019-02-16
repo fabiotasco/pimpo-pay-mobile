@@ -3,7 +3,7 @@ export interface Purchase{
         amount: number;
         currency: string;
         installments: number;
-        plan: "Prepaid";
+        plan: string;
         destinationAccount: {
             hash: string;
         },

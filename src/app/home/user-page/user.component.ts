@@ -11,6 +11,5 @@ export class UserPageComponent implements OnInit {
   constructor(private page:Page) {}
 
   ngOnInit() {
-    this.page.actionBarHidden = true;
   }
 }

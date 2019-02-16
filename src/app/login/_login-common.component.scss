@@ -1,0 +1,75 @@
+@import '../../app-common';
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page {
+  align-items: center;
+  flex-direction: column;
+  font-weight: 300;
+  background-color: $principal;
+}
+
+.form {
+  margin-left:16;
+  margin-right: 16;
+  flex-grow: 2;
+  vertical-align: middle;
+}
+
+.logo {
+  margin-bottom: 12;
+  font-weight: bold;
+}
+
+.header {
+  text-align: center;
+  font-size: 25;
+  margin-bottom: 70;
+  font-weight: 700;
+}
+
+.input-field {
+  border-width: 0 0 1 0;
+  border-color: #fff;
+  padding: 5 0 0 0;
+}
+
+.input {
+  placeholder-color: #fff;
+  color:#fff;
+  padding-top: 15;
+  padding-left: 5;
+}
+
+.error-label {
+  color: #f83754;
+  font-size: 14;
+  font-weight: 300;
+  padding: 10 5;
+}
+
+.capitalize {
+  text-transform: uppercase;
+}
+
+.login-label {
+  horizontal-align: center;
+  font-size: 15;
+  font-weight: 300;
+  color: $light;
+}
+
+.sign-up-label {
+  margin-bottom: 20;
+}
+.bold {
+  color: #212121;
+  font-weight: 300;
+}
+
+
