@@ -15,6 +15,7 @@ import { NewAccountComponent } from './login/new-account/new-account.component';
 import { NgShadowModule } from 'nativescript-ng-shadow';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
+import { DetailTransactionComponent } from './home/balance-page/detail-transaction/detail-transaction.component';
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -29,8 +30,15 @@ import { SharedModule } from './shared/shared.module';
     NgShadowModule,
     DropDownModule
   ],
-  declarations: [AppComponent, LoginPageComponent, NewAccountComponent],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
+  declarations: [
+    AppComponent,
+    LoginPageComponent,
+    NewAccountComponent,
+    DetailTransactionComponent
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }
+  ],
   schemas: [NO_ERRORS_SCHEMA]
 })
 /*

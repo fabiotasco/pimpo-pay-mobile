@@ -24,7 +24,7 @@ registerElement('Fab', () => require('nativescript-floatingactionbutton').Fab);
     CreditPageComponent,
     BalancePageComponent,
     TransferPageComponent,
-    UserPageComponent
+    UserPageComponent,
   ],
   providers: [BarcodeScanner, { provide: LOCALE_ID, useValue: 'pt-BR' }],
   schemas: [NO_ERRORS_SCHEMA]

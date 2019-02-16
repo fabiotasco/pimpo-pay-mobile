@@ -28,7 +28,7 @@ export abstract class BaseService {
     return this.httpClient.action(`${this.endpointService}${url}`, data, headers);
   }
 
-  public deactivate(url, key: any, headers: any = {}): Observable<Object> {
-    return this.httpClient.deactivate(`${this.endpointService}${url}`, key, headers);
+  public deactivate(url:string, headers: any = {}): Observable<Object> {
+    return this.httpClient.deactivate(`${this.endpointService}${url}`, headers);
   }
 }

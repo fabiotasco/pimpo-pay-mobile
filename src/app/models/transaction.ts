@@ -4,6 +4,7 @@ export class Transaction {
   amount: number;
   currencyType: string;
   installments: number;
+  reasonCode: string;
   type: string;
   planType: string;
   status: string;
