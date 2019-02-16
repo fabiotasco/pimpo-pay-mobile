@@ -1,8 +1,23 @@
 <ActionBar class="action-bar bg-primary text-light">
-  <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
-    <Label [text]="actionTitle" class="action-title h1" color="#ffffff" verticalAlignment="middle"></Label>
+  <StackLayout
+    orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left"
+  >
+    <Label
+      [text]="actionTitle"
+      class="action-title h1"
+      color="#ffffff"
+      verticalAlignment="middle"
+    ></Label>
   </StackLayout>
-  <ActionItem ios.position="right" text="Sair" android.position="popup"> </ActionItem>
+  <ActionItem
+    ios.position="right"
+    (tap)="logOut()"
+    text="Sair"
+    android.position="popup"
+  >
+  </ActionItem>
 </ActionBar>
 
 <GridLayout rows="*,auto">
@@ -11,5 +26,8 @@
     <StackLayout> <router-outlet></router-outlet> </StackLayout>
   </GridLayout>
 
-  <PimpoBottomBar row="1" (tabSelected)="navigateToPage($event)"></PimpoBottomBar>
+  <PimpoBottomBar
+    row="1"
+    (tabSelected)="navigateToPage($event)"
+  ></PimpoBottomBar>
 </GridLayout>

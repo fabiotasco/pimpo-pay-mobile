@@ -3,7 +3,6 @@ import { Page, View } from 'tns-core-modules/ui/page/page';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction } from '~/app/models/transaction';
 import { TransactionStatus } from '~/app/utils/variables';
-import { RouterExtensions } from 'nativescript-angular/router';
 
 import { TransactionService } from '~/app/services/trasaction.service';
 import {
@@ -13,6 +12,7 @@ import {
   alert
 } from 'tns-core-modules/ui/dialogs/dialogs';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   selector: 'ns-detail-transaction',
