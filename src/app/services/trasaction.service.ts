@@ -6,6 +6,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Deposit } from '../models/deposit';
 import { Transaction } from '../models/transaction';
+import { Transfer } from '../models/transfer';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService extends BaseService {
@@ -24,6 +25,16 @@ export class TransactionService extends BaseService {
 
   executePurchase(purchase: Purchase): Observable<any> {
     return this.save('/purchase', purchase).pipe(
+      tap((res: any) => {
+        if (res.success) {
+          this.getBalance();
+        }
+      })
+    );
+  }
+
+  executeTransfer(transfer: Transfer): Observable<any> {
+    return this.save('/transfer', transfer).pipe(
       tap((res: any) => {
         if (res.success) {
           this.getBalance();

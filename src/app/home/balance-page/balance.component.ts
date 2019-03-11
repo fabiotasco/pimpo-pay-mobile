@@ -1,17 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { Page, View } from "tns-core-modules/ui/page/page";
-import { Transaction } from "~/app/models/transaction";
-import { TransactionService } from "~/app/services/trasaction.service";
-import { Observable } from "rxjs";
-import { ListView } from "ui/list-view";
-import * as dialogs from "tns-core-modules/ui/dialogs";
-import { RouterExtensions } from "nativescript-angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Page, View } from 'tns-core-modules/ui/page/page';
+import { Transaction } from '~/app/models/transaction';
+import { TransactionService } from '~/app/services/trasaction.service';
+import { Observable } from 'rxjs';
+import { ListView } from 'ui/list-view';
+import * as dialogs from 'tns-core-modules/ui/dialogs';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   moduleId: module.id,
-  selector: "BalancePage",
-  templateUrl: "./balance.component.html",
-  styleUrls: ["./balance.component.css"]
+  selector: 'BalancePage',
+  templateUrl: './balance.component.html',
+  styleUrls: ['./balance.component.css']
 })
 export class BalancePageComponent implements OnInit {
   transactions$: Observable<Transaction[]>;
@@ -36,14 +36,14 @@ export class BalancePageComponent implements OnInit {
   cancelTransaction(index: number): void {
     dialogs
       .confirm({
-        title: "Cancelar Transação",
-        message: "Deseja realmente cancelar esta transação?",
-        okButtonText: "Sim",
-        cancelButtonText: "Cancelar"
+        title: 'Cancelar Transação',
+        message: 'Deseja realmente cancelar esta transação?',
+        okButtonText: 'Sim',
+        cancelButtonText: 'Cancelar'
       })
       .then(result => {
         if (result) {
-          dialogs.alert("Transação foi cancelada e seu saldo atualizado");
+          dialogs.alert('Transação foi cancelada e seu saldo atualizado');
         } else {
         }
       });
@@ -51,8 +51,9 @@ export class BalancePageComponent implements OnInit {
 
   getTransactionType(type: string): void {
     const types = {
-      Purchase: "Compra",
-      Deposit: "Depósito"
+      Purchase: 'Compra',
+      Deposit: 'Depósito',
+      Transfer: 'Transferencia'
     };
 
     return types[type];
@@ -60,8 +61,8 @@ export class BalancePageComponent implements OnInit {
 
   getPaymentType(payment: string) {
     const paymentTypes = {
-      Prepaid: "Débito",
-      Credit: "Crédito"
+      Prepaid: 'Débito',
+      Credit: 'Crédito'
     };
 
     return paymentTypes[payment];
@@ -73,7 +74,7 @@ export class BalancePageComponent implements OnInit {
     view.animate({ scale: { x: 1.1, y: 1.1 }, duration: 100 }).then(() => {
       view.animate({ scale: { x: 1, y: 1 }, duration: 100 });
       const transactionString = JSON.stringify(item);
-      this.router.navigate(["detail"], {
+      this.router.navigate(['detail'], {
         queryParams: {
           transaction: transactionString
         }
