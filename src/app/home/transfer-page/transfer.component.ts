@@ -6,7 +6,7 @@ import { TransactionService } from '~/app/services/trasaction.service';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
 import { AndroidData, ShapeEnum } from 'nativescript-ng-shadow';
 import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layout';
-import { Button } from 'ui/button';
+import { Button } from 'tns-core-modules/ui/button';
 import { Plan } from '~/app/models/plan';
 import { UserData } from '~/app/models/user-data';
 import * as moment from 'moment';
