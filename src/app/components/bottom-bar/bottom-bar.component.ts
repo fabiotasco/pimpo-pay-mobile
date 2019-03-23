@@ -1,6 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { AnimationCurve } from 'ui/enums';
 import { screen } from 'platform';
+import * as storage from 'nativescript-localstorage';
+import { ACCESS, AccessType } from '~/app/utils/variables';
 
 @Component({
   moduleId: module.id,
@@ -11,17 +20,23 @@ import { screen } from 'platform';
 export class BottomBarComponent implements OnInit {
   @ViewChild('tabHighlight') tabHighlight: ElementRef;
   selectedTab: number = 0;
+  acessType: string;
 
   @ViewChild('image1') image1: ElementRef;
   @ViewChild('image2') image2: ElementRef;
   @ViewChild('image3') image3: ElementRef;
   @ViewChild('image4') image4: ElementRef;
   @ViewChild('image5') image5: ElementRef;
+  transactionName: string;
 
   @Output() tabSelected = new EventEmitter<any>();
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.acessType = storage.getItem(ACCESS);
+    this.transactionName =
+      this.acessType === AccessType.BUSINESS ? 'Venda' : 'Compra';
+  }
 
   selectTab(index: number, tabName: string) {
     let previousTab = this.selectedTab;
@@ -38,8 +53,8 @@ export class BottomBarComponent implements OnInit {
     }
   }
 
-  getImage(index) {
-    let currentImage;
+  getImage(index: any) {
+    let currentImage: any;
     switch (index) {
       case 0:
         currentImage = this.image1;

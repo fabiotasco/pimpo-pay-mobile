@@ -12,8 +12,8 @@ import { UserData } from '~/app/models/user-data';
 import { Purchase } from '~/app/models/purchase';
 import * as moment from 'moment';
 import { PositionChevron } from '~/app/utils/variables';
-
-
+import * as storage from 'nativescript-localstorage';
+import { ACCESS, AccessType } from '~/app/utils/variables';
 
 @Component({
   moduleId: module.id,
@@ -52,6 +52,8 @@ export class BuyPageComponent implements OnInit {
   public transactionFinish = false;
   public transactionSuccess = false;
   public errorMessage: string;
+  public transactionName: string;
+  public acessType: string;
 
   constructor(
     private page: Page,
@@ -62,6 +64,10 @@ export class BuyPageComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
+    this.acessType = storage.getItem(ACCESS);
+    this.transactionName =
+      this.acessType === AccessType.BUSINESS ? 'Venda' : 'Compra';
+
     this.accountService.userData$.subscribe((user: UserData) => {
       this.myHolderNumber = user.phones[0].number;
     });
@@ -77,9 +83,11 @@ export class BuyPageComponent implements OnInit {
   public finalizeTrasaction(btnId: string): void {
     this.isLoading = true;
     const view: Button = this.page.getViewById(btnId);
-    view.animate({ backgroundColor: new Color('#ff77a9'), duration: 200 }).then(() => {
-      view.animate({ backgroundColor: new Color('#ec407a'), duration: 200 });
-    });
+    view
+      .animate({ backgroundColor: new Color('#ff77a9'), duration: 200 })
+      .then(() => {
+        view.animate({ backgroundColor: new Color('#ec407a'), duration: 200 });
+      });
 
     const purchase: Purchase = {
       amount: this.selectedValue,
@@ -99,7 +107,7 @@ export class BuyPageComponent implements OnInit {
       this.isLoading = false;
       this.transactionFinish = true;
       this.transactionSuccess = res.success;
-      if(!this.transactionSuccess){
+      if (!this.transactionSuccess) {
         this.errorMessage = res.errors[0].message;
       }
     });
@@ -213,7 +221,6 @@ export class BuyPageComponent implements OnInit {
       });
   }
 
-
   private executeAnimation(view: View): void {
     if (this.actualPosition === PositionChevron.CLOSE) {
       this.actualPosition = PositionChevron.OPEN;
@@ -237,8 +244,14 @@ export class BuyPageComponent implements OnInit {
           this.showPlanCard = false;
           this.excuteAnimationOfCards(viewToAnimate);
           if (accountCardView && planCardView) {
-            accountCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
-            planCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
+            accountCardView.animate({
+              backgroundColor: new Color('#5c605c'),
+              duration: 100
+            });
+            planCardView.animate({
+              backgroundColor: new Color('#5c605c'),
+              duration: 100
+            });
           }
         }
 
@@ -250,8 +263,14 @@ export class BuyPageComponent implements OnInit {
           this.showPlanCard = false;
           this.excuteAnimationOfCards(viewToAnimate);
           if (buyCardView && planCardView) {
-            buyCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
-            planCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
+            buyCardView.animate({
+              backgroundColor: new Color('#5c605c'),
+              duration: 100
+            });
+            planCardView.animate({
+              backgroundColor: new Color('#5c605c'),
+              duration: 100
+            });
           }
         }
         break;
@@ -262,8 +281,14 @@ export class BuyPageComponent implements OnInit {
           this.showBuyCard = false;
           this.excuteAnimationOfCards(viewToAnimate);
           if (buyCardView && accountCardView) {
-            accountCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
-            buyCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
+            accountCardView.animate({
+              backgroundColor: new Color('#5c605c'),
+              duration: 100
+            });
+            buyCardView.animate({
+              backgroundColor: new Color('#5c605c'),
+              duration: 100
+            });
           }
         }
 
@@ -275,6 +300,9 @@ export class BuyPageComponent implements OnInit {
   }
 
   private excuteAnimationOfCards(viewToAnimate: View): void {
-    viewToAnimate.animate({ backgroundColor: new Color('#ffffff'), duration: 100 });
+    viewToAnimate.animate({
+      backgroundColor: new Color('#ffffff'),
+      duration: 100
+    });
   }
 }

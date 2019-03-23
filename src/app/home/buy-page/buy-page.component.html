@@ -22,7 +22,8 @@
       orientation="horizontal"
     >
       <StackLayout col="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout class="circle" backgroundColor="#009900" marginRight="8"> </StackLayout>
+        <StackLayout class="circle" backgroundColor="#009900" marginRight="8">
+        </StackLayout>
         <Label
           (tap)="cardClick('buyCard')"
           text="Valor"
@@ -55,11 +56,17 @@
       orientation="horizontal"
     >
       <StackLayout row="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout id="buyCard" class="circle" backgroundColor="#ffffff" marginRight="8" (tap)="cardClick('buyCard')">
+        <StackLayout
+          id="buyCard"
+          class="circle"
+          backgroundColor="#ffffff"
+          marginRight="8"
+          (tap)="cardClick('buyCard')"
+        >
         </StackLayout>
         <Label
           (tap)="cardClick('buyCard')"
-          text="Digite o valor da compra"
+          text="Digite o valor"
           class="text-bold"
           fontSize="16"
           paddingTop="4"
@@ -67,7 +74,7 @@
         ></Label>
       </StackLayout>
 
-     <!--  <TextField
+      <!--  <TextField
         *ngIf="showBuyCard"
         marginTop="16"
         [(ngModel)]="selectedValue"
@@ -113,7 +120,8 @@
       orientation="horizontal"
     >
       <StackLayout col="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout class="circle" backgroundColor="#009900" marginRight="8"> </StackLayout>
+        <StackLayout class="circle" backgroundColor="#009900" marginRight="8">
+        </StackLayout>
         <Label
           (tap)="cardClick('buyCard')"
           text="Conta Destino"
@@ -124,7 +132,14 @@
         ></Label>
       </StackLayout>
 
-      <Label col="1" [text]="selectedAccount" class="text-bold" fontSize="16" paddingTop="4" textWrap="true"></Label>
+      <Label
+        col="1"
+        [text]="selectedAccount"
+        class="text-bold"
+        fontSize="16"
+        paddingTop="4"
+        textWrap="true"
+      ></Label>
     </GridLayout>
     <GridLayout
       row="1"
@@ -139,7 +154,13 @@
       orientation="horizontal"
     >
       <StackLayout row="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout id="accountCard" class="circle" marginRight="8" (tap)="cardClick('accountCard')"> </StackLayout>
+        <StackLayout
+          id="accountCard"
+          class="circle"
+          marginRight="8"
+          (tap)="cardClick('accountCard')"
+        >
+        </StackLayout>
         <Label
           text="Informe a conta"
           class="text-bold"
@@ -150,19 +171,59 @@
         ></Label>
       </StackLayout>
 
-      <GridLayout *ngIf="showAccountCard" row="1" rows="*,*" paddingTop="8" paddingBottom="8" marginTop="16">
+      <GridLayout
+        *ngIf="showAccountCard"
+        row="1"
+        rows="*,*"
+        paddingTop="8"
+        paddingBottom="8"
+        marginTop="16"
+      >
         <GridLayout row="0" columns="*,auto" (tap)="scanCode()">
-          <Label col="0" text="Ler Qr Code" class="body" fontSize="16" textWrap="true"></Label>
-          <Image id="chevron-qrcode" col="1" [src]="menuChevron" width="24"></Image>
+          <Label
+            col="0"
+            text="Ler Qr Code"
+            class="body"
+            fontSize="16"
+            textWrap="true"
+          ></Label>
+          <Image
+            id="chevron-qrcode"
+            col="1"
+            [src]="menuChevron"
+            width="24"
+          ></Image>
         </GridLayout>
       </GridLayout>
 
-      <StackLayout *ngIf="showAccountCard" row="2" class="hr-light"> </StackLayout>
+      <StackLayout *ngIf="showAccountCard" row="2" class="hr-light">
+      </StackLayout>
 
-      <GridLayout *ngIf="showAccountCard" row="3" rows="*,*" paddingBottom="8" marginTop="8">
-        <GridLayout row="0" columns="*,auto" (tap)="phoneFieldClick($event, 'chevron-phone')">
-          <Label col="0" text="Digitar Telefone" class="body" fontSize="16" textWrap="true"></Label>
-          <Image id="chevron-phone" col="1" [src]="menuChevron" width="24"></Image>
+      <GridLayout
+        *ngIf="showAccountCard"
+        row="3"
+        rows="*,*"
+        paddingBottom="8"
+        marginTop="8"
+      >
+        <GridLayout
+          row="0"
+          columns="*,auto"
+          (tap)="phoneFieldClick($event, 'chevron-phone')"
+        >
+          <Label
+            col="0"
+            text="Digitar Telefone"
+            class="body"
+            fontSize="16"
+            textWrap="true"
+          ></Label>
+          <Image
+            id="chevron-phone"
+            col="1"
+            [src]="menuChevron"
+            width="24"
+          ></Image>
         </GridLayout>
 
         <StackLayout row="1" col="0" colSpan="2" *ngIf="showPhoneNumberField">
@@ -204,7 +265,8 @@
       orientation="horizontal"
     >
       <StackLayout col="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout class="circle" backgroundColor="#009900" marginRight="8"> </StackLayout>
+        <StackLayout class="circle" backgroundColor="#009900" marginRight="8">
+        </StackLayout>
         <Label
           (tap)="cardClick('buyCard')"
           text="Plano"
@@ -217,7 +279,11 @@
 
       <Label
         col="1"
-        [text]="selectedPlan.name === 'Prepaid' ? 'Pré Pago' : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'"
+        [text]="
+          selectedPlan.name === 'Prepaid'
+            ? 'Pré Pago'
+            : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'
+        "
         class="text-bold"
         fontSize="16"
         paddingTop="4"
@@ -238,7 +304,13 @@
       orientation="horizontal"
     >
       <StackLayout row="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout id="planCard" class="circle" marginRight="8" (tap)="cardClick('planCard')"> </StackLayout>
+        <StackLayout
+          id="planCard"
+          class="circle"
+          marginRight="8"
+          (tap)="cardClick('planCard')"
+        >
+        </StackLayout>
         <Label
           text="Informe o plano"
           class="text-bold"
@@ -262,10 +334,31 @@
       ></Label>
       <StackLayout *ngIf="showPlanCard" row="2" class="hr-light"> </StackLayout>
 
-      <GridLayout *ngIf="showPlanCard" row="3" rows="*,*" paddingTop="8" paddingBottom="8">
-        <GridLayout row="0" columns="*,auto" (tap)="posPagClick($event, 'chevron-installment')">
-          <Label col="0" text="Pós Pago" class="body" fontSize="16" textWrap="true"></Label>
-          <Image id="chevron-installment" col="1" [src]="menuChevron" width="24"></Image>
+      <GridLayout
+        *ngIf="showPlanCard"
+        row="3"
+        rows="*,*"
+        paddingTop="8"
+        paddingBottom="8"
+      >
+        <GridLayout
+          row="0"
+          columns="*,auto"
+          (tap)="posPagClick($event, 'chevron-installment')"
+        >
+          <Label
+            col="0"
+            text="Pós Pago"
+            class="body"
+            fontSize="16"
+            textWrap="true"
+          ></Label>
+          <Image
+            id="chevron-installment"
+            col="1"
+            [src]="menuChevron"
+            width="24"
+          ></Image>
         </GridLayout>
 
         <StackLayout row="1" col="0" colSpan="2" *ngIf="showInstallmentField">
@@ -301,18 +394,38 @@
   </GridLayout>
 
   <GridLayout rows="*,auto" *ngIf="transactionFinish && !isLoading">
-    <GridLayout row="0" rows="auto,*,auto,*,*" paddingBottom="60" marginLeft="16" marginRight="16" marginTop="16">
+    <GridLayout
+      row="0"
+      rows="auto,*,auto,*,*"
+      paddingBottom="60"
+      marginLeft="16"
+      marginRight="16"
+      marginTop="16"
+    >
       <Label
         row="0"
-        text="RESUMO DA COMPRA"
+        [text]="'RESUMO DA ' + transactionName.toUpperCase()"
         class="text-bold m-y-10"
         fontSize="16"
         textWrap="true"
         paddingBottom="16"
       ></Label>
 
-      <GridLayout shadow="2" row="1" rows="*,auto,*,auto,*" columns="*,auto" padding="16">
-        <Label padding="8" row="0" col="0" text="Valor" textWrap="true" fontSize="16"></Label>
+      <GridLayout
+        shadow="2"
+        row="1"
+        rows="*,auto,*,auto,*"
+        columns="*,auto"
+        padding="16"
+      >
+        <Label
+          padding="8"
+          row="0"
+          col="0"
+          text="Valor"
+          textWrap="true"
+          fontSize="16"
+        ></Label>
         <Label
           padding="8"
           row="0"
@@ -322,9 +435,17 @@
           class="text-bold"
           textWrap="true"
         ></Label>
-        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
+        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light">
+        </StackLayout>
 
-        <Label row="2" col="0" padding="8" text="Cliente" textWrap="true" fontSize="16"></Label>
+        <Label
+          row="2"
+          col="0"
+          padding="8"
+          text="Cliente"
+          textWrap="true"
+          fontSize="16"
+        ></Label>
         <Label
           row="2"
           col="1"
@@ -334,16 +455,28 @@
           class="text-bold"
           fontSize="16"
         ></Label>
-        <StackLayout row="3" padding="8" col="0" colSpan="2" class="hr-light"> </StackLayout>
+        <StackLayout row="3" padding="8" col="0" colSpan="2" class="hr-light">
+        </StackLayout>
 
-        <Label padding="8" row="4" col="0" text="Plano" textWrap="true" fontSize="16"></Label>
+        <Label
+          padding="8"
+          row="4"
+          col="0"
+          text="Plano"
+          textWrap="true"
+          fontSize="16"
+        ></Label>
         <Label
           row="4"
           col="1"
           class="text-bold"
           fontSize="16"
           padding="8"
-          [text]="selectedPlan.name === 'Prepaid' ? 'Pré Pago' : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'"
+          [text]="
+            selectedPlan.name === 'Prepaid'
+              ? 'Pré Pago'
+              : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'
+          "
           textWrap="true"
         ></Label>
       </GridLayout>
@@ -359,10 +492,15 @@
       <StackLayout row="2" class="hr-light m-t-30"> </StackLayout>
 
       <StackLayout row="3" class="text-center" marginTop="16">
-        <StackLayout class="circle approved" [ngClass]="transactionSuccess ? 'approved bg-success' : 'rejected'">
+        <StackLayout
+          class="circle approved"
+          [ngClass]="transactionSuccess ? 'approved bg-success' : 'rejected'"
+        >
         </StackLayout>
         <Label
-          [text]="transactionSuccess ? 'Compra Aprovada' : errorMessage"
+          [text]="
+            transactionSuccess ? transactionName + ' Aprovada' : errorMessage
+          "
           padding="8"
           fontSize="20"
           class="text-bold"
@@ -382,7 +520,17 @@
     </StackLayout>
   </GridLayout>
 
-  <FlexboxLayout *ngIf="isLoading" flexDirection="column" justifyContent="center" alignItems="center">
-    <ActivityIndicator width="100" height="100" [busy]="isLoading" class="activity-indicator"></ActivityIndicator>
+  <FlexboxLayout
+    *ngIf="isLoading"
+    flexDirection="column"
+    justifyContent="center"
+    alignItems="center"
+  >
+    <ActivityIndicator
+      width="100"
+      height="100"
+      [busy]="isLoading"
+      class="activity-indicator"
+    ></ActivityIndicator>
   </FlexboxLayout>
 </ScrollView>

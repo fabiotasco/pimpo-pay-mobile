@@ -38,8 +38,8 @@ export class LoginPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.username = '11564763722';
-    this.password = '123456';
+    this.username = '48328826000100';
+    this.password = 'kayrossxp';
     this.page.actionBarHidden = true;
     this.optionsType = ['CPF', 'CNPJ'];
     this.operatorlist = mobileOperatorList().map(item => {

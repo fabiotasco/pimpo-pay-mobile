@@ -8,6 +8,8 @@ declare var android: any;
 
 /* Endpoints enviroments */
 
+export const ACCESS = 'accesss';
+
 export const endpoint: string = 'http://35.243.251.185:8080/api';
 //export const endpoint:string = 'http://pimpopay.com/api';
 
@@ -73,6 +75,11 @@ export const adjustDecimal = (nr: number, decimal: number): number => {
 export enum PositionChevron {
   CLOSE = 0,
   OPEN = -90
+}
+
+export enum AccessType {
+  BUSINESS = 'Business',
+  PERSONAL = 'Personal'
 }
 
 export enum TransactionStatus {

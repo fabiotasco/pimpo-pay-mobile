@@ -3,9 +3,19 @@
     <StackLayout class="form">
       <image class="logo" width="300" src="res://logo"></image>
       <GridLayout *ngIf="!showRegister" rows="auto,auto">
-        <FlexboxLayout row="1" flexDirection="column" marginLeft="16" marginRight="16" marginBottom="0">
+        <FlexboxLayout
+          row="1"
+          flexDirection="column"
+          marginLeft="16"
+          marginRight="16"
+          marginBottom="0"
+        >
           <StackLayout orientation="horizontal" class="input-field">
-            <image width="24" src="res://baseline_person_white_24" class="m-r-5"></image>
+            <image
+              width="24"
+              src="res://baseline_person_white_24"
+              class="m-r-5"
+            ></image>
             <TextField
               hint="CPF ou CNPJ"
               [(ngModel)]="username"
@@ -17,113 +27,53 @@
           </StackLayout>
 
           <StackLayout orientation="horizontal" class="input-field">
-            <image width="24" src="res://baseline_lock_white_24" class="m-r-5"></image>
-            <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
+            <image
+              width="24"
+              src="res://baseline_lock_white_24"
+              class="m-r-5"
+            ></image>
+            <TextField
+              hint="Password"
+              class="input"
+              secure="true"
+              [(ngModel)]="password"
+            ></TextField>
           </StackLayout>
         </FlexboxLayout>
       </GridLayout>
 
-      <GridLayout *ngIf="showRegister" rows="auto,auto,auto,auto,auto,auto">
-        <StackLayout row="0" class="input-field">
-          <DropDown
-            #typeDropdown
-            hint="Tipo de conta"
-            class="input"
-            [items]="optionsType"
-            [(ngModel)]="type"
-          ></DropDown>
-          <StackLayout class="hr-light"> </StackLayout>
-          <label *ngIf="errorMessage.type" [text]="errorMessage.type" class="error-label" textWrap="true"></label>
-        </StackLayout>
-
-        <StackLayout row="1" class="input-field">
-          <TextField
-            hint="Documento"
-            [(ngModel)]="username"
-            class="input"
-            autocorrect="false"
-            keyboardType="phone"
-            autocapitalizationType="none"
-          ></TextField>
-          <StackLayout class="hr-light"> </StackLayout>
-          <label
-            *ngIf="errorMessage.username"
-            [text]="errorMessage.username"
-            class="error-label"
-            textWrap="true"
-          ></label>
-        </StackLayout>
-
-        <StackLayout row="2" class="input-field">
-          <DropDown
-            #typeDropdown
-            hint="Operadora"
-            class="input capitalize"
-            [items]="operatorlist"
-            [(ngModel)]="operator"
-          ></DropDown>
-          <StackLayout class="hr-light"> </StackLayout>
-          <label
-            *ngIf="errorMessage.operator"
-            [text]="errorMessage.operator"
-            class="error-label"
-            textWrap="true"
-          ></label>
-        </StackLayout>
-
-        <StackLayout row="3" class="input-field">
-          <TextField
-            hint="Celular"
-            [(ngModel)]="phoneNumber"
-            class="input"
-            autocorrect="false"
-            keyboardType="phone"
-          ></TextField>
-          <StackLayout class="hr-light"> </StackLayout>
-          <label
-            *ngIf="errorMessage.phoneNumber"
-            [text]="errorMessage.phoneNumber"
-            class="error-label"
-            textWrap="true"
-          ></label>
-        </StackLayout>
-
-        <StackLayout row="4" class="input-field">
-          <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
-          <StackLayout class="hr-light"> </StackLayout>
-          <label
-            *ngIf="errorMessage.password"
-            [text]="errorMessage.password"
-            class="error-label"
-            textWrap="true"
-          ></label>
-        </StackLayout>
-
-        <StackLayout row="5" class="input-field">
-          <TextField hint="Confirme o password" class="input" secure="true" [(ngModel)]="confirmPassword"></TextField>
-          <StackLayout class="hr-light"> </StackLayout>
-          <label
-            *ngIf="errorMessage.confirmPassword"
-            [text]="errorMessage.confirmPassword"
-            class="error-label"
-            textWrap="true"
-          ></label>
-        </StackLayout>
-      </GridLayout>
-
       <button
-        [text]="showRegister ? 'Registrar' : 'Entrar'"
+        [text]="proccessing ? 'Autenticando...' : 'Entrar'"
         (tap)="submitLogin()"
         class="btn  btn-secondary"
         [isEnabled]="!proccessing"
       ></button>
-      <label *ngIf="!showRegister" text="Esqueceu a senha?" class="login-label"></label>
-      <label *ngIf="showRegister" text="Voltar" (tap)="showRegister = false" class="login-label"></label>
+      <label
+        *ngIf="!showRegister"
+        text="Esqueceu a senha?"
+        class="login-label"
+      ></label>
+      <label
+        *ngIf="showRegister"
+        text="Voltar"
+        (tap)="showRegister = false"
+        class="login-label"
+      ></label>
     </StackLayout>
 
     <StackLayout orientation="horizontal">
-      <label class="login-label sign-up-label" text="Não tem conta? " (tap)="showRegisterForm($event)"> </label>
-      <Label text="Cadastre-se aqui" class="text-secondary" (tap)="showRegisterForm($event)" textWrap="true"></Label>
+      <label
+        class="login-label sign-up-label"
+        text="Não tem conta? "
+        (tap)="showRegisterForm($event)"
+      >
+      </label>
+      <Label
+        text="Cadastre-se aqui"
+        class="text-secondary"
+        (tap)="showRegisterForm($event)"
+        textWrap="true"
+      ></Label>
     </StackLayout>
   </FlexboxLayout>
 </ScrollView>

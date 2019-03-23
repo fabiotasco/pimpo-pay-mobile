@@ -67,7 +67,16 @@
         ></Label>
       </StackLayout>
 
-      <TextField
+      <TextFieldCurrency
+      *ngIf="showBuyCard"
+      marginTop="16"
+      [(ngModel)]="selectedValue"
+      hint="0,00"
+      row="1"
+      className="input-transaction"
+    ></TextFieldCurrency>
+
+     <!--  <TextField
         *ngIf="showBuyCard"
         marginTop="16"
         [(ngModel)]="selectedValue"
@@ -76,7 +85,7 @@
         row="1"
         class="input-transaction"
       ></TextField>
-
+ -->
       <button
         *ngIf="showBuyCard"
         row="2"
