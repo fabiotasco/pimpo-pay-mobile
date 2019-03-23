@@ -1,9 +1,10 @@
 {
-    "main": "main.js",
-    "android": {
-        "v8Flags": "--expose_gc"
-    },
-    "devDependencies": {
-        "@types/utf8": "^2.1.6"
-    }
+  "main": "main.js",
+  "android": {
+    "v8Flags": "--expose_gc",
+    "markingMode": "none"
+  },
+  "devDependencies": {
+    "@types/utf8": "^2.1.6"
+  }
 }

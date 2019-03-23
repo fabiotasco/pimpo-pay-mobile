@@ -5,9 +5,9 @@
       <Image #image1 src="res://baseline_menu_white_24" row="0" ></Image>
       <Label text="Extrato" class="text-center" row="1" textWrap="true"></Label>
     </GridLayout>
-    <GridLayout rows="*,*" col="1" (tap)="selectTab(1,'Compra')" paddingTop="10">
+    <GridLayout rows="*,*" col="1" (tap)="selectTab(1,transactionName)" paddingTop="10">
       <Image #image2 src="res://baseline_shopping_basket_white_24" row="0" ></Image>
-      <Label text="Comprar" class="text-center" row="1" textWrap="true"></Label>
+      <Label [text]="transactionName" class="text-center" row="1" textWrap="true"></Label>
     </GridLayout>
     <GridLayout rows="*,*" col="2" (tap)="selectTab(2,'Deposito')" paddingTop="10">
       <Image #image3 src="res://baseline_attach_money_white_24" row="0"></Image>

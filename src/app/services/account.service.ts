@@ -4,7 +4,7 @@ import { HttpClientCustom } from '../core/http-client-custom.service';
 import { Credentials } from '../models/credentials';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { GlobalEventService } from './global-event.service';
-import { btoa } from '../utils/variables';
+import { btoa, ACCESS } from '../utils/variables';
 import { tap } from 'rxjs/operators';
 import * as storage from 'nativescript-localstorage';
 import { Enroll } from '../models/enroll';
@@ -16,7 +16,6 @@ const CREDENTIALS = 'credentials';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService extends BaseService {
-  
   private subject = new BehaviorSubject(new UserData());
   userData$: Observable<UserData> = this.subject.asObservable();
 
@@ -32,10 +31,12 @@ export class AccountService extends BaseService {
     return this.action('/login', credential).pipe(
       tap(res => {
         if (res.success) {
-          this.saveSession(res.content.hash, credential);
+          this.saveSession(res.content, credential);
           this.subject.next(res.content);
         } else {
-          this.toastHepler.showToast(`${res.errors[0].code} ${res.errors[0].message} `);
+          this.toastHepler.showToast(
+            `${res.errors[0].code} ${res.errors[0].message}`
+          );
         }
       })
     );
@@ -60,14 +61,17 @@ export class AccountService extends BaseService {
     return this.save('/enroll', enroll).pipe(
       tap(res => {
         if (!res.success) {
-          this.toastHepler.showToast(`${res.errors[0].code} ${res.errors[0].message} `);
+          this.toastHepler.showToast(
+            `${res.errors[0].code} ${res.errors[0].message} `
+          );
         }
       })
     );
   }
 
-  private saveSession(hash: string, credential: Credentials): void {
-    storage.setItem(HASH, hash);
+  private saveSession(content: any, credential: Credentials): void {
+    storage.setItem(HASH, content.hash);
+    storage.setItem(ACCESS, content.contracts[0].contractType);
     storage.setItem(CREDENTIALS, btoa(credential));
     this.globalEvent.loggedIn.emit();
   }
