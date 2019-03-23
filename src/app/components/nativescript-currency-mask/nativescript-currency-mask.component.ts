@@ -1,6 +1,6 @@
 import { forwardRef, OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TextField } from 'ui/text-field';
+import { TextField } from 'tns-core-modules/ui/text-field';
 import { Page } from 'tns-core-modules/ui/page/page';
 
 @Component({

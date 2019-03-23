@@ -6,8 +6,8 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { AnimationCurve } from 'ui/enums';
-import { screen } from 'platform';
+import { AnimationCurve } from 'tns-core-modules/ui/enums';
+import { screen } from 'tns-core-modules/platform';
 import * as storage from 'nativescript-localstorage';
 import { ACCESS, AccessType } from '~/app/utils/variables';
 
