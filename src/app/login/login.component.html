@@ -3,9 +3,19 @@
     <StackLayout class="form">
       <image class="logo" width="300" src="res://logo"></image>
       <GridLayout *ngIf="!showRegister" rows="auto,auto">
-        <FlexboxLayout row="1" flexDirection="column" marginLeft="16" marginRight="16" marginBottom="0">
+        <FlexboxLayout
+          row="1"
+          flexDirection="column"
+          marginLeft="16"
+          marginRight="16"
+          marginBottom="0"
+        >
           <StackLayout orientation="horizontal" class="input-field">
-            <image width="24" src="res://baseline_person_white_24" class="m-r-5"></image>
+            <image
+              width="24"
+              src="res://baseline_person_white_24"
+              class="m-r-5"
+            ></image>
             <TextField
               hint="CPF ou CNPJ"
               [(ngModel)]="username"
@@ -17,8 +27,17 @@
           </StackLayout>
 
           <StackLayout orientation="horizontal" class="input-field">
-            <image width="24" src="res://baseline_lock_white_24" class="m-r-5"></image>
-            <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
+            <image
+              width="24"
+              src="res://baseline_lock_white_24"
+              class="m-r-5"
+            ></image>
+            <TextField
+              hint="Password"
+              class="input"
+              secure="true"
+              [(ngModel)]="password"
+            ></TextField>
           </StackLayout>
         </FlexboxLayout>
       </GridLayout>
@@ -29,13 +48,32 @@
         class="btn  btn-secondary"
         [isEnabled]="!proccessing"
       ></button>
-      <label *ngIf="!showRegister" text="Esqueceu a senha?" class="login-label"></label>
-      <label *ngIf="showRegister" text="Voltar" (tap)="showRegister = false" class="login-label"></label>
+      <label
+        *ngIf="!showRegister"
+        text="Esqueceu a senha?"
+        class="login-label"
+      ></label>
+      <label
+        *ngIf="showRegister"
+        text="Voltar"
+        (tap)="showRegister = false"
+        class="login-label"
+      ></label>
     </StackLayout>
 
     <StackLayout orientation="horizontal">
-      <label class="login-label sign-up-label" text="Não tem conta? " (tap)="showRegisterForm($event)"> </label>
-      <Label text="Cadastre-se aqui" class="text-secondary" (tap)="showRegisterForm($event)" textWrap="true"></Label>
+      <label
+        class="login-label sign-up-label"
+        text="Não tem conta? "
+        (tap)="showRegisterForm($event)"
+      >
+      </label>
+      <Label
+        text="Cadastre-se aqui"
+        class="text-secondary"
+        (tap)="showRegisterForm($event)"
+        textWrap="true"
+      ></Label>
     </StackLayout>
   </FlexboxLayout>
 </ScrollView>
