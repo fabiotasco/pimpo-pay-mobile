@@ -1,0 +1,14 @@
+<TextField
+  [hint]="hint"
+  [row]="row"
+  [class]="className"
+  [col]="col"
+  [colSpan]="colSpan"
+  [isEnabled]="isEnabled"
+  (blur)="focusOut($event)"
+  id="fieldValue"
+  [fontSize]="fontSize"
+  [text]="inputValue"
+  keyboardType="phone"
+  (textChange)="changeValue($event)"
+></TextField>

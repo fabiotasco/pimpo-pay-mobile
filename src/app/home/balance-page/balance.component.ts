@@ -53,7 +53,7 @@ export class BalancePageComponent implements OnInit {
     const types = {
       Purchase: 'Compra',
       Deposit: 'Depósito',
-      Transfer: 'Transferencia'
+      Transfer: 'Transferência'
     };
 
     return types[type];

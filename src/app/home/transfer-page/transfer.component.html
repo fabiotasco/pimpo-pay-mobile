@@ -227,14 +227,12 @@
         </GridLayout>
 
         <StackLayout row="1" col="0" colSpan="2" *ngIf="showPhoneNumberField">
-          <TextField
-            hint="Digite o telefone"
+          <TextFieldPhone
+            hint="Insira o DDD e o número de telefone"
             [(ngModel)]="selectedAccount"
-            keyboardType="phone"
-            fontSize1="18"
-            class="input-transaction"
-            text=""
-          ></TextField>
+            [fontSize]="18"
+            className="input-transaction"
+          ></TextFieldPhone>
         </StackLayout>
       </GridLayout>
 
@@ -291,7 +289,7 @@
       ></Label>
     </GridLayout> -->
 
-   <!--  <GridLayout
+    <!--  <GridLayout
       row="2"
       *ngIf="!planOk"
       rows="*,*,*,*"

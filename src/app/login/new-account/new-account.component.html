@@ -1,8 +1,18 @@
 <ActionBar class="action-bar bg-primary text-light">
-  <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
-    <Label text="Criar Conta" class="action-title" color="#ffffff" verticalAlignment="middle"></Label>
+  <StackLayout
+    orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left"
+  >
+    <Label
+      text="Criar Conta"
+      class="action-title"
+      color="#ffffff"
+      verticalAlignment="middle"
+    ></Label>
   </StackLayout>
-  <ActionItem ios.position="right" text="Sair" android.position="popup"> </ActionItem>
+  <ActionItem ios.position="right" text="Sair" android.position="popup">
+  </ActionItem>
 </ActionBar>
 
 <ScrollView>
@@ -27,16 +37,29 @@
         orientation="horizontal"
       >
         <GridLayout row="0" rows="*,*" paddingTop="8" paddingBottom="8">
-          <GridLayout row="0" columns="*,auto" (tap)="showMobileOperatorList($event, 'chevron-installment')">
+          <GridLayout
+            row="0"
+            columns="*,auto"
+            (tap)="showMobileOperatorList($event, 'chevron-installment')"
+          >
             <Label
               col="0"
               marginLeft="4"
               [text]="selectedOperator"
-              [class]="isSubmit && !enrollFormErrors.operator.valid ? 'text-danger' : 'text-muted'"
+              [class]="
+                isSubmit && !enrollFormErrors.operator.valid
+                  ? 'text-danger'
+                  : 'text-muted'
+              "
               fontSize="16"
               textWrap="true"
             ></Label>
-            <Image id="chevron-installment" col="1" src="res://baseline_chevron_left_black_24" width="24"></Image>
+            <Image
+              id="chevron-installment"
+              col="1"
+              src="res://baseline_chevron_left_black_24"
+              width="24"
+            ></Image>
           </GridLayout>
 
           <StackLayout row="1" paddingLeft="4" *ngIf="showOperatorList">
@@ -77,7 +100,8 @@
           </StackLayout>
         </GridLayout>
 
-        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8"> </StackLayout>
+        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8">
+        </StackLayout>
 
         <TextFieldDocument
           [id]="'phoneNumber'"
@@ -85,8 +109,12 @@
           keyboardType="phone"
           #phone="ngModel"
           [type]="'phone'"
-          [class]="phone.invalid && isSubmit ? 'input-transaction error' : 'input-transaction'"
-          hint="DIGITE O NÚMERO DO CELULAR"
+          [class]="
+            phone.invalid && isSubmit
+              ? 'input-transaction error'
+              : 'input-transaction'
+          "
+          hint="Insira o DDD e o número de telefone"
           [required]="'required'"
           name="phone"
           [(ngModel)]="phoneNumber"
@@ -95,7 +123,13 @@
     </StackLayout>
 
     <StackLayout row="1">
-      <Label text="DOCUMENTO" marginBottom="16" marginTop="16" class="h3 text-muted text-bold" textWrap="true"></Label>
+      <Label
+        text="DOCUMENTO"
+        marginBottom="16"
+        marginTop="16"
+        class="h3 text-muted text-bold"
+        textWrap="true"
+      ></Label>
 
       <GridLayout
         rows="*,*,*"
@@ -108,16 +142,29 @@
         orientation="horizontal"
       >
         <GridLayout row="0" rows="*,*" paddingTop="8" paddingBottom="8">
-          <GridLayout row="0" columns="*,auto" (tap)="showDocumentList($event, 'chevron-document')">
+          <GridLayout
+            row="0"
+            columns="*,auto"
+            (tap)="showDocumentList($event, 'chevron-document')"
+          >
             <Label
               col="0"
               marginLeft="4"
               [text]="selectDocument"
-              [class]="isSubmit && !enrollFormErrors.documentType.valid ? 'text-danger' : 'text-muted'"
+              [class]="
+                isSubmit && !enrollFormErrors.documentType.valid
+                  ? 'text-danger'
+                  : 'text-muted'
+              "
               fontSize="16"
               textWrap="true"
             ></Label>
-            <Image id="chevron-document" col="1" src="res://baseline_chevron_left_black_24" width="24"></Image>
+            <Image
+              id="chevron-document"
+              col="1"
+              src="res://baseline_chevron_left_black_24"
+              width="24"
+            ></Image>
           </GridLayout>
 
           <StackLayout row="1" paddingLeft="4" *ngIf="showDocument">
@@ -142,17 +189,20 @@
           </StackLayout>
         </GridLayout>
 
-        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8"> </StackLayout>
+        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8">
+        </StackLayout>
 
         <TextFieldDocument
           [id]="'documentNumber'"
           [row]="2"
           [type]="documentType"
           [className]="
-            !enrollFormErrors.documentNumber.valid && isSubmit ? 'input-transaction error' : 'input-transaction'
+            !enrollFormErrors.documentNumber.valid && isSubmit
+              ? 'input-transaction error'
+              : 'input-transaction'
           "
           [required]="'required'"
-          [hint]="'DIGITE O NÚMERO DO DOCUMENTO'"
+          [hint]="'Digite o número do documento'"
           name="document"
           [(ngModel)]="documentNumber"
         ></TextFieldDocument>
@@ -172,7 +222,13 @@
     </StackLayout>
 
     <StackLayout row="2">
-      <Label text="SENHA" marginBottom="16" marginTop="16" class="h3 text-muted text-bold" textWrap="true"></Label>
+      <Label
+        text="SENHA"
+        marginBottom="16"
+        marginTop="16"
+        class="h3 text-muted text-bold"
+        textWrap="true"
+      ></Label>
 
       <GridLayout
         rows="*,*,*"
@@ -189,15 +245,20 @@
           row="0"
           secure="true"
           required
-          hint="DIGITE SUA SENHA"
+          hint="Digite sua senha"
           name="password"
           #pass="ngModel"
-          [class]="pass.invalid && isSubmit ? 'input-transaction error' : 'input-transaction'"
+          [class]="
+            pass.invalid && isSubmit
+              ? 'input-transaction error'
+              : 'input-transaction'
+          "
           class="input-transaction"
           text=""
         ></TextField>
 
-        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8"> </StackLayout>
+        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8">
+        </StackLayout>
 
         <TextField
           [(ngModel)]="confirmPassword"
@@ -206,10 +267,11 @@
           #confirm="ngModel"
           row="2"
           secure="true"
-          hint="CONFIRME SUA SENHA"
+          hint="Confirme sua senha"
           class="input-transaction"
           [class]="
-            (confirm.invalid || !enrollFormErrors.confirmPassword.valid) && isSubmit
+            (confirm.invalid || !enrollFormErrors.confirmPassword.valid) &&
+            isSubmit
               ? 'input-transaction error'
               : 'input-transaction'
           "

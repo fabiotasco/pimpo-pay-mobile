@@ -23,6 +23,7 @@
  	<uses-feature android:name="android.hardware.camera.autofocus" />
 
 	<application
+		android:usesCleartextTraffic="true"
 		android:name="com.tns.NativeScriptApplication"
 		android:allowBackup="true"
 		android:icon="@drawable/icon"
