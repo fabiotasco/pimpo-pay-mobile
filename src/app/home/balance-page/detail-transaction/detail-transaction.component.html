@@ -100,7 +100,7 @@
 
       <Label
         row="2"
-        text="COMPRA"
+        [text]="transactionType.toUpperCase()"
         class="text-bold m-y-10"
         fontSize="16"
         textWrap="true"
@@ -179,6 +179,7 @@
       </GridLayout>
 
       <Label
+        *ngIf="!isDeposit"
         row="4"
         text="ESTABELECIMENTO COMERCIAL"
         class="text-bold m-y-10"
@@ -187,6 +188,7 @@
         paddingTop="16"
       ></Label>
       <GridLayout
+        *ngIf="!isDeposit"
         shadow="2"
         row="5"
         rows="*,auto,*,auto,*"

@@ -7,9 +7,14 @@ import { NgShadowModule } from 'nativescript-ng-shadow';
 import { CurrencyMaskPtComponent } from '../components/nativescript-currency-mask/nativescript-currency-mask.component';
 import { NativescriptDocumentMaskComponent } from '../components/nativescript-document-mask/nativescript-document-mask.component';
 import { FormsModule } from '@angular/forms';
+import { PhoneMaskComponent } from '../components/nativescript-phone-mask/nativescript-phone-mask.component';
 
 @NgModule({
-  declarations: [CurrencyMaskPtComponent, NativescriptDocumentMaskComponent],
+  declarations: [
+    CurrencyMaskPtComponent,
+    NativescriptDocumentMaskComponent,
+    PhoneMaskComponent
+  ],
   imports: [
     NativeScriptCommonModule,
     BottomModule,
@@ -26,7 +31,8 @@ import { FormsModule } from '@angular/forms';
     NativeScriptFormsModule,
     NgShadowModule,
     CurrencyMaskPtComponent,
-    NativescriptDocumentMaskComponent
+    NativescriptDocumentMaskComponent,
+    PhoneMaskComponent
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
 import { Page, View } from 'tns-core-modules/ui/page/page';
 import { Credentials } from '../models/credentials';
 import { ToastHelperService } from '../core/toast-helper.service';
@@ -49,7 +55,6 @@ export class LoginPageComponent implements OnInit {
 
   submitLogin(): void {
     this.proccessing = true;
-
     if (this.showRegister) {
       this.register();
     } else {
@@ -108,7 +113,14 @@ export class LoginPageComponent implements OnInit {
             this.resetFields();
             this.toastHelper.showToast('Usuário cadastrado');
           } else {
-            this.toastHelper.showToast(`${res.errors[0].code} ${res.errors[0].message}`);
+            if (!res.errors[0]) {
+              this.toastHelper.showToast(
+                'Erro no servidor,por favor tente novamente.'
+              );
+            }
+            this.toastHelper.showToast(
+              `${res.errors[0].code} ${res.errors[0].message}`
+            );
             this.proccessing = false;
           }
         },

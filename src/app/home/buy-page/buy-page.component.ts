@@ -89,13 +89,16 @@ export class BuyPageComponent implements OnInit {
         view.animate({ backgroundColor: new Color('#ec407a'), duration: 200 });
       });
 
+    let destinationAccount: any = { hash: this.destinationHash };
+    if (!this.useQrCode) {
+      destinationAccount = { number: this.selectedAccount };
+    }
+
     const purchase: Purchase = {
       amount: this.selectedValue,
       currency: 'BRL',
       date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      destinationAccount: {
-        hash: this.destinationHash || this.selectedAccount
-      },
+      destinationAccount: destinationAccount,
       installments: this.selectedPlan.installments,
       plan: this.selectedPlan.name,
       holderAccount: {
@@ -132,6 +135,17 @@ export class BuyPageComponent implements OnInit {
       this.toastHelper.showToast('Informe o valor da compra');
       return;
     }
+
+    if (!this.selectedAccount) {
+      this.toastHelper.showToast('Informe a conta destino');
+      return;
+    }
+    debugger;
+    if (!this.useQrCode) {
+      this.selectedAccount =
+        '+55' + this.selectedAccount.replace('-', '').trim();
+    }
+
     this.accountOk = true;
     this.showAccountCard = false;
     this.showPlanCard = true;
@@ -182,6 +196,7 @@ export class BuyPageComponent implements OnInit {
   public reenterAccount(): void {
     this.selectedAccount = null;
     this.showAccountCard = true;
+    this.useQrCode = false;
     this.accountOk = false;
 
     setTimeout(() => {

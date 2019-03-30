@@ -81,13 +81,16 @@ export class TransferPageComponent implements OnInit {
         view.animate({ backgroundColor: new Color('#ec407a'), duration: 200 });
       });
 
+    let destinationAccount: any = { hash: this.destinationHash };
+    if (!this.useQrCode) {
+      destinationAccount = { number: this.selectedAccount };
+    }
+
     const transfer: Transfer = {
       amount: this.selectedValue,
       currency: 'BRL',
       date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      destinationAccount: {
-        hash: this.destinationHash || this.selectedAccount
-      },
+      destinationAccount: destinationAccount,
       holderAccount: {
         number: this.myHolderNumber
       }
@@ -122,6 +125,17 @@ export class TransferPageComponent implements OnInit {
       this.toastHelper.showToast('Informe o valor para transferir');
       return;
     }
+
+    if (!this.selectedAccount) {
+      this.toastHelper.showToast('Informe a conta destino');
+      return;
+    }
+
+    if (!this.useQrCode) {
+      this.selectedAccount =
+        '+55' + this.selectedAccount.replace('-', '').trim();
+    }
+
     this.accountOk = true;
     this.showAccountCard = false;
     this.showPlanCard = true;
@@ -172,6 +186,7 @@ export class TransferPageComponent implements OnInit {
   public reenterAccount(): void {
     this.selectedAccount = null;
     this.showAccountCard = true;
+    this.useQrCode = false;
     this.accountOk = false;
 
     setTimeout(() => {
