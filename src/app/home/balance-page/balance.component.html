@@ -1,9 +1,19 @@
-
 <ScrollView class="bg-light" height="100%">
   <FlexboxLayout class="gutters" flexDirection="column" paddingBottom="80">
-    <Label text="SALDO" class="text-bold m-y-10" fontSize="16" textWrap="true"></Label>
+    <Label
+      text="SALDO"
+      class="text-bold m-y-10"
+      fontSize="16"
+      textWrap="true"
+    ></Label>
 
-    <GridLayout columns="*,auto" verticalAlignment="middle" shadow="1" marginBottom="16" orientation="horizontal">
+    <GridLayout
+      columns="*,auto"
+      verticalAlignment="middle"
+      shadow="1"
+      marginBottom="16"
+      orientation="horizontal"
+    >
       <Label
         text="Conta Corrente"
         fontSize="15"
@@ -20,11 +30,32 @@
       ></Label>
     </GridLayout>
 
-    <Label text="EXTRATO" class="text-bold m-y-10" fontSize="16" textWrap="true"></Label>
+    <Label
+      text="EXTRATO"
+      class="text-bold m-y-10"
+      fontSize="16"
+      textWrap="true"
+    ></Label>
 
-    <StackLayout *ngFor="let item of (transactions$ | async)" marginBottom="16" shadow="1">
-      <GridLayout rows="*,*,*" columns="auto,*,auto" (tap)="onItemTap($event,item)" class="card-list">
-        <StackLayout col="0" row="0" rowSpan="3" class="thumbnail sm" marginRight="16"> </StackLayout>
+    <StackLayout
+      *ngFor="let item of (transactions$ | async)"
+      marginBottom="16"
+      shadow="1"
+    >
+      <GridLayout
+        rows="*,*,*"
+        columns="auto,*,auto"
+        (tap)="onItemTap($event, item)"
+        class="card-list"
+      >
+        <StackLayout
+          col="0"
+          row="0"
+          rowSpan="3"
+          class="thumbnail sm"
+          marginRight="16"
+        >
+        </StackLayout>
 
         <Label
           [nsTransactionType]
@@ -45,10 +76,12 @@
 
         <Label
           verticalAlignment="middle"
-          [class]="item.type === 'Purchase' ? 'text-danger text-bold' : 'text-bold'"
+          [class]="getTypeCssClass(item)"
           [text]="
-            item.type === 'Purchase'
-              ? ('-' + item.amount | currency: 'BRL':'symbol')
+            item.status === 'Cancelled'
+              ? '+ ' + (item.amount | currency: 'BRL':'symbol')
+              : item.type === 'Purchase'
+              ? '-' + (item.amount | currency: 'BRL':'symbol')
               : (item.amount | currency: 'BRL':'symbol')
           "
           row="0"
@@ -60,7 +93,7 @@
 
         <Label
           class="text-right card-subtitle"
-          [text]="getPaymentType(item.planType)"
+          [text]="getPaymentType(item)"
           row="1"
           col="2"
           rowSpan="2"

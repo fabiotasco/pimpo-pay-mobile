@@ -140,7 +140,6 @@ export class BuyPageComponent implements OnInit {
       this.toastHelper.showToast('Informe a conta destino');
       return;
     }
-    debugger;
     if (!this.useQrCode) {
       this.selectedAccount =
         '+55' + this.selectedAccount.replace('-', '').trim();

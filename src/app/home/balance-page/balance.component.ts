@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ListView } from 'tns-core-modules/ui/list-view';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
 import { RouterExtensions } from 'nativescript-angular/router';
+import { TransactionStatus } from '~/app/utils/variables';
 
 @Component({
   moduleId: module.id,
@@ -49,7 +50,7 @@ export class BalancePageComponent implements OnInit {
       });
   }
 
-  getTransactionType(type: string): void {
+  public getTransactionType(type: string): void {
     const types = {
       Purchase: 'Compra',
       Deposit: 'Depósito',
@@ -59,16 +60,33 @@ export class BalancePageComponent implements OnInit {
     return types[type];
   }
 
-  getPaymentType(payment: string) {
+  public getPaymentType(item: any) {
     const paymentTypes = {
       Prepaid: 'Débito',
       Credit: 'Crédito'
     };
+    const type =
+      item.status === TransactionStatus.CANCELLED
+        ? 'Cancelada'
+        : item.status === TransactionStatus.DENIED
+        ? 'Negada'
+        : paymentTypes[item.planType];
 
-    return paymentTypes[payment];
+    return type;
   }
 
-  onItemTap(event: any, item: Transaction): void {
+  public getTypeCssClass(item: any): string {
+    const className =
+      item.status === TransactionStatus.CANCELLED
+        ? 'text-success text-bold'
+        : item.type === 'Purchase'
+        ? 'text-danger text-bold'
+        : 'text-bold';
+
+    return className;
+  }
+
+  public onItemTap(event: any, item: Transaction): void {
     const view: View = event.view;
 
     view.animate({ scale: { x: 1.1, y: 1.1 }, duration: 100 }).then(() => {
