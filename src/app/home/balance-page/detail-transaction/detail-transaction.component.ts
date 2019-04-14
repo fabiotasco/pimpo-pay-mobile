@@ -39,7 +39,11 @@ export class DetailTransactionComponent implements OnInit {
       this.transaction = JSON.parse(params['transaction']);
 
       this.transactionType =
-        this.transaction.type === 'Deposit' ? 'Depósito' : 'Compra';
+        this.transaction.type === 'Deposit'
+          ? 'Depósito'
+          : this.transaction.type === 'Transfer'
+          ? 'Transferência'
+          : 'Compra';
       this.isDeposit = this.transaction.type === 'Deposit';
     });
   }
@@ -68,6 +72,7 @@ export class DetailTransactionComponent implements OnInit {
           .subscribe(res => {
             if (res.success) {
               this.toast.showToast('Transaçao Cancelada');
+              this.trasactionService.getBalance();
               this.router.back();
               return;
             }

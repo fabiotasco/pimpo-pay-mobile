@@ -395,7 +395,7 @@
     <GridLayout
       row="0"
       rows="auto,*,auto,*,*"
-      paddingBottom="60"
+      paddingBottom="30"
       marginLeft="16"
       marginRight="16"
       marginTop="16"
@@ -490,11 +490,18 @@
       <StackLayout row="2" class="hr-light m-t-30"> </StackLayout>
 
       <StackLayout row="3" class="text-center" marginTop="16">
-        <StackLayout
+        <FlexboxLayout
           class="circle approved"
+          justifyContent="center"
+          alignItens="center"
           [ngClass]="transactionSuccess ? 'approved bg-success' : 'rejected'"
         >
-        </StackLayout>
+          <Image
+            [src]="transactionSuccess ? 'res://ok' : 'res://close'"
+            width="64"
+          ></Image>
+        </FlexboxLayout>
+
         <Label
           [text]="
             transactionSuccess ? transactionName + ' Aprovada' : errorMessage
@@ -508,14 +515,14 @@
       </StackLayout>
     </GridLayout>
 
-    <StackLayout row="1">
-      <FAB
-        (tap)="newTransaction()"
-        icon="res://baseline_autorenew_white_48"
-        rippleColor="#ff77a9"
-        class="fab-button"
-      ></FAB>
-    </StackLayout>
+    <FAB
+      row="1"
+      *ngIf="!transactionSuccess"
+      (tap)="newTransaction()"
+      icon="res://baseline_autorenew_white_48"
+      rippleColor="#ff77a9"
+      class="fab-button"
+    ></FAB>
   </GridLayout>
 
   <FlexboxLayout

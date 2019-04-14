@@ -52,8 +52,8 @@
         ></Label>
         <StackLayout
           *ngIf="
-            transaction.status.toUpperCase() === transactionStatus.DENIED ||
-            transaction.status.toUpperCase() === transactionStatus.CANCELLED
+            transaction.status === transactionStatus.DENIED ||
+            transaction.status === transactionStatus.CANCELLED
           "
           class="hr-light"
           row="1"
@@ -64,8 +64,8 @@
         <Label
           padding="8"
           *ngIf="
-            transaction.status.toUpperCase() === transactionStatus.DENIED ||
-            transaction.status.toUpperCase() === transactionStatus.CANCELLED
+            transaction.status === transactionStatus.DENIED ||
+            transaction.status === transactionStatus.CANCELLED
           "
           row="2"
           col="0"
@@ -77,8 +77,8 @@
 
         <StackLayout
           *ngIf="
-            transaction.status.toUpperCase() === transactionStatus.DENIED ||
-            transaction.status.toUpperCase() === transactionStatus.CANCELLED
+            transaction.status === transactionStatus.DENIED ||
+            transaction.status === transactionStatus.CANCELLED
           "
           padding="8"
           row="2"
@@ -86,7 +86,7 @@
         >
           <Label
             fontSize="16"
-            [text]="transaction.reasonCode"
+            [text]="transaction.reasonCode || 'TXT-0000'"
             class="text-bold"
             textWrap="true"
           ></Label>
@@ -181,7 +181,11 @@
       <Label
         *ngIf="!isDeposit"
         row="4"
-        text="ESTABELECIMENTO COMERCIAL"
+        [text]="
+          transaction.type === 'Transfer'
+            ? 'Conta Destino'
+            : 'ESTABELECIMENTO COMERCIAL'
+        "
         class="text-bold m-y-10"
         fontSize="16"
         textWrap="true"
@@ -237,6 +241,7 @@
 
       <Button
         row="6"
+        *ngIf="transaction.status !== 'Cancelled'"
         id="btnCancel"
         (tap)="cancelTransaction()"
         text="Cancelar"

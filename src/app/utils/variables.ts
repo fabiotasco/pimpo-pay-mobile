@@ -83,22 +83,22 @@ export enum AccessType {
 }
 
 export enum TransactionStatus {
-  AUTHORIZED = 'AUTHORIZED',
+  AUTHORIZED = 'Authorized',
   /** Negada */
-  DENIED = 'DENIED',
+  DENIED = 'Denied',
 
   /** Cancelada */
-  CANCELLED = 'CANCELLED',
+  CANCELLED = 'Cancelled',
 
   /** Liquidada */
-  SETTLED = 'SETTLED',
+  SETTLED = 'Settled',
 
   /** Disputada */
-  DISPUTED = 'DISPUTED',
+  DISPUTED = 'Disputed',
 
   /** Disputa respondida */
-  DISPUTE_RESPONDED = 'DISPUTE_RESPONDED',
+  DISPUTE_RESPONDED = 'Dispute_Responded',
 
   /** Arbitrada */
-  ARBITRATED = 'ARBITRATED'
+  ARBITRATED = 'Arbitrated'
 }
