@@ -116,7 +116,7 @@ export class HttpClientCustom {
   }
 
   private errorHandler(err) {
-    this.toastHelper.showToast(`${err.status} ${err.statusText}`);
+    this.toastHelper.showToast(`${err.statusText}`);
     return err.message;
   }
 }

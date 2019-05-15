@@ -1,12 +1,17 @@
-@import "~nativescript-theme-core/scss/light";
-
+@import '~nativescript-theme-core/scss/light';
+@import './colors';
 // Customize any of the theme’s variables here, for instance $btn-color: red;
+$blue: #1e98d4;
+$lightBlue: #54b7ce;
+$orange: #f76b00;
+$pink: #d41e98;
+$pink-light: #ff77a9;
+$pink-dark: #b4004e;
 
+$primary: $blue;
+$secondary: $pink; 
 // Import the theme’s main ruleset.
-@import "~nativescript-theme-core/scss/index";
-
-@import "~nativescript-theme-core/css/core.light.css";
-@import "./colors";
+@import '~nativescript-theme-core/scss/index';
 
 .fab-button {
   height: 60;
@@ -26,7 +31,7 @@
 }
 
 .btn {
-  border-radius: 8;
+  border-radius: 5;
   text-transform: uppercase;
 }
 
@@ -126,13 +131,12 @@
 .card-list {
   padding: 8 16;
   border-radius: 4;
-  height: auto;
 }
 
 .card {
   padding: 16;
   border-radius: 4;
-  height: 110;
+  height: 120;
 }
 
 .card-title {
@@ -161,12 +165,17 @@
 }
 
 .circle {
-  width: 30;
-  height: 30;
+  width: 20;
+  height: 20;
   border-radius: 50%;
   border-width: 1;
   border-color: $light;
   background-color: $gray-light;
+}
+
+.active {
+  border-color: $primary;
+  background-color: $lightBlue;
 }
 
 .input-transaction {
@@ -183,7 +192,7 @@
 }
 
 .btn-transaction {
-  width: 80;
+  width: 100;
   height: 40;
   font-size: 12;
 }
@@ -213,4 +222,12 @@
 .error {
   color: $redError;
   placeholder-color: $redError;
+}
+
+.input {
+  placeholder-color: #fff;
+  color: #fff;
+  padding-top: 15;
+  padding-left: 5;
+  width: 100%;
 }

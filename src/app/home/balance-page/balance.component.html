@@ -1,51 +1,82 @@
-
 <ScrollView class="bg-light" height="100%">
   <FlexboxLayout class="gutters" flexDirection="column" paddingBottom="80">
-    <Label text="SALDO" class="text-bold m-y-10" fontSize="16" textWrap="true"></Label>
+    <Label
+      text="SALDO"
+      class="text-bold"
+      textWrap="true"
+      marginBottom="8"
+    ></Label>
 
-    <GridLayout columns="*,auto" verticalAlignment="middle" shadow="1" marginBottom="16" orientation="horizontal">
+    <GridLayout
+      columns="*,auto"
+      verticalAlignment="middle"
+      shadow="1"
+      marginBottom="16"
+      orientation="horizontal"
+    >
       <Label
         text="Conta Corrente"
-        fontSize="15"
         col="0"
-        class="h4 text-uppercase text-complementary-dark gutters text-bold"
+        class="text-uppercase font-weight-bold gutters"
         textWrap="true"
       ></Label>
       <Label
         [text]="accountBalance$ | async | currency: 'BRL':'symbol'"
-        fontSize="15"
         col="1"
-        class="h4 text-uppercase text-complementary-dark gutters text-bold"
+        class="text-uppercase text-complementary-dark gutters text-bold"
         textWrap="true"
       ></Label>
     </GridLayout>
 
-    <Label text="EXTRATO" class="text-bold m-y-10" fontSize="16" textWrap="true"></Label>
+    <Label
+      text="EXTRATO"
+      class="text-bold"
+      textWrap="true"
+      marginBottom="8"
+    ></Label>
 
-    <StackLayout *ngFor="let item of (transactions$ | async)" marginBottom="16" shadow="1">
-      <GridLayout rows="*,*,*" columns="auto,*,auto" (tap)="onItemTap($event,item)" class="card-list">
-        <StackLayout col="0" row="0" rowSpan="3" class="thumbnail sm" marginRight="16"> </StackLayout>
+    <StackLayout
+      *ngFor="let item of transactions$ | async"
+      marginBottom="8"
+      shadow="1"
+    >
+      <GridLayout
+        rows="*,*"
+        columns="*,auto"
+        (tap)="onItemTap($event, item)"
+        class="card-list"
+      >
+        <!--  <StackLayout
+          col="0"
+          row="0"
+          rowSpan="3"
+          class="thumbnail sm"
+          marginRight="16"
+        >
+        </StackLayout> -->
 
         <Label
           [nsTransactionType]
           [text]="getTransactionType(item.type)"
-          col="1"
+          col="0"
           row="0"
-          [class]="'card-title text-bold text-complementary-dark'"
+          class="font-weight-bold"
           textWrap="true"
         ></Label>
+
         <Label
           [text]="item.date | date: 'dd/MM/yyyy HH:mm'"
-          class="card-subtitle"
-          col="1"
+          class="body"
+          col="0"
           row="1"
-          marginTop="4"
           textWrap="true"
         ></Label>
 
         <Label
           verticalAlignment="middle"
-          [class]="item.type === 'Purchase' ? 'text-danger text-bold' : 'text-bold'"
+          [class]="
+            item.type === 'Purchase' ? 'text-danger font-weight-bold' : 'font-weight-bold'
+          "
           [text]="
             item.type === 'Purchase'
               ? ('-' + item.amount | currency: 'BRL':'symbol')
@@ -58,7 +89,7 @@
           textWrap="true"
         ></Label>
 
-        <Label
+        <!-- <Label
           class="text-right card-subtitle"
           [text]="getPaymentType(item.planType)"
           row="1"
@@ -66,7 +97,7 @@
           rowSpan="2"
           marginTop="8"
           textWrap="true"
-        ></Label>
+        ></Label> -->
       </GridLayout>
     </StackLayout>
 

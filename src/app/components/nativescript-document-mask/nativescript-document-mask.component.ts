@@ -15,7 +15,8 @@ import { Page } from 'tns-core-modules/ui/page/page';
     }
   ]
 })
-export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAccessor {
+export class NativescriptDocumentMaskComponent
+  implements OnInit, ControlValueAccessor {
   @Input() className: string;
   @Input() type: DocumentType = DocumentType.CPF;
   @Input() row: number;
@@ -34,8 +35,22 @@ export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAc
 
   changeEvent(event: any) {
     let noFormatText: string = '';
+    let defaultValue;
     if (event.object.text) {
+      defaultValue = event.object.text;
       noFormatText = event.object.text.replace(/\D/g, '');
+    }
+
+    if (noFormatText.length <= 11 && this.type !== DocumentType.PHONE) {
+      this.type = DocumentType.CPF;
+    } else if (
+      noFormatText.length > 11 &&
+      noFormatText.length <= 15 &&
+      this.type !== DocumentType.PHONE
+    ) {
+      this.type = DocumentType.CNPJ;
+    } else if (this.type !== DocumentType.PHONE) {
+      return;
     }
 
     if (this.type === DocumentType.CPF) {
@@ -55,7 +70,8 @@ export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAc
 
   writeValue(obj: string): void {
     if (obj) {
-      this.value = obj.length === 11 ? this.formatToCpf(obj) : this.formatToCnpj(obj);
+      this.value =
+        obj.length === 11 ? this.formatToCpf(obj) : this.formatToCnpj(obj);
     }
   }
   registerOnChange(fn: any): void {
@@ -68,6 +84,15 @@ export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAc
     // todo
   }
 
+  public getMaxSize(): string {
+    const sizes = {
+      cpf: 18,
+      cnpj: 18,
+      phone: 13
+    };
+
+    return sizes[this.type.toString()];
+  }
   private formatToCpf(v: string): string {
     v = v.replace(/\D/g, ''); // Remove tudo o que não é dígito
     v = v.replace(/(\d{3})(\d)/, '$1.$2'); // Coloca um ponto entre o terceiro e o quarto dígitos

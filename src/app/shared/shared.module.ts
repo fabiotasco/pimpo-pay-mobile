@@ -7,16 +7,20 @@ import { NgShadowModule } from 'nativescript-ng-shadow';
 import { CurrencyMaskPtComponent } from '../components/nativescript-currency-mask/nativescript-currency-mask.component';
 import { NativescriptDocumentMaskComponent } from '../components/nativescript-document-mask/nativescript-document-mask.component';
 import { FormsModule } from '@angular/forms';
+import { ActionCardModule } from '../components/action-card/action-card.module';
+import { NativescriptMaskModule } from '../components/nativescript-currency-mask/nativescript-mask.module';
 
 @NgModule({
-  declarations: [CurrencyMaskPtComponent, NativescriptDocumentMaskComponent],
+  declarations: [NativescriptDocumentMaskComponent],
   imports: [
     NativeScriptCommonModule,
     BottomModule,
     HeaderBarModule,
     NativeScriptFormsModule,
     NgShadowModule,
-    FormsModule
+    FormsModule,
+    ActionCardModule,
+    NativescriptMaskModule
   ],
   exports: [
     NativeScriptCommonModule,
@@ -25,8 +29,9 @@ import { FormsModule } from '@angular/forms';
     HeaderBarModule,
     NativeScriptFormsModule,
     NgShadowModule,
-    CurrencyMaskPtComponent,
-    NativescriptDocumentMaskComponent
+    NativescriptDocumentMaskComponent,
+    ActionCardModule,
+    NativescriptMaskModule
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

@@ -71,14 +71,16 @@ export class BalancePageComponent implements OnInit {
   onItemTap(event: any, item: Transaction): void {
     const view: View = event.view;
 
-    view.animate({ scale: { x: 1.1, y: 1.1 }, duration: 100 }).then(() => {
-      view.animate({ scale: { x: 1, y: 1 }, duration: 100 });
-      const transactionString = JSON.stringify(item);
-      this.router.navigate(['detail'], {
-        queryParams: {
-          transaction: transactionString
-        }
+    view
+      .animate({ scale: { x: 1.05, y: 1.05 }, duration: 100 })
+      .then(() => {
+        view.animate({ scale: { x: 1, y: 1 }, duration: 100 });
+        const transactionString = JSON.stringify(item);
+        this.router.navigate(["detail"], {
+          queryParams: {
+            transaction: transactionString
+          }
+        });
       });
-    });
   }
 }

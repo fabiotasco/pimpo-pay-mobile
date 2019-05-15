@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
 import { Page, View } from 'tns-core-modules/ui/page/page';
 import { Credentials } from '../models/credentials';
 import { ToastHelperService } from '../core/toast-helper.service';
@@ -17,8 +23,8 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   optionsType: Array<string>;
   operatorlist: Array<string>;
-  username: string;
-  password: string;
+  username: string = '11564763722';
+  password: string = '123456';
   confirmPassword: string;
   type: string;
   operator: string;
@@ -38,8 +44,6 @@ export class LoginPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.username = '11564763722';
-    this.password = '123456';
     this.page.actionBarHidden = true;
     this.optionsType = ['CPF', 'CNPJ'];
     this.operatorlist = mobileOperatorList().map(item => {
@@ -69,7 +73,7 @@ export class LoginPageComponent implements OnInit {
   private doLogin() {
     if (this.username && this.password) {
       const credentials: Credentials = {
-        username: this.username,
+        username: this.username.replace('/D/g', ''),
         password: this.password
       };
       this.accountService.login(credentials).subscribe(
@@ -108,7 +112,9 @@ export class LoginPageComponent implements OnInit {
             this.resetFields();
             this.toastHelper.showToast('Usuário cadastrado');
           } else {
-            this.toastHelper.showToast(`${res.errors[0].code} ${res.errors[0].message}`);
+            this.toastHelper.showToast(
+              `${res.errors[0].code} ${res.errors[0].message}`
+            );
             this.proccessing = false;
           }
         },

@@ -1,24 +1,45 @@
 <ScrollView class="container" height="100%">
   <FlexboxLayout class="page" id="flexbox">
-    <StackLayout class="form">
-      <image class="logo" width="300" src="res://logo"></image>
+    <StackLayout class="form" paddingTop="24">
+      <image class="logo" width="250" src="res://logo"></image>
       <GridLayout *ngIf="!showRegister" rows="auto,auto">
-        <FlexboxLayout row="1" flexDirection="column" marginLeft="16" marginRight="16" marginBottom="0">
+        <FlexboxLayout
+          row="1"
+          flexDirection="column"
+          marginLeft="16"
+          marginRight="16"
+          marginBottom="0"
+        >
           <StackLayout orientation="horizontal" class="input-field">
-            <image width="24" src="res://baseline_person_white_24" class="m-r-5"></image>
-            <TextField
-              hint="CPF ou CNPJ"
+            <image
+              width="24"
+              src="res://baseline_person_white_24"
+              class="m-r-5"
+            ></image>
+
+            <TextFieldDocument
+              [id]="'documentNumber'"
+              [row]="2"
+              [type]="'cpf'"
+              [className]="'input'"
+              [hint]="'Usuário'"
+              name="document"
               [(ngModel)]="username"
-              class="input"
-              autocorrect="false"
-              keyboardType="phone"
-              autocapitalizationType="none"
-            ></TextField>
+            ></TextFieldDocument>
           </StackLayout>
 
           <StackLayout orientation="horizontal" class="input-field">
-            <image width="24" src="res://baseline_lock_white_24" class="m-r-5"></image>
-            <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
+            <image
+              width="24"
+              src="res://baseline_lock_white_24"
+              class="m-r-5"
+            ></image>
+            <TextField
+              hint="Password"
+              class="input"
+              secure="true"
+              [(ngModel)]="password"
+            ></TextField>
           </StackLayout>
         </FlexboxLayout>
       </GridLayout>
@@ -33,7 +54,12 @@
             [(ngModel)]="type"
           ></DropDown>
           <StackLayout class="hr-light"> </StackLayout>
-          <label *ngIf="errorMessage.type" [text]="errorMessage.type" class="error-label" textWrap="true"></label>
+          <label
+            *ngIf="errorMessage.type"
+            [text]="errorMessage.type"
+            class="error-label"
+            textWrap="true"
+          ></label>
         </StackLayout>
 
         <StackLayout row="1" class="input-field">
@@ -89,7 +115,12 @@
         </StackLayout>
 
         <StackLayout row="4" class="input-field">
-          <TextField hint="Password" class="input" secure="true" [(ngModel)]="password"></TextField>
+          <TextField
+            hint="Password"
+            class="input"
+            secure="true"
+            [(ngModel)]="password"
+          ></TextField>
           <StackLayout class="hr-light"> </StackLayout>
           <label
             *ngIf="errorMessage.password"
@@ -100,7 +131,12 @@
         </StackLayout>
 
         <StackLayout row="5" class="input-field">
-          <TextField hint="Confirme o password" class="input" secure="true" [(ngModel)]="confirmPassword"></TextField>
+          <TextField
+            hint="Confirme o password"
+            class="input"
+            secure="true"
+            [(ngModel)]="confirmPassword"
+          ></TextField>
           <StackLayout class="hr-light"> </StackLayout>
           <label
             *ngIf="errorMessage.confirmPassword"
@@ -117,13 +153,32 @@
         class="btn  btn-secondary"
         [isEnabled]="!proccessing"
       ></button>
-      <label *ngIf="!showRegister" text="Esqueceu a senha?" class="login-label"></label>
-      <label *ngIf="showRegister" text="Voltar" (tap)="showRegister = false" class="login-label"></label>
+      <label
+        *ngIf="!showRegister"
+        text="Esqueceu a senha?"
+        class="login-label"
+      ></label>
+      <label
+        *ngIf="showRegister"
+        text="Voltar"
+        (tap)="showRegister = false"
+        class="login-label"
+      ></label>
     </StackLayout>
 
     <StackLayout orientation="horizontal">
-      <label class="login-label sign-up-label" text="Não tem conta? " (tap)="showRegisterForm($event)"> </label>
-      <Label text="Cadastre-se aqui" class="text-secondary" (tap)="showRegisterForm($event)" textWrap="true"></Label>
+      <label
+        class="login-label sign-up-label"
+        text="Não tem conta? "
+        (tap)="showRegisterForm($event)"
+      >
+      </label>
+      <Label
+        text="Cadastre-se aqui"
+        class="text-secondary"
+        (tap)="showRegisterForm($event)"
+        textWrap="true"
+      ></Label>
     </StackLayout>
   </FlexboxLayout>
 </ScrollView>

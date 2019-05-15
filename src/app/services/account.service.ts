@@ -35,7 +35,7 @@ export class AccountService extends BaseService {
           this.saveSession(res.content.hash, credential);
           this.subject.next(res.content);
         } else {
-          this.toastHepler.showToast(`${res.errors[0].code} ${res.errors[0].message} `);
+          this.toastHepler.showToast(`${res.errors[0].message} `);
         }
       })
     );
@@ -60,7 +60,7 @@ export class AccountService extends BaseService {
     return this.save('/enroll', enroll).pipe(
       tap(res => {
         if (!res.success) {
-          this.toastHepler.showToast(`${res.errors[0].code} ${res.errors[0].message} `);
+          this.toastHepler.showToast(`${res.errors[0].message} `);
         }
       })
     );

@@ -1,3 +1,16 @@
 {
-
+  "workbench.editor.highlightModifiedTabs": true,
+  "editor.formatOnPaste": true,
+  "editor.fontLigatures": true,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontSize": 16,
+  "xml.fileAssociations": [
+    {
+      "systemId": "/home/desenv/projetos/frella/pimpo-pay-mobile/schema/tns.xsd",
+      "pattern": "**/**/*.xml"
+    }
+  ],
+  "files.exclude": {
+    "schema": true
+  }
 }

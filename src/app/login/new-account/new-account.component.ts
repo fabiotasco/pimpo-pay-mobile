@@ -81,7 +81,7 @@ export class NewAccountComponent implements OnInit {
         this.router.back();
         return;
       }
-      this.toast.showToast(res.errors[0].code + '-' + res.errors[0].message);
+      this.toast.showToast(res.errors[0].message);
     });
   }
 

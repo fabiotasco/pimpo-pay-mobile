@@ -8,6 +8,7 @@
   [required]="required"
   [text]="value"
   [ngClass]="className"
+  [maxlength]="getMaxSize()"
   class="text-left"
   (textChange)="changeEvent($event)"
 ></TextField>
