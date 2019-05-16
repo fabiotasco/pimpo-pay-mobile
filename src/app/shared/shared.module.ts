@@ -9,9 +9,10 @@ import { NativescriptDocumentMaskComponent } from '../components/nativescript-do
 import { FormsModule } from '@angular/forms';
 import { ActionCardModule } from '../components/action-card/action-card.module';
 import { NativescriptMaskModule } from '../components/nativescript-currency-mask/nativescript-mask.module';
+import { NativescriptDocumentMaskModule } from '../components/nativescript-document-mask/nativescript-document-mask.module';
 
 @NgModule({
-  declarations: [NativescriptDocumentMaskComponent],
+  declarations: [],
   imports: [
     NativeScriptCommonModule,
     BottomModule,
@@ -20,7 +21,8 @@ import { NativescriptMaskModule } from '../components/nativescript-currency-mask
     NgShadowModule,
     FormsModule,
     ActionCardModule,
-    NativescriptMaskModule
+    NativescriptMaskModule,
+    NativescriptDocumentMaskModule
   ],
   exports: [
     NativeScriptCommonModule,

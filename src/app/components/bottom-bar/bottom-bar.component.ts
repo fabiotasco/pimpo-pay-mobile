@@ -1,10 +1,17 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { AnimationCurve } from 'ui/enums';
 import { screen } from 'platform';
 
 @Component({
   moduleId: module.id,
-  selector: 'PimpoBottomBar',
+  selector: 'PimpoBottomBar,[PimpoBottomBar]',
   templateUrl: './bottom-bar.component.html',
   styleUrls: ['./bottom-bar.component.css']
 })

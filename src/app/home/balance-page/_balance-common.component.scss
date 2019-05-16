@@ -3,13 +3,3 @@
 .list-group-item {
   background: #ffffff;
 }
-
-.list-height {
-  height: 60%;
-}
-
-@media (min-height: 600) {
-  .list-height {
-    height: 300;
-  }
-}

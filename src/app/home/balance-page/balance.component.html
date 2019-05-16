@@ -1,4 +1,95 @@
-<ScrollView class="bg-light" height="100%">
+<GridLayout rows="auto,auto,*">
+  <StackLayout row="0" class="m-y-10 m-x-15">
+    <Label
+      text="Saldo"
+      class="text-uppercase font-weight-bold  "
+      textWrap="true"
+      marginBottom="8"
+    ></Label>
+
+    <GridLayout
+      columns="*,auto"
+      verticalAlignment="middle"
+      class="card-list"
+      orientation="horizontal"
+    >
+      <Label
+        text="Conta Corrente"
+        col="0"
+        class="text-uppercase font-weight-bold "
+        textWrap="true"
+      ></Label>
+      <Label
+        [text]="accountBalance$ | async | currency: 'BRL':'symbol'"
+        col="1"
+        class="text-uppercase font-weight-bold"
+        textWrap="true"
+      ></Label>
+    </GridLayout>
+  </StackLayout>
+
+  <Label
+    row="1"
+    text="Extrato"
+    class="text-uppercase font-weight-bold m-x-15 m-y-10"
+    textWrap="true"
+    marginBottom="8"
+  ></Label>
+
+  <ListView
+    row="2"
+    [items]="transactions$ | async"
+    (itemTap)="onItemTap($event)"
+    class="list-group m-x-15"
+  >
+    <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+      <GridLayout
+        rows="*,*"
+        columns="*,auto"
+        (tap)="onItemTap($event, item)"
+        class="card-list"
+      >
+        <Label
+          [nsTransactionType]
+          [text]="getTransactionType(item.type)"
+          col="0"
+          row="0"
+          class="font-weight-bold m-b-5"
+          textWrap="true"
+        ></Label>
+
+        <Label
+          [text]="item.date | date: 'dd/MM/yyyy HH:mm'"
+          class="body"
+          col="0"
+          row="1"
+          textWrap="true"
+        ></Label>
+
+        <Label
+          verticalAlignment="middle"
+          [class]="
+            item.type === 'Purchase'
+              ? 'text-danger font-weight-bold'
+              : 'font-weight-bold'
+          "
+          [text]="
+            item.type === 'Purchase'
+              ? ('-' + item.amount | currency: 'BRL':'symbol')
+              : (item.amount | currency: 'BRL':'symbol')
+          "
+          row="0"
+          col="2"
+          rowSpan="2"
+          class="text-bold text-primary"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+    </ng-template>
+  </ListView>
+</GridLayout>
+
+<!-- <ScrollView class="bg-light" height="100%">
   <FlexboxLayout class="gutters" flexDirection="column" paddingBottom="80">
     <Label
       text="SALDO"
@@ -46,15 +137,6 @@
         (tap)="onItemTap($event, item)"
         class="card-list"
       >
-        <!--  <StackLayout
-          col="0"
-          row="0"
-          rowSpan="3"
-          class="thumbnail sm"
-          marginRight="16"
-        >
-        </StackLayout> -->
-
         <Label
           [nsTransactionType]
           [text]="getTransactionType(item.type)"
@@ -75,7 +157,9 @@
         <Label
           verticalAlignment="middle"
           [class]="
-            item.type === 'Purchase' ? 'text-danger font-weight-bold' : 'font-weight-bold'
+            item.type === 'Purchase'
+              ? 'text-danger font-weight-bold'
+              : 'font-weight-bold'
           "
           [text]="
             item.type === 'Purchase'
@@ -88,21 +172,7 @@
           class="text-bold text-primary"
           textWrap="true"
         ></Label>
-
-        <!-- <Label
-          class="text-right card-subtitle"
-          [text]="getPaymentType(item.planType)"
-          row="1"
-          col="2"
-          rowSpan="2"
-          marginTop="8"
-          textWrap="true"
-        ></Label> -->
       </GridLayout>
     </StackLayout>
-
-    <!--  <StackLayout class="hr-light"> </StackLayout>
-
-    <Button text="ver todos" class="btn btn-link" horizontalAlignment="right"></Button> -->
   </FlexboxLayout>
-</ScrollView>
+</ScrollView> -->

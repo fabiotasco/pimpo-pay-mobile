@@ -1,18 +1,83 @@
-<GridLayout rows="*, *, *, *" colums="*, *, *, *">
-  <Label text="0, 0" row="0" col="0"></Label>
-  <Label text="0, 1" row="0" col="1"></Label>
-  <Label text="0, 2" row="0" col="2"></Label>
-  <Label text="0, 3" row="0" col="3"></Label>
-  <Label text="1, 0" row="1" col="0"></Label>
-  <Label text="1, 1" row="1" col="1"></Label>
-  <Label text="1, 2" row="1" col="2"></Label>
-  <Label text="1, 3" row="1" col="3"></Label>
-  <Label text="2, 0" row="2" col="0"></Label>
-  <Label text="2, 1" row="2" col="1"></Label>
-  <Label text="2, 2" row="2" col="2"></Label>
-  <Label text="2, 3" row="2" col="3"></Label>
-  <Label text="3, 0" row="3" col="0"></Label>
-  <Label text="3, 1" row="3" col="1"></Label>
-  <Label text="3, 2" row="3" col="2"></Label>
-  <Label text="3, 3" row="3" col="3"></Label>
+<GridLayout rows="auto,auto,auto">
+  <GridLayout
+    row="0"
+    rows="*"
+    columns="auto, *, *"
+    class="action-card"
+    padding="8"
+  >
+    <StackLayout class="circle active" row="0" col="0" marginRight="10">
+    </StackLayout>
+
+    <Label
+      text="Informe o Valor"
+      class="font-weight-bold"
+      row="0"
+      col="1"
+      paddingTop="12"
+      textWrap="true"
+    ></Label>
+
+    <TextFieldCurrency hint="0,00" row="0" col="2"> </TextFieldCurrency>
+  </GridLayout>
+
+  <GridLayout row="1" rows="*,*" columns="auto, *, *" class="action-card">
+    <StackLayout class="circle " row="0" col="0"> </StackLayout>
+
+    <Label
+      text="Informe a Conta"
+      class="font-weight-bold card-title"
+      row="0"
+      col="1"
+      textWrap="true"
+    ></Label>
+
+    <GridLayout
+      row="1"
+      col="0"
+      colSpan="3"
+      class="account-data"
+      columns="*,auto"
+    >
+      <TextFieldDocument
+        id="documentNumber"
+        hint="Telefone"
+        [type]="'cpf'"
+        [className]="'no-border-bottom'"
+        name="document"
+        [row]="0"
+        [col]="0"
+      >
+      </TextFieldDocument>
+
+      <FlexboxLayout
+        col="1"
+        class="btn-scan"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Image src="res://ic_qrcode_black_24dp" stretch="none"></Image>
+      </FlexboxLayout>
+    </GridLayout>
+  </GridLayout>
+
+  <GridLayout
+    row="2"
+    rows="*"
+    columns="auto, *, *"
+    class="action-card"
+    padding="8"
+  >
+    <StackLayout class="circle active" row="0" col="0" marginRight="10">
+    </StackLayout>
+
+    <Label
+      text="Forma de Pagamento"
+      class="font-weight-bold"
+      row="0"
+      col="1"
+      paddingTop="12"
+      textWrap="true"
+    ></Label>
+  </GridLayout>
 </GridLayout>

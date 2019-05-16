@@ -1,15 +1,10 @@
-<ActionBar class="action-bar bg-primary text-light">
+<ActionBar class="action-bar">
   <StackLayout
     orientation="horizontal"
     ios:horizontalAlignment="center"
     android:horizontalAlignment="left"
   >
-    <Label
-      [text]="actionTitle"
-      class="action-title h1"
-      color="#ffffff"
-      verticalAlignment="middle"
-    ></Label>
+    <Label [text]="actionTitle" class="action-title" verticalAlignment="middle"></Label>
   </StackLayout>
   <ActionItem
     ios.position="right"
@@ -21,13 +16,15 @@
 </ActionBar>
 
 <GridLayout rows="*,auto">
-  <GridLayout row="0">
-    <!-- <PimpoHeaderBar row="0" [username]="((userData$ | async)?.phones)[0].number"></PimpoHeaderBar> -->
-    <StackLayout> <router-outlet></router-outlet> </StackLayout>
-  </GridLayout>
+  <StackLayout row="0" class="bg-light">
+    <router-outlet></router-outlet>
+  </StackLayout>
 
-  <PimpoBottomBar
+  <StackLayout
     row="1"
+    PimpoBottomBar
+    dock="bottom"
     (tabSelected)="navigateToPage($event)"
-  ></PimpoBottomBar>
+  >
+  </StackLayout>
 </GridLayout>

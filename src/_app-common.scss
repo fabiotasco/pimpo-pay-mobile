@@ -1,4 +1,4 @@
-@import '~nativescript-theme-core/scss/light';
+@import '~nativescript-theme-core/scss/sky';
 @import './colors';
 // Customize any of the theme’s variables here, for instance $btn-color: red;
 $blue: #1e98d4;
@@ -9,7 +9,7 @@ $pink-light: #ff77a9;
 $pink-dark: #b4004e;
 
 $primary: $blue;
-$secondary: $pink; 
+$secondary: $gray;
 // Import the theme’s main ruleset.
 @import '~nativescript-theme-core/scss/index';
 
@@ -27,7 +27,6 @@ $secondary: $pink;
 }
 .action-title {
   font-size: 20;
-  color: $light;
 }
 
 .btn {
@@ -129,8 +128,9 @@ $secondary: $pink;
 }
 
 .card-list {
-  padding: 8 16;
+  padding: 15 15;
   border-radius: 4;
+  background-color: #ffffff;
 }
 
 .card {
@@ -170,7 +170,8 @@ $secondary: $pink;
   border-radius: 50%;
   border-width: 1;
   border-color: $light;
-  background-color: $gray-light;
+  background-color: #e1e2e1;
+  margin: 10;
 }
 
 .active {
@@ -230,4 +231,13 @@ $secondary: $pink;
   padding-top: 15;
   padding-left: 5;
   width: 100%;
+}
+
+.bordered {
+  border-radius: 4;
+}
+
+.no-border-bottom {
+  border-bottom-width: 0;
+  border-bottom-color: red;
 }
