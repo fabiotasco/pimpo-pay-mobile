@@ -4,9 +4,7 @@
 $blue: #1e98d4;
 $lightBlue: #54b7ce;
 $orange: #f76b00;
-$pink: #d41e98;
-$pink-light: #ff77a9;
-$pink-dark: #b4004e;
+$complementary: #d45b1e;
 
 $primary: $blue;
 $secondary: $gray;
@@ -17,21 +15,31 @@ $secondary: $gray;
   height: 60;
   width: 60; /// this is required on iOS - Android does not require width so you might need to adjust styles
   margin: 15;
-  background-color: #ff4081;
+  background-color: $complementary;
   horizontal-align: right;
   vertical-align: bottom;
 }
 
+.dimmer {
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 99998;
+  width: 100%;
+  height: 100%;
+}
+
+.loading-container {
+  z-index: 999999;
+  padding: 5;
+  width: 50%;
+  height: 60;
+  background-color: #ffffff;
+  border-radius: 4;
+}
 .gutters {
   margin: 16;
 }
 .action-title {
   font-size: 20;
-}
-
-.btn {
-  border-radius: 5;
-  text-transform: uppercase;
 }
 
 .bg-primary {
@@ -87,7 +95,11 @@ $secondary: $gray;
 }
 
 .text-complementary-dark {
-  color: $complementary-dark;
+  color: darken($complementary, 20%);
+}
+
+.text-danger {
+  color: $error;
 }
 
 .btn-primary {
@@ -113,8 +125,8 @@ $secondary: $gray;
 
 .thumbnail {
   border-radius: 50%;
-  border-color: $secondary;
-  background-color: $pink-light;
+  border-color: lighten($complementary, 20%);
+  background-color: $complementary;
 
   &.sm {
     width: 56;
@@ -175,8 +187,8 @@ $secondary: $gray;
 }
 
 .active {
-  border-color: $primary;
-  background-color: $lightBlue;
+  border-color: lighten($complementary, 20%);
+  background-color: $complementary;
 }
 
 .input-transaction {
@@ -200,7 +212,7 @@ $secondary: $gray;
 
 .link-label {
   font-size: 16;
-  color: $pink;
+  color: $complementary;
 }
 .qr-code {
   text-decoration: underline;
@@ -233,6 +245,10 @@ $secondary: $gray;
   width: 100%;
 }
 
+.with-bg-color {
+  background: $principal;
+}
+
 .bordered {
   border-radius: 4;
 }
@@ -240,4 +256,8 @@ $secondary: $gray;
 .no-border-bottom {
   border-bottom-width: 0;
   border-bottom-color: red;
+}
+
+.form-control {
+  width: 100%;
 }

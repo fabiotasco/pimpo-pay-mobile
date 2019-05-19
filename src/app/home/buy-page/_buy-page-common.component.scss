@@ -8,3 +8,151 @@
   margin-bottom: 4;
   font-size: 18;
 }
+
+.action-card {
+  z-index: 99999;
+  background: #ffffff;
+  padding-top: 10;
+  padding-bottom: 10;
+
+  height: auto;
+}
+
+.image {
+  width: 40;
+  height: 40;
+}
+
+.img-circle {
+  border-radius: 100%;
+}
+
+.card-title {
+  margin-top: 10;
+}
+
+.account-data {
+  border-top-width: 1;
+  border-top-color: lighten($complementary, 30%);
+  padding: 10;
+  background-color: #f0f0f0;
+}
+
+.btn-scan {
+  margin-left: 5;
+  width: 30;
+  height: 30;
+  border-width: 1;
+  background-color: #ffffff;
+  border-color: #f8f8f8;
+  border-radius: 4;
+}
+
+.plan {
+  border-radius: 4;
+  padding: 2 5;
+  &.selected {
+    font-weight: 700;
+    border-color: lighten($complementary, 20%);
+    background-color: $complementary;
+    color: #ffffff;
+    border-width: 1;
+  }
+}
+
+/* Animação do component */
+.card-top {
+  border-top-left-radius: 4;
+  border-top-right-radius: 4;
+}
+
+.card-bottom {
+  border-bottom-left-radius: 4;
+  border-bottom-right-radius: 4;
+}
+
+.done {
+  background-color: $success;
+  border-color: lighten($success, 90%);
+}
+
+.hide-install-input {
+  opacity: 0;
+}
+.show-install-input {
+  animation: show-installments 0.2s ease-in 0 1 normal forwards;
+}
+
+@keyframes show-installments {
+  from {
+    opacity: 0;
+    transform: translateX(100);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.close {
+  visibility: collapse;
+}
+.open {
+  z-index: -2;
+  animation-name: slidedown-box;
+  animation-iteration-count: 1;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+@keyframes slidedown-box {
+  from {
+    visibility: collapse;
+    transform: translateY(-100);
+  }
+  to {
+    transform: translateY(0);
+    visibility: visible;
+  }
+}
+
+@keyframes slideup-box {
+  from {
+    visibility: visible;
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50);
+    visibility: collapse;
+  }
+}
+
+.btn-finalize {
+  background: linear-gradient(to top, lighten($primary, 5%), $primary);
+  height: auto;
+  width: 100%;
+  border-radius: 4;
+  border-width: 1;
+  text-align: center;
+  padding: 10;
+  color: #ffffff;
+  border-color: darken($primary, 5%);
+}
+
+.btn-hide {
+  opacity: 0;
+}
+
+.btn-animate {
+  animation: btn-animate 1s ease 0 normal forwards;
+}
+@keyframes btn-animate {
+  from {
+    opacity: 0;
+    /* background: linear-gradient(to bottom, $primary, lighten($primary, 15%)); */
+  }
+  to {
+    opacity: 1;
+    /* background: linear-gradient(to top, lighten($primary, 5%), $primary); */
+  }
+}

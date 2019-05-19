@@ -6,8 +6,8 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { AnimationCurve } from 'ui/enums';
-import { screen } from 'platform';
+import { AnimationCurve } from 'tns-core-modules/ui/enums';
+import { screen } from 'tns-core-modules/platform';
 
 @Component({
   moduleId: module.id,

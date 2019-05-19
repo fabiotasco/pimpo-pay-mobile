@@ -4,7 +4,11 @@
     ios:horizontalAlignment="center"
     android:horizontalAlignment="left"
   >
-    <Label [text]="actionTitle" class="action-title" verticalAlignment="middle"></Label>
+    <Label
+      [text]="actionTitle"
+      class="action-title"
+      verticalAlignment="middle"
+    ></Label>
   </StackLayout>
   <ActionItem
     ios.position="right"
@@ -20,6 +24,28 @@
     <router-outlet></router-outlet>
   </StackLayout>
 
+  <StackLayout
+    class="dimmer"
+    visibility="{{ ($isLoading | async) === true ? 'visible' : 'collapsed' }}"
+  ></StackLayout>
+  <GridLayout
+    columns="40,*"
+    class="loading-container"
+    rows="*"
+    visibility="{{ ($isLoading | async) ? 'visible' : 'collapsed' }}"
+  >
+    <ActivityIndicator
+      col="0"
+      busy="true"
+      verticalAlignment="center"
+    ></ActivityIndicator>
+    <Label
+      class="font-weight-bold m-l-10"
+      text="Aguarde..."
+      col="1"
+      verticalAlignment="center"
+    ></Label>
+  </GridLayout>
   <StackLayout
     row="1"
     PimpoBottomBar

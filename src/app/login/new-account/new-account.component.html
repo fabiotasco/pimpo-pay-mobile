@@ -1,230 +1,209 @@
 <ActionBar class="action-bar bg-primary text-light">
-  <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
-    <Label text="Criar Conta" class="action-title" color="#ffffff" verticalAlignment="middle"></Label>
+  <StackLayout
+    orientation="horizontal"
+    ios:horizontalAlignment="center"
+    android:horizontalAlignment="left"
+  >
+    <Label
+      text="Criar Conta"
+      class="action-title"
+      color="#ffffff"
+      verticalAlignment="middle"
+    ></Label>
   </StackLayout>
-  <ActionItem ios.position="right" text="Sair" android.position="popup"> </ActionItem>
+  <ActionItem ios.position="right" text="Sair" android.position="popup">
+  </ActionItem>
 </ActionBar>
 
-<ScrollView>
-  <GridLayout rows="*,*,*,*" marginLeft="16" marginRight="16">
-    <StackLayout row="0">
+<ScrollView class="bg-light">
+  <GridLayout height="100%">
+    <GridLayout
+      padding="10"
+      rows="auto,auto,auto,auto,auto,auto,*"
+      columns="auto,*"
+      [formGroup]="enrolForm"
+    >
       <Label
-        text="CONTA DE CELULAR"
-        marginBottom="16"
-        marginTop="16"
-        class="h3 text-muted text-bold"
-        textWrap="true"
+        class="font-weight-bold m-y-10"
+        text="Conta de Celular"
+        row="0"
+        col="0"
+        colSpan="2"
       ></Label>
 
       <GridLayout
-        rows="*,*,*"
-        paddingLeft="16"
-        paddingRight="16"
-        paddingTop="16"
-        verticalAlignment="middle"
-        shadow="4"
-        marginBottom="16"
+        row="1"
+        col="0"
+        columns="auto,*"
+        class="form-conteiner"
         orientation="horizontal"
+        colSpan="2"
       >
-        <GridLayout row="0" rows="*,*" paddingTop="8" paddingBottom="8">
-          <GridLayout row="0" columns="*,auto" (tap)="showMobileOperatorList($event, 'chevron-installment')">
-            <Label
-              col="0"
-              marginLeft="4"
-              [text]="selectedOperator"
-              [class]="isSubmit && !enrollFormErrors.operator.valid ? 'text-danger' : 'text-muted'"
-              fontSize="16"
-              textWrap="true"
-            ></Label>
-            <Image id="chevron-installment" col="1" src="res://baseline_chevron_left_black_24" width="24"></Image>
-          </GridLayout>
+        <StackLayout row="0" col="0" class="form">
+          <Label text="Informe a Operadora" class="m-y-5"></Label>
+          <DropDown
+            #dd
+            class="dropdown"
+            id="operator-list"
+            (selectedIndexChanged)="selectNetworkOperator($event)"
+            verticalAlignment="center"
+          ></DropDown>
+        </StackLayout>
 
-          <StackLayout row="1" paddingLeft="4" *ngIf="showOperatorList">
-            <StackLayout class="hr-light" marginBottom="4"> </StackLayout>
-            <Label
-              (tap)="selectMobileOperator($event, 'Claro')"
-              fontSize="16"
-              text="CLARO"
-              class="body"
-              marginBottom="8"
-              marginTop="4"
-              textWrap="true"
-            ></Label>
-            <Label
-              (tap)="selectMobileOperator($event, 'Oi')"
-              fontSize="16"
-              text="OI"
-              class="body"
-              marginBottom="8"
-              textWrap="true"
-            ></Label>
-            <Label
-              (tap)="selectMobileOperator($event, 'Tim')"
-              fontSize="16"
-              text="TIM"
-              class="body"
-              marginBottom="8"
-              textWrap="true"
-            ></Label>
-            <Label
-              (tap)="selectMobileOperator($event, 'Vivo')"
-              fontSize="16"
-              text="VIVO"
-              class="body"
-              marginBottom="8"
-              textWrap="true"
-            ></Label>
-          </StackLayout>
-        </GridLayout>
+        <StackLayout row="0" col="1" class="m-t-30">
+          <TextFieldDocument
+            [fieldId]="'phoneNumber'"
+            [type]="'phone'"
+            [className]="'form-control text-right'"
+            [fieldHint]="'(**) *****-****'"
+            name="phone"
+            [returnKeyType]="'next'"
+            formControlName="number"
+          ></TextFieldDocument>
+          <Label
+            *ngIf="isSubmit && fc.number.errors && fc.number.errors.required"
+            class="body text-danger text-right"
+            fontSize="10"
+            text="*Campo Obrígatório"
+          ></Label>
 
-        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8"> </StackLayout>
-
-        <TextFieldDocument
-          [id]="'phoneNumber'"
-          row="2"
-          keyboardType="phone"
-          #phone="ngModel"
-          [type]="'phone'"
-          [class]="phone.invalid && isSubmit ? 'input-transaction error' : 'input-transaction'"
-          hint="DIGITE O NÚMERO DO CELULAR"
-          [required]="'required'"
-          name="phone"
-          [(ngModel)]="phoneNumber"
-        ></TextFieldDocument>
+          <Label
+            *ngIf="
+              isSubmit && fc.number.errors && fc.number.errors.invalidFormat
+            "
+            class="body text-danger text-right"
+            fontSize="10"
+            text="*Formato Inválido"
+          ></Label>
+        </StackLayout>
       </GridLayout>
-    </StackLayout>
 
-    <StackLayout row="1">
-      <Label text="DOCUMENTO" marginBottom="16" marginTop="16" class="h3 text-muted text-bold" textWrap="true"></Label>
+      <Label
+        class="font-weight-bold m-y-10"
+        text="Documento"
+        row="2"
+        col="0"
+        colSpan="2"
+      ></Label>
 
       <GridLayout
-        rows="*,*,*"
-        paddingLeft="16"
-        paddingRight="16"
-        paddingTop="16"
-        verticalAlignment="middle"
-        shadow="4"
-        marginBottom="16"
+        class="form-conteiner"
         orientation="horizontal"
+        row="3"
+        col="0"
+        colSpan="2"
+        columns="auto,*"
       >
-        <GridLayout row="0" rows="*,*" paddingTop="8" paddingBottom="8">
-          <GridLayout row="0" columns="*,auto" (tap)="showDocumentList($event, 'chevron-document')">
-            <Label
-              col="0"
-              marginLeft="4"
-              [text]="selectDocument"
-              [class]="isSubmit && !enrollFormErrors.documentType.valid ? 'text-danger' : 'text-muted'"
-              fontSize="16"
-              textWrap="true"
-            ></Label>
-            <Image id="chevron-document" col="1" src="res://baseline_chevron_left_black_24" width="24"></Image>
-          </GridLayout>
+        <StackLayout col="0" class="form">
+          <Label text="Tipo de Documento" class="m-y-5"></Label>
+          <DropDown
+            #doc
+            class="dropdown"
+            id="doctype-list"
+            (selectedIndexChanged)="selectDocumentType($event)"
+            verticalAlignment="center"
+          ></DropDown>
+        </StackLayout>
 
-          <StackLayout row="1" paddingLeft="4" *ngIf="showDocument">
-            <StackLayout class="hr-light" marginBottom="4"> </StackLayout>
-            <Label
-              (tap)="selectDocumentType($event, 'CPF')"
-              fontSize="16"
-              text="CPF"
-              class="body"
-              marginBottom="8"
-              marginTop="4"
-              textWrap="true"
-            ></Label>
-            <Label
-              (tap)="selectDocumentType($event, 'CNPJ')"
-              fontSize="16"
-              text="CNPJ"
-              class="body"
-              marginBottom="8"
-              textWrap="true"
-            ></Label>
-          </StackLayout>
-        </GridLayout>
-
-        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8"> </StackLayout>
-
-        <TextFieldDocument
-          [id]="'documentNumber'"
-          [row]="2"
-          [type]="documentType"
-          [className]="
-            !enrollFormErrors.documentNumber.valid && isSubmit ? 'input-transaction error' : 'input-transaction'
-          "
-          [required]="'required'"
-          [hint]="'DIGITE O NÚMERO DO DOCUMENTO'"
-          name="document"
-          [(ngModel)]="documentNumber"
-        ></TextFieldDocument>
-
-        <!--  <TextField
-          row="2"
-          hint="DIGITE O NÚMERO DO DOCUMENTO"
-          keyboardType="phone"
-          name="document"
-          required
-          #document="ngModel"
-          [(ngModel)]="documentNumber"
-          [class]="document.invalid && isSubmit ? 'input-transaction error' : 'input-transaction'"
-          text=""
-        ></TextField> -->
+        <StackLayout col="1" class="m-t-30">
+          <TextFieldDocument
+            verticalAlignment="center"
+            [fieldId]="'documentNumber'"
+            [type]="'cpf'"
+            [className]="'form-control text-right'"
+            [fieldHint]="'Documento'"
+            name="document"
+            [returnKeyType]="'next'"
+            formControlName="value"
+          ></TextFieldDocument>
+          <Label
+            *ngIf="isSubmit && fc.value.errors && fc.value.errors.required"
+            class="body text-danger text-right"
+            fontSize="10"
+            text="*Campo Obrígatório"
+          ></Label>
+        </StackLayout>
       </GridLayout>
-    </StackLayout>
 
-    <StackLayout row="2">
-      <Label text="SENHA" marginBottom="16" marginTop="16" class="h3 text-muted text-bold" textWrap="true"></Label>
+      <Label
+        class="font-weight-bold m-y-10"
+        text="Dados de Usuários"
+        row="4"
+        col="0"
+        colSpan="2"
+      ></Label>
 
-      <GridLayout
-        rows="*,*,*"
-        paddingLeft="16"
-        paddingRight="16"
-        paddingTop="16"
-        verticalAlignment="middle"
-        shadow="4"
-        marginBottom="16"
-        orientation="horizontal"
-      >
+      <StackLayout class="form-conteiner" row="5" col="0" colSpan="2">
         <TextField
-          [(ngModel)]="password"
-          row="0"
           secure="true"
-          required
-          hint="DIGITE SUA SENHA"
-          name="password"
-          #pass="ngModel"
-          [class]="pass.invalid && isSubmit ? 'input-transaction error' : 'input-transaction'"
-          class="input-transaction"
-          text=""
+          class="input-field"
+          hint="Senha"
+          formControlName="password"
+          id="password"
         ></TextField>
-
-        <StackLayout row="1" class="hr-light" marginBottom="8" marginTop="8"> </StackLayout>
-
+        <Label
+          *ngIf="isSubmit && fc.password.errors && fc.password.errors.required"
+          class="body text-danger text-right"
+          fontSize="10"
+          text="*Campo Obrígatório"
+        ></Label>
         <TextField
+          secure="true"
+          class="input-field"
+          hint="Confirme a Senha"
+          id="confirmPassword"
+          (textChange)="validPassword($event)"
           [(ngModel)]="confirmPassword"
-          name="confirmPassword"
-          required
-          #confirm="ngModel"
-          row="2"
-          secure="true"
-          hint="CONFIRME SUA SENHA"
-          class="input-transaction"
-          [class]="
-            (confirm.invalid || !enrollFormErrors.confirmPassword.valid) && isSubmit
-              ? 'input-transaction error'
-              : 'input-transaction'
-          "
-          text=""
+          [ngModelOptions]="{ standalone: true }"
         ></TextField>
-      </GridLayout>
-    </StackLayout>
 
-    <Button
-      text="Criar Conta"
-      class="btn btn-secondary text-light"
-      (tap)="doEnroll()"
-      [shadow]="btnShadow"
-      marginTop="16"
-      row="3"
-    ></Button>
+        <Label
+          *ngIf="isSubmit && passwordMismatch"
+          class="body text-danger text-right"
+          fontSize="10"
+          text="*As senha digitadas não são iguais"
+        ></Label>
+      </StackLayout>
+
+      <FlexboxLayout
+        justifyContent="center"
+        class="m-t-10"
+        alignItems="center"
+        row="6"
+        col="0"
+        colSpan="2"
+      >
+        <button
+          text="Salvar"
+          (tap)="doEnroll()"
+          class="btn btn-secondary"
+          height="50"
+          width="100%"
+        ></button>
+      </FlexboxLayout>
+    </GridLayout>
+
+    <StackLayout
+      class="dimmer"
+      visibility="{{ ($isLoading | async) ? 'visible' : 'collapsed' }}"
+    ></StackLayout>
+    <GridLayout
+      columns="40,*"
+      class="loading-container"
+      rows="*"
+      visibility="{{ ($isLoading | async) ? 'visible' : 'collapsed' }}"
+    >
+      <ActivityIndicator
+        col="0"
+        busy="true"
+        verticalAlignment="center"
+      ></ActivityIndicator>
+      <Label
+        class="font-weight-bold m-l-10"
+        text="Aguarde..."
+        col="1"
+        verticalAlignment="center"
+      ></Label>
+    </GridLayout>
   </GridLayout>
 </ScrollView>

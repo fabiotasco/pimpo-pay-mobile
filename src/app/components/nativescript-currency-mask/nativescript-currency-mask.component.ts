@@ -7,13 +7,13 @@ import {
   EventEmitter
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { TextField } from 'ui/text-field';
+import { TextField } from 'tns-core-modules/ui/text-field';
 import { Page } from 'tns-core-modules/ui/page/page';
 
 @Component({
   moduleId: module.id,
   templateUrl: './nativescript-currency-mask.component.html',
-  selector: 'TextFieldCurrency,[TextFieldCurrency',
+  selector: 'TextFieldCurrency,[TextFieldCurrency]',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -41,7 +41,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
   col: string;
 
   @Output()
-  blur = new EventEmitter();
+  returnPress = new EventEmitter();
 
   inputValue: string;
   private fieldValue: TextField;
@@ -113,7 +113,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
   }
 
   focusOut(event: any) {
-    this.blur.emit(event);
+    this.returnPress.emit(event);
   }
 
   private prepareToPropagate(value: string): string {

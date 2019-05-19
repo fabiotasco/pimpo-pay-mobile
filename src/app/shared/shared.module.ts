@@ -7,7 +7,6 @@ import { NgShadowModule } from 'nativescript-ng-shadow';
 import { CurrencyMaskPtComponent } from '../components/nativescript-currency-mask/nativescript-currency-mask.component';
 import { NativescriptDocumentMaskComponent } from '../components/nativescript-document-mask/nativescript-document-mask.component';
 import { FormsModule } from '@angular/forms';
-import { ActionCardModule } from '../components/action-card/action-card.module';
 import { NativescriptMaskModule } from '../components/nativescript-currency-mask/nativescript-mask.module';
 import { NativescriptDocumentMaskModule } from '../components/nativescript-document-mask/nativescript-document-mask.module';
 
@@ -20,7 +19,6 @@ import { NativescriptDocumentMaskModule } from '../components/nativescript-docum
     NativeScriptFormsModule,
     NgShadowModule,
     FormsModule,
-    ActionCardModule,
     NativescriptMaskModule,
     NativescriptDocumentMaskModule
   ],
@@ -32,7 +30,6 @@ import { NativescriptDocumentMaskModule } from '../components/nativescript-docum
     NativeScriptFormsModule,
     NgShadowModule,
     NativescriptDocumentMaskComponent,
-    ActionCardModule,
     NativescriptMaskModule
   ],
   schemas: [NO_ERRORS_SCHEMA]

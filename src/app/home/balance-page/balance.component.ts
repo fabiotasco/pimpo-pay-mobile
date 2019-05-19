@@ -3,7 +3,7 @@ import { Page, View } from 'tns-core-modules/ui/page/page';
 import { Transaction } from '~/app/models/transaction';
 import { TransactionService } from '~/app/services/trasaction.service';
 import { Observable } from 'rxjs';
-import { ListView } from 'ui/list-view';
+import { ListView } from 'tns-core-modules/ui/list-view';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
 import { RouterExtensions } from 'nativescript-angular/router';
 

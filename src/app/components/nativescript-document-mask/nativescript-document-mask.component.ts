@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  forwardRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { Page } from 'tns-core-modules/ui/page/page';
@@ -19,12 +26,14 @@ export class NativescriptDocumentMaskComponent
   implements OnInit, ControlValueAccessor {
   @Input() className: string;
   @Input() type: DocumentType = DocumentType.CPF;
-  @Input() row: number;
-  @Input() id: string;
-  @Input() col: number;
+  @Input() returnKeyType = 'next';
+  @Input() fieldId = 'default';
   @Input() required = false;
-  @Input() name: string;
-  @Input() hint: string;
+  @Input() name = 'default';
+  @Input() fieldHint = 'Conteudo';
+
+  @Output()
+  returnPress = new EventEmitter();
 
   value = '';
 
@@ -70,9 +79,14 @@ export class NativescriptDocumentMaskComponent
 
   writeValue(obj: string): void {
     if (obj) {
+      console.log(obj);
       this.value =
         obj.length === 11 ? this.formatToCpf(obj) : this.formatToCnpj(obj);
     }
+  }
+
+  returnKeyPress(event: any): void {
+    this.returnPress.emit(event);
   }
   registerOnChange(fn: any): void {
     this.propagateOnChange = fn;
@@ -125,7 +139,7 @@ export class NativescriptDocumentMaskComponent
   }
 
   private setFocusPositionToFinish(): void {
-    const textField = this.page.getViewById(this.id);
+    const textField = this.page.getViewById(this.fieldId);
     if (textField && this.page.android) {
       textField.android.setSelection(textField.android.length());
     }

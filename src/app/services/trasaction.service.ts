@@ -57,14 +57,14 @@ export class TransactionService extends BaseService {
     return this.deactivate('/' + idTransacion + '/cancel');
   }
 
-  getBalance(): void {
-    this.search('/statement', { page: 0, size: 10 }).subscribe(
-      (result: any) => {
-        if (result.success) {
-          this.subjectBalance.next(result.content.balance);
-          this.subjectTransactions.next(result.content.transactions);
+  getBalance(): Observable<any> {
+    return this.search('/statement', { page: 0, size: 10 }).pipe(
+      tap(res => {
+        if (res.success) {
+          this.subjectBalance.next(res.content.balance);
+          this.subjectTransactions.next(res.content.transactions);
         }
-      }
+      })
     );
   }
 }
