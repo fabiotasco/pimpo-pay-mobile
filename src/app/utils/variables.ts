@@ -95,3 +95,19 @@ export enum TransactionStatus {
   /** Arbitrada */
   ARBITRATED = 'ARBITRATED'
 }
+
+export interface ResumeModel {
+  transactionType: string;
+  statusCode?: string;
+  status: string;
+  hasFailure: boolean;
+  amount: number;
+  destinyAccount?: string;
+  plan: string;
+}
+
+export enum ResumeActionButton {
+  RETRY = 'retry',
+  NEW = 'new',
+  GOSTART = 'goStart'
+}

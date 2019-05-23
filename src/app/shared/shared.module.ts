@@ -9,9 +9,11 @@ import { NativescriptDocumentMaskComponent } from '../components/nativescript-do
 import { FormsModule } from '@angular/forms';
 import { NativescriptMaskModule } from '../components/nativescript-currency-mask/nativescript-mask.module';
 import { NativescriptDocumentMaskModule } from '../components/nativescript-document-mask/nativescript-document-mask.module';
+import { LoadingComponent } from '../components/loading/loading.component';
+import { ResumeComponent } from '../components/resume/resume.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [LoadingComponent, ResumeComponent],
   imports: [
     NativeScriptCommonModule,
     BottomModule,
@@ -30,7 +32,9 @@ import { NativescriptDocumentMaskModule } from '../components/nativescript-docum
     NativeScriptFormsModule,
     NgShadowModule,
     NativescriptDocumentMaskComponent,
-    NativescriptMaskModule
+    NativescriptMaskModule,
+    LoadingComponent,
+    ResumeComponent
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

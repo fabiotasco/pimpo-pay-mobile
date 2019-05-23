@@ -1,3 +1,4 @@
-export class DestinationAccount{
-    hash:string;
+export class DestinationAccount {
+  hash?: string;
+  number?: string;
 }

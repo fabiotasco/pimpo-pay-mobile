@@ -19,38 +19,20 @@
   </ActionItem>
 </ActionBar>
 
-<GridLayout rows="*,auto">
-  <StackLayout row="0" class="bg-light">
-    <router-outlet></router-outlet>
-  </StackLayout>
+<GridLayout>
+  <GridLayout rows="*,auto">
+    <StackLayout row="0" class="bg-light">
+      <router-outlet></router-outlet>
+    </StackLayout>
 
-  <StackLayout
-    class="dimmer"
-    visibility="{{ ($isLoading | async) === true ? 'visible' : 'collapsed' }}"
-  ></StackLayout>
-  <GridLayout
-    columns="40,*"
-    class="loading-container"
-    rows="*"
-    visibility="{{ ($isLoading | async) ? 'visible' : 'collapsed' }}"
-  >
-    <ActivityIndicator
-      col="0"
-      busy="true"
-      verticalAlignment="center"
-    ></ActivityIndicator>
-    <Label
-      class="font-weight-bold m-l-10"
-      text="Aguarde..."
-      col="1"
-      verticalAlignment="center"
-    ></Label>
+    <StackLayout
+      row="1"
+      PimpoBottomBar
+      [selectedTab]="tabSelected"
+      dock="bottom"
+      (tabSelected)="navigateToPage($event)"
+    >
+    </StackLayout>
   </GridLayout>
-  <StackLayout
-    row="1"
-    PimpoBottomBar
-    dock="bottom"
-    (tabSelected)="navigateToPage($event)"
-  >
-  </StackLayout>
+  <ns-loading [active]="$isLoading | async"></ns-loading>
 </GridLayout>

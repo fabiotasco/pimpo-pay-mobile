@@ -1,277 +1,290 @@
-<GridLayout rows="auto,auto,auto,*" padding="15">
-  <!-- GRID DE VALOR -->
-  <StackLayout row="0">
-    <GridLayout
-      (tap)="open('amount')"
-      id="setValueContainer"
-      rows="*"
-      columns="auto, *, *"
-      class="action-card card-top"
-    >
+<GridLayout>
+  <GridLayout *ngIf="!showResume" rows="auto,auto,auto,*" padding="15">
+    <!-- GRID DE VALOR -->
+    <StackLayout row="0">
+      <GridLayout
+        (tap)="open('amount')"
+        id="setValueContainer"
+        rows="*"
+        columns="auto, *, *"
+        class="action-card card-top"
+      >
+        <StackLayout
+          verticalAlignment="center"
+          class="circle"
+          [class.active]="($cardOpened | async) === 'amount'"
+          [class.done]="
+            transactionValues.amount && ($cardOpened | async) !== 'amount'
+          "
+          row="0"
+          col="0"
+        >
+        </StackLayout>
+
+        <Label
+          verticalAlignment="center"
+          [text]="
+            ($cardOpened | async) === 'amount' ? 'Informe o Valor' : 'Valor'
+          "
+          class="font-weight-bold"
+          row="0"
+          col="1"
+          textWrap="true"
+        ></Label>
+
+        <Label
+          *ngIf="transactionValues.amount && ($cardOpened | async) !== 'amount'"
+          verticalAlignment="center"
+          horizontalAlignment="right"
+          paddingRight="8"
+          [text]="transactionValues.amount + ' R$'"
+          class="font-weight-normal"
+          row="0"
+          col="2"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
       <StackLayout
-        verticalAlignment="center"
-        class="circle"
-        [class.active]="($cardOpened | async) === 'amount'"
-        [class.done]="
-          transactionValues.amount && ($cardOpened | async) !== 'amount'
-        "
-        row="0"
-        col="0"
-      >
-      </StackLayout>
-
-      <Label
-        verticalAlignment="center"
-        [text]="
-          ($cardOpened | async) === 'amount' ? 'Informe o Valor' : 'Valor'
-        "
-        class="font-weight-bold"
-        row="0"
-        col="1"
-        textWrap="true"
-      ></Label>
-
-      <Label
-        *ngIf="transactionValues.amount && ($cardOpened | async) !== 'amount'"
-        verticalAlignment="center"
-        horizontalAlignment="right"
-        paddingRight="8"
-        [text]="transactionValues.amount + ' R$'"
-        class="font-weight-normal"
-        row="0"
-        col="2"
-        textWrap="true"
-      ></Label>
-    </GridLayout>
-    <StackLayout
-      [ngClass]="
-        ($cardOpened | async) === 'amount'
-          ? 'account-data open'
-          : 'account-data close'
-      "
-      id="setValue"
-      row="1"
-      col="0"
-      colSpan="3"
-    >
-      <TextFieldCurrency
-        name="amountField"
-        className="input-transaction"
-        [(ngModel)]="transactionValues.amount"
-        [returnKeyType]="'next'"
-        (returnPress)="open('destinationAccount')"
-        hint="0,00"
-      ></TextFieldCurrency>
-    </StackLayout>
-  </StackLayout>
-
-  <!-- GRID DE CONTA -->
-  <StackLayout row="1">
-    <GridLayout
-      (tap)="open('destinationAccount')"
-      id="setAccountContainer"
-      rows="*,*"
-      columns="auto, *, *"
-      class="action-card"
-    >
-      <StackLayout
-        verticalAlignment="center"
-        class="circle"
-        [class.active]="($cardOpened | async) === 'destinationAccount'"
-        [class.done]="
-          transactionValues.destinationAccount &&
-          ($cardOpened | async) !== 'destinationAccount'
-        "
-        id="setAccount"
-        row="0"
-        col="0"
-      >
-      </StackLayout>
-
-      <Label
-        text="Conta Destino"
-        verticalAlignment="center"
-        class="font-weight-bold"
-        row="0"
-        col="1"
-        textWrap="true"
-      ></Label>
-
-      <Label
-        *ngIf="
-          transactionValues.destinationAccount &&
-          ($cardOpened | async) !== 'destinationAccount'
-        "
-        verticalAlignment="center"
-        horizontalAlignment="right"
-        paddingRight="8"
-        [text]="transactionValues.destinationAccount"
-        class="font-weight-normal"
-        row="0"
-        col="2"
-        textWrap="true"
-      ></Label>
-    </GridLayout>
-    <GridLayout
-      [ngClass]="
-        ($cardOpened | async) === 'destinationAccount'
-          ? 'account-data open'
-          : 'account-data close'
-      "
-      row="1"
-      col="0"
-      colSpan="3"
-      columns="*,auto"
-    >
-      <TextFieldDocument
-        [id]="'documentNumber'"
-        [type]="'phone'"
-        [className]="'text-right'"
-        [hint]="'(**) *****-****'"
-        name="document"
-        [(ngModel)]="transactionValues.destinationAccount"
-        [returnKeyType]="'next'"
-        (returnPress)="open('plan')"
-      ></TextFieldDocument>
-
-      <FlexboxLayout
-        id="qrButton"
-        col="1"
-        (tap)="scanCode()"
-        class="btn-scan"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Image src="res://ic_qrcode_black_24dp" stretch="none"></Image>
-      </FlexboxLayout>
-    </GridLayout>
-  </StackLayout>
-
-  <!-- GRID DE FORMA DE PAGAMENTO -->
-  <StackLayout row="2">
-    <GridLayout
-      (tap)="open('plan')"
-      id="setPaymentForm"
-      rows="*,*"
-      columns="auto, *, *"
-      class="action-card card-bottom"
-    >
-      <StackLayout
-        class="circle"
-        [class.active]="($cardOpened | async) === 'plan'"
-        [class.done]="
-          transactionValues.plan && ($cardOpened | async) !== 'plan'
-        "
-        id="setPaymentType"
-        verticalAlignment="center"
-        row="0"
-        col="0"
-      >
-      </StackLayout>
-
-      <Label
-        [text]="
-          ($cardOpened | async) === 'plan' ? 'Forma de Pagamento' : 'Pagamento'
-        "
-        class="font-weight-bold"
-        row="0"
-        verticalAlignment="center"
-        col="1"
-        colSpan="3"
-        textWrap="true"
-      ></Label>
-      <Label
-        *ngIf="transactionValues.plan && ($cardOpened | async) !== 'plan'"
-        verticalAlignment="center"
-        horizontalAlignment="right"
-        paddingRight="8"
-        [text]="transactionValues.plan === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'"
-        class="font-weight-normal"
-        row="0"
-        col="2"
-        textWrap="true"
-      ></Label>
-    </GridLayout>
-    <GridLayout
-      [ngClass]="
-        ($cardOpened | async) === 'plan'
-          ? 'account-data open'
-          : 'account-data close'
-      "
-      row="1"
-      col="0"
-      colSpan="3"
-      columns="auto,*"
-      rows="auto,auto,auto"
-    >
-      <Label
-        row="0"
-        col="0"
-        text="Pré-Pago"
-        verticalAlignment="center"
-        class="plan"
-        [class.selected]="transactionValues.plan === 'Prepaid'"
-        (tap)="selectPaymentType({ type: 'Prepaid', installments: 1 })"
-        textWrap="true"
-      ></Label>
-      <TextField
-        row="0"
-        col="1"
-        width="100"
-        returnType="done"
-        marginLeft="10"
-        verticalAlignment="center"
-        class="hide-install-input input-transaction text-center"
-        horizontalAlignment="right"
-        hint="Prepaid"
-      ></TextField>
-
-      <StackLayout row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
-
-      <Label
-        row="2"
-        col="0"
-        text="Pós-Pago"
-        class="plan"
-        [class.selected]="transactionValues.plan === 'Credit'"
-        (tap)="selectPaymentType({ type: 'Credit', installments: 1 })"
-        verticalAlignment="center"
-        textWrap="true"
-      ></Label>
-
-      <TextField
-        row="2"
-        col="1"
-        width="100"
-        returnType="done"
-        keyboardType="number"
-        (returnPress)="done()"
-        marginLeft="10"
-        [(ngModel)]="transactionValues.installments"
-        verticalAlignment="center"
-        class="input-transaction text-center"
         [ngClass]="
-          transactionValues.plan === 'Credit'
-            ? 'show-install-input'
-            : 'hide-install-input'
+          ($cardOpened | async) === 'amount'
+            ? 'account-data open'
+            : 'account-data close'
         "
-        horizontalAlignment="right"
-        hint="Parcelas"
-      ></TextField>
-    </GridLayout>
-  </StackLayout>
+        id="setValue"
+        row="1"
+        col="0"
+        colSpan="3"
+      >
+        <TextFieldCurrency
+          name="amountField"
+          className="input-transaction"
+          [(ngModel)]="transactionValues.amount"
+          [returnKeyType]="'next'"
+          (returnPress)="open('destinationAccount')"
+          hint="0,00"
+        ></TextFieldCurrency>
+      </StackLayout>
+    </StackLayout>
 
-  <FlexboxLayout
-    row="3"
-    justifyContent="center"
-    alignItems="center"
-    (tap)="finalizeTrasaction()"
-  >
-    <Label
-      class="btn btn-finalize"
-      [class.btn-animate]="showFinalButton"
-      [class.btn-hide]="!showFinalButton"
-      text="Finalizar"
-    ></Label>
-  </FlexboxLayout>
+    <!-- GRID DE CONTA -->
+    <StackLayout row="1">
+      <GridLayout
+        (tap)="open('destinationAccount')"
+        id="setAccountContainer"
+        rows="*,*"
+        columns="auto, *, *"
+        class="action-card"
+      >
+        <StackLayout
+          verticalAlignment="center"
+          class="circle"
+          [class.active]="($cardOpened | async) === 'destinationAccount'"
+          [class.done]="
+            accountSelected && ($cardOpened | async) !== 'destinationAccount'
+          "
+          id="setAccount"
+          row="0"
+          col="0"
+        >
+        </StackLayout>
+
+        <Label
+          text="Conta Destino"
+          verticalAlignment="center"
+          class="font-weight-bold"
+          row="0"
+          col="1"
+          textWrap="true"
+        ></Label>
+
+        <Label
+          *ngIf="
+            accountSelected && ($cardOpened | async) !== 'destinationAccount'
+          "
+          verticalAlignment="center"
+          horizontalAlignment="right"
+          paddingRight="8"
+          [text]="accountSelected"
+          class="font-weight-normal"
+          row="0"
+          col="2"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+      <GridLayout
+        [ngClass]="
+          ($cardOpened | async) === 'destinationAccount'
+            ? 'account-data open'
+            : 'account-data close'
+        "
+        row="1"
+        col="0"
+        colSpan="3"
+        columns="*,auto"
+      >
+        <TextFieldDocument
+          [id]="'documentNumber'"
+          [type]="'phone'"
+          [className]="'text-right'"
+          [hint]="'(**) *****-****'"
+          name="document"
+          [(ngModel)]="transactionValues.destinationAccount"
+          [returnKeyType]="'next'"
+          (onTextChange)="changeAccountValue($event)"
+          (returnPress)="open('plan')"
+        ></TextFieldDocument>
+
+        <FlexboxLayout
+          id="qrButton"
+          col="1"
+          (tap)="scanCode()"
+          class="btn-scan"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Image src="res://ic_qrcode_black_24dp" stretch="none"></Image>
+        </FlexboxLayout>
+      </GridLayout>
+    </StackLayout>
+
+    <!-- GRID DE FORMA DE PAGAMENTO -->
+    <StackLayout row="2">
+      <GridLayout
+        (tap)="open('plan')"
+        id="setPaymentForm"
+        rows="*,*"
+        columns="auto, *, *"
+        class="action-card card-bottom"
+      >
+        <StackLayout
+          class="circle"
+          [class.active]="($cardOpened | async) === 'plan'"
+          [class.done]="
+            transactionValues.plan && ($cardOpened | async) !== 'plan'
+          "
+          id="setPaymentType"
+          verticalAlignment="center"
+          row="0"
+          col="0"
+        >
+        </StackLayout>
+
+        <Label
+          [text]="
+            ($cardOpened | async) === 'plan'
+              ? 'Forma de Pagamento'
+              : 'Pagamento'
+          "
+          class="font-weight-bold"
+          row="0"
+          verticalAlignment="center"
+          col="1"
+          colSpan="3"
+          textWrap="true"
+        ></Label>
+        <Label
+          *ngIf="transactionValues.plan && ($cardOpened | async) !== 'plan'"
+          verticalAlignment="center"
+          horizontalAlignment="right"
+          paddingRight="8"
+          [text]="
+            transactionValues.plan === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'
+          "
+          class="font-weight-normal"
+          row="0"
+          col="2"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+      <GridLayout
+        [ngClass]="
+          ($cardOpened | async) === 'plan'
+            ? 'account-data open'
+            : 'account-data close'
+        "
+        row="1"
+        col="0"
+        colSpan="3"
+        columns="auto,*"
+        rows="auto,auto,auto"
+      >
+        <Label
+          row="0"
+          col="0"
+          text="Pré-Pago"
+          verticalAlignment="center"
+          class="plan"
+          [class.selected]="transactionValues.plan === 'Prepaid'"
+          (tap)="selectPaymentType({ type: 'Prepaid', installments: 1 })"
+          textWrap="true"
+        ></Label>
+        <TextField
+          row="0"
+          col="1"
+          width="100"
+          returnType="done"
+          marginLeft="10"
+          verticalAlignment="center"
+          class="hide-install-input input-transaction text-center"
+          horizontalAlignment="right"
+          hint="Prepaid"
+        ></TextField>
+
+        <StackLayout row="1" col="0" colSpan="2" class="hr-light">
+        </StackLayout>
+
+        <Label
+          row="2"
+          col="0"
+          text="Pós-Pago"
+          class="plan"
+          [class.selected]="transactionValues.plan === 'Credit'"
+          (tap)="selectPaymentType({ type: 'Credit', installments: 1 })"
+          verticalAlignment="center"
+          textWrap="true"
+        ></Label>
+
+        <TextField
+          row="2"
+          col="1"
+          width="100"
+          returnType="done"
+          keyboardType="number"
+          (returnPress)="done()"
+          marginLeft="10"
+          [(ngModel)]="transactionValues.installments"
+          verticalAlignment="center"
+          class="input-transaction text-center"
+          [ngClass]="
+            transactionValues.plan === 'Credit'
+              ? 'show-install-input'
+              : 'hide-install-input'
+          "
+          horizontalAlignment="right"
+          hint="Parcelas"
+        ></TextField>
+      </GridLayout>
+    </StackLayout>
+
+    <FlexboxLayout
+      row="3"
+      *ngIf="showFinalButton"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Label
+        (tap)="finalizeTrasaction()"
+        class="btn btn-finalize"
+        text="Finalizar"
+      ></Label>
+    </FlexboxLayout>
+  </GridLayout>
+
+  <StackLayout class="of-bottom">
+    <ns-resume
+      [resume]="resumeModel"
+      (actionClick)="resumeBtnClicked($event)"
+      [showResume]="showResume"
+    ></ns-resume>
+  </StackLayout>
 </GridLayout>

@@ -13,6 +13,7 @@ import { registerLocaleData } from '@angular/common';
 import ptBr from '@angular/common/locales/pt';
 registerLocaleData(ptBr, 'pt-BR');
 import { registerElement } from 'nativescript-angular/element-registry';
+import { LoadingService } from '../services/loading.service';
 registerElement('Fab', () => require('nativescript-floatingactionbutton').Fab);
 
 @NgModule({
@@ -24,9 +25,13 @@ registerElement('Fab', () => require('nativescript-floatingactionbutton').Fab);
     CreditPageComponent,
     BalancePageComponent,
     TransferPageComponent,
-    UserPageComponent,
+    UserPageComponent
   ],
-  providers: [BarcodeScanner, { provide: LOCALE_ID, useValue: 'pt-BR' }],
+  providers: [
+    BarcodeScanner,
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    LoadingService
+  ],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class HomeModule {}

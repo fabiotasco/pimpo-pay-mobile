@@ -1,28 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Page, View, Color } from 'tns-core-modules/ui/page/page';
+import { Page, View } from 'tns-core-modules/ui/page/page';
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { AccountService } from '~/app/services/account.service';
 import { TransactionService } from '~/app/services/trasaction.service';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
-import { AndroidData, ShapeEnum } from 'nativescript-ng-shadow';
-import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layout';
-import { Button } from 'tns-core-modules/ui/button';
-import { Plan } from '~/app/models/plan';
 import { UserData } from '~/app/models/user-data';
 import { Purchase } from '~/app/models/purchase';
 import * as moment from 'moment';
-import { PositionChevron } from '~/app/utils/variables';
+import * as _ from 'lodash';
 import { TransactionCardService } from '~/app/components/transaction-card/transaction-card.service';
 import { Observable } from 'rxjs';
 import { TransactionValue } from '~/app/models/transaction-value';
 import { LoadingService } from '~/app/services/loading.service';
+import { ResumeModel, ResumeActionButton } from '~/app/utils/variables';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   moduleId: module.id,
   selector: 'BuyPage',
   templateUrl: './buy-page.component.html',
-  styleUrls: ['./buy-page.component.css'],
-  providers: [LoadingService]
+  styleUrls: ['./buy-page.component.css']
 })
 export class BuyPageComponent implements OnInit, OnDestroy {
   public transactionValues: TransactionValue;
@@ -30,6 +27,9 @@ export class BuyPageComponent implements OnInit, OnDestroy {
   public actualCardOpened = 'amount';
   public showFinalButton = false;
   public myHolderNumber: string;
+  public accountSelected: string;
+  public showResume = false;
+  public resumeModel: ResumeModel;
   constructor(
     private page: Page,
     private transactionCardService: TransactionCardService,
@@ -37,7 +37,8 @@ export class BuyPageComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private transactionService: TransactionService,
     private toastHelper: ToastHelperService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private router: RouterExtensions
   ) {}
 
   ngOnInit() {
@@ -58,34 +59,37 @@ export class BuyPageComponent implements OnInit, OnDestroy {
   }
 
   public finalizeTrasaction(): void {
-    
-    const purchase: Purchase = {
-      amount: this.transactionValues.amount,
-      currency: 'BRL',
-      date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      destinationAccount: {
-        hash: this.transactionValues.destinationAccount ||this.transactionValues.destinationHash;
-      },
-      installments: this.transactionValues.installments,
-      plan: this.transactionValues.plan,
-      holderAccount: {
-        number: this.myHolderNumber
-      }
-    };
-
     this.loadingService.show();
-    this.transactionService.executePurchase(purchase).subscribe(res => {
-      this.loadingService.hide();
-      if (!res.success) {
-        this.toastHelper.showToast(res.errors[0].message);
-      }
-    },err =>{
-      this.loadingService.hide();
-      this.toastHelper.showToast(err.errors[0].message);
-    });
+
+    this.transactionService
+      .executePurchase(this.mountPurchaseModel())
+      .subscribe(
+        res => {
+          this.loadingService.hide();
+          this.prepareResumeModel(res);
+          this.showResume = true;
+
+          if (res.success) {
+            this.transactionValues = new TransactionValue();
+            this.transactionCardService.open('amount');
+            return;
+          }
+        },
+        err => {
+          this.loadingService.hide();
+          this.toastHelper.showToast(err.errors[0].message);
+        }
+      );
   }
 
   public open(part: string): void {
+    if (
+      this.actualCardOpened === 'destinationAccount' &&
+      !this.transactionValues.destinationHash
+    ) {
+      this.accountSelected = '+55' + this.transactionValues.destinationAccount;
+    }
+
     if (
       (part !== this.actualCardOpened &&
         this.transactionValues[this.actualCardOpened]) ||
@@ -94,9 +98,16 @@ export class BuyPageComponent implements OnInit, OnDestroy {
     ) {
       this.actualCardOpened = part;
       this.transactionCardService.open(part);
+    } else if (
+      this.actualCardOpened === 'destinationAccount' &&
+      this.accountSelected
+    ) {
+      this.actualCardOpened = part;
+      this.transactionCardService.open(part);
     } else if (part !== this.actualCardOpened) {
       this.toastHelper.showToast('Preencha o campo solicitado');
     }
+
     this.validateData();
   }
 
@@ -109,8 +120,52 @@ export class BuyPageComponent implements OnInit, OnDestroy {
     this.validateData();
   }
 
+  public changeAccountValue(event: any): void {
+    if (this.resumeModel) {
+      setTimeout(() => {
+        this.resumeModel = null;
+      }, 200);
+    } else {
+      this.transactionValues.destinationHash = null;
+      this.accountSelected = null;
+    }
+  }
+
   public done(): void {
     this.transactionCardService.closeAll();
+  }
+
+  public resumeBtnClicked(btnClicked: string): void {
+    if (btnClicked === ResumeActionButton.RETRY) {
+      this.showResume = false;
+    }
+
+    if (btnClicked === ResumeActionButton.NEW) {
+      this.transactionValues = new TransactionValue();
+      this.transactionCardService.open('amount');
+      this.actualCardOpened = 'amount';
+      this.showFinalButton = false;
+      this.accountSelected = null;
+      this.showResume = false;
+    }
+  }
+
+  private mountPurchaseModel(): Purchase {
+    const purchase: Purchase = {
+      amount: this.transactionValues.amount,
+      currency: 'BRL',
+      date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      destinationAccount: this.transactionValues.destinationHash
+        ? { hash: this.transactionValues.destinationHash }
+        : { number: this.accountSelected },
+      installments: this.transactionValues.installments,
+      plan: this.transactionValues.plan,
+      holderAccount: {
+        number: this.myHolderNumber
+      }
+    };
+
+    return purchase;
   }
 
   private readQrCode() {
@@ -126,7 +181,11 @@ export class BuyPageComponent implements OnInit, OnDestroy {
       .then(result => {
         const scannerResult: any = JSON.parse(result.text);
         this.transactionValues.destinationHash = scannerResult.hash;
-        this.transactionValues.destinationAccount = scannerResult.phone.trim();
+        this.accountSelected = scannerResult.phone.trim();
+        this.open('plan');
+      })
+      .catch(err => {
+        this.toastHelper.showToast('Ação cancelada pelo usuário');
       });
   }
 
@@ -134,7 +193,7 @@ export class BuyPageComponent implements OnInit, OnDestroy {
     if (
       this.transactionValues.amount &&
       this.transactionValues.plan &&
-      this.transactionValues.destinationAccount
+      this.accountSelected
     ) {
       this.showFinalButton = true;
     } else {
@@ -144,13 +203,33 @@ export class BuyPageComponent implements OnInit, OnDestroy {
 
   private animationQrButton(view: View): void {
     const state1 = view.createAnimation({
-      backgroundColor: new Color('#1e98d4'),
+      scale: { x: 1.1, y: 1.1 },
       duration: 100
     });
     const state2 = view.createAnimation({
-      backgroundColor: new Color('#FFFFFF')
+      scale: { x: 1, y: 1 }
     });
 
     state1.play().then(() => state2.play());
+  }
+
+  private prepareResumeModel(result: any): void {
+    const pluralInstallment =
+      this.transactionValues.installments > 1 ? 'Vezes' : 'Vez';
+    this.resumeModel = {
+      amount: this.transactionValues.amount,
+      destinyAccount: this.accountSelected,
+      hasFailure: !result.success,
+      status: result.errors ? result.errors[0].message : result.content.status,
+      statusCode: result.errors ? result.errors[0].code : null,
+      transactionType: 'Compra',
+      plan:
+        this.transactionValues.plan === 'Prepaid'
+          ? 'Pré-pago'
+          : 'Pós-pago ' +
+            this.transactionValues.installments +
+            ' ' +
+            pluralInstallment
+    };
   }
 }

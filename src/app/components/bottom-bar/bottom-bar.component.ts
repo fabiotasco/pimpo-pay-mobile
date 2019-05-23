@@ -4,7 +4,8 @@ import {
   ViewChild,
   ElementRef,
   Output,
-  EventEmitter
+  EventEmitter,
+  Input
 } from '@angular/core';
 import { AnimationCurve } from 'tns-core-modules/ui/enums';
 import { screen } from 'tns-core-modules/platform';
@@ -17,6 +18,7 @@ import { screen } from 'tns-core-modules/platform';
 })
 export class BottomBarComponent implements OnInit {
   @ViewChild('tabHighlight') tabHighlight: ElementRef;
+  @Input()
   selectedTab: number = 0;
 
   @ViewChild('image1') image1: ElementRef;

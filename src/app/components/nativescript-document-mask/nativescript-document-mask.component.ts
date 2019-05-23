@@ -35,6 +35,9 @@ export class NativescriptDocumentMaskComponent
   @Output()
   returnPress = new EventEmitter();
 
+  @Output()
+  onTextChange = new EventEmitter();
+
   value = '';
 
   constructor(private page: Page) {}
@@ -44,11 +47,12 @@ export class NativescriptDocumentMaskComponent
 
   changeEvent(event: any) {
     let noFormatText: string = '';
-    let defaultValue;
+    let defaultValue: any;
     if (event.object.text) {
       defaultValue = event.object.text;
       noFormatText = event.object.text.replace(/\D/g, '');
     }
+    this.onTextChange.emit(noFormatText);
 
     if (noFormatText.length <= 11 && this.type !== DocumentType.PHONE) {
       this.type = DocumentType.CPF;
@@ -73,13 +77,12 @@ export class NativescriptDocumentMaskComponent
     } else if (this.type === DocumentType.PHONE) {
       this.value = this.formatToPhone(noFormatText);
       this.setFocusPositionToFinish();
-      this.propagateOnChange(this.value.replace(/\D/g, ''));
+      this.propagateOnChange(noFormatText);
     }
   }
 
   writeValue(obj: string): void {
     if (obj) {
-      console.log(obj);
       this.value =
         obj.length === 11 ? this.formatToCpf(obj) : this.formatToCnpj(obj);
     }

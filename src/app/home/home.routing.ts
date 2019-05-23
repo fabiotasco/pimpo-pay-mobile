@@ -11,6 +11,11 @@ import { UserPageComponent } from './user-page/user.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'balance',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: HomePageComponent,
     children: [
       { path: 'buy', component: BuyPageComponent },

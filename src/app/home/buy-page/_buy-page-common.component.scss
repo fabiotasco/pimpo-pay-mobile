@@ -156,3 +156,29 @@
     /* background: linear-gradient(to top, lighten($primary, 5%), $primary); */
   }
 }
+
+.of-top {
+  animation: slide-down 1s ease 0 1 normal forwards;
+}
+
+.of-bottom {
+  animation: slide-up 1s ease 0 1 normal forwards;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(900);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-900);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
