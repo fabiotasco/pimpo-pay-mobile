@@ -2,6 +2,10 @@ npm-debug.log
 .DS_Store
 
 *.js.map
+*.js
+*.css
+**/*.css
+**/*.js
 app/**/*.js
 e2e/**/*.js
 e2e/reports/
