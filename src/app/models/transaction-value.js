@@ -1,9 +1,0 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var TransactionValue = /** @class */ (function () {
-    function TransactionValue() {
-    }
-    return TransactionValue;
-}());
-exports.TransactionValue = TransactionValue;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidHJhbnNhY3Rpb24tdmFsdWUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJ0cmFuc2FjdGlvbi12YWx1ZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUdBO0lBT0U7SUFBZSxDQUFDO0lBQ2xCLHVCQUFDO0FBQUQsQ0FBQyxBQVJELElBUUM7QUFSWSw0Q0FBZ0IiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBEZXN0aW5hdGlvbkFjY291bnQgfSBmcm9tICcuL2Rlc3RpbmF0aW9uLWFjY291bnQnO1xuaW1wb3J0IHsgSG9sZGVyQWNjb3VudCB9IGZyb20gJy4vaG9sZGVyLWFjY291bnQnO1xuXG5leHBvcnQgY2xhc3MgVHJhbnNhY3Rpb25WYWx1ZSB7XG4gIGFtb3VudDogbnVtYmVyO1xuICBpbnN0YWxsbWVudHM6IG51bWJlcjtcbiAgcGxhbjogc3RyaW5nO1xuICBkZXN0aW5hdGlvbkFjY291bnQ6IHN0cmluZztcbiAgZGVzdGluYXRpb25IYXNoOiBzdHJpbmc7XG5cbiAgY29uc3RydWN0b3IoKSB7fVxufVxuIl19
