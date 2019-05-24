@@ -7,21 +7,22 @@ import { NgShadowModule } from 'nativescript-ng-shadow';
 import { CurrencyMaskPtComponent } from '../components/nativescript-currency-mask/nativescript-currency-mask.component';
 import { NativescriptDocumentMaskComponent } from '../components/nativescript-document-mask/nativescript-document-mask.component';
 import { FormsModule } from '@angular/forms';
-import { PhoneMaskComponent } from '../components/nativescript-phone-mask/nativescript-phone-mask.component';
+import { NativescriptMaskModule } from '../components/nativescript-currency-mask/nativescript-mask.module';
+import { NativescriptDocumentMaskModule } from '../components/nativescript-document-mask/nativescript-document-mask.module';
+import { LoadingComponent } from '../components/loading/loading.component';
+import { ResumeComponent } from '../components/resume/resume.component';
 
 @NgModule({
-  declarations: [
-    CurrencyMaskPtComponent,
-    NativescriptDocumentMaskComponent,
-    PhoneMaskComponent
-  ],
+  declarations: [LoadingComponent, ResumeComponent],
   imports: [
     NativeScriptCommonModule,
     BottomModule,
     HeaderBarModule,
     NativeScriptFormsModule,
     NgShadowModule,
-    FormsModule
+    FormsModule,
+    NativescriptMaskModule,
+    NativescriptDocumentMaskModule
   ],
   exports: [
     NativeScriptCommonModule,
@@ -30,9 +31,10 @@ import { PhoneMaskComponent } from '../components/nativescript-phone-mask/native
     HeaderBarModule,
     NativeScriptFormsModule,
     NgShadowModule,
-    CurrencyMaskPtComponent,
     NativescriptDocumentMaskComponent,
-    PhoneMaskComponent
+    NativescriptMaskModule,
+    LoadingComponent,
+    ResumeComponent
   ],
   schemas: [NO_ERRORS_SCHEMA]
 })

@@ -227,12 +227,14 @@
         </GridLayout>
 
         <StackLayout row="1" col="0" colSpan="2" *ngIf="showPhoneNumberField">
-          <TextFieldPhone
-            hint="Insira o DDD e o número de telefone"
+          <TextField
+            hint="Digite o telefone"
             [(ngModel)]="selectedAccount"
-            [fontSize]="18"
-            className="input-transaction"
-          ></TextFieldPhone>
+            keyboardType="phone"
+            fontSize1="18"
+            class="input-transaction"
+            text=""
+          ></TextField>
         </StackLayout>
       </GridLayout>
 
@@ -289,7 +291,7 @@
       ></Label>
     </GridLayout> -->
 
-    <!--  <GridLayout
+   <!--  <GridLayout
       row="2"
       *ngIf="!planOk"
       rows="*,*,*,*"
@@ -490,17 +492,11 @@
       <StackLayout row="2" class="hr-light m-t-30"> </StackLayout>
 
       <StackLayout row="3" class="text-center" marginTop="16">
-        <FlexboxLayout
+        <StackLayout
           class="circle approved"
-          justifyContent="center"
-          alignItens="center"
           [ngClass]="transactionSuccess ? 'approved bg-success' : 'rejected'"
         >
-          <Image
-            [src]="transactionSuccess ? 'res://ok' : 'res://close'"
-            width="64"
-          ></Image>
-        </FlexboxLayout>
+        </StackLayout>
         <Label
           [text]="transactionSuccess ? 'Trnansferencia Aprovada' : errorMessage"
           padding="8"
@@ -512,14 +508,14 @@
       </StackLayout>
     </GridLayout>
 
-    <FAB
-      row="1"
-      *ngIf="!transactionSuccess"
-      (tap)="newTransaction()"
-      icon="res://baseline_autorenew_white_48"
-      rippleColor="#ff77a9"
-      class="fab-button"
-    ></FAB>
+    <StackLayout row="1">
+      <FAB
+        (tap)="newTransaction()"
+        icon="res://baseline_autorenew_white_48"
+        rippleColor="#ff77a9"
+        class="fab-button"
+      ></FAB>
+    </StackLayout>
   </GridLayout>
 
   <FlexboxLayout

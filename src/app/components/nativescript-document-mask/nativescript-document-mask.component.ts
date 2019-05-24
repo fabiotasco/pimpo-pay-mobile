@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  forwardRef,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field/text-field';
 import { Page } from 'tns-core-modules/ui/page/page';
@@ -15,15 +22,21 @@ import { Page } from 'tns-core-modules/ui/page/page';
     }
   ]
 })
-export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAccessor {
+export class NativescriptDocumentMaskComponent
+  implements OnInit, ControlValueAccessor {
   @Input() className: string;
   @Input() type: DocumentType = DocumentType.CPF;
-  @Input() row: number;
-  @Input() id: string;
-  @Input() col: number;
+  @Input() returnKeyType = 'next';
+  @Input() fieldId = 'default';
   @Input() required = false;
-  @Input() name: string;
-  @Input() hint: string;
+  @Input() name = 'default';
+  @Input() fieldHint = 'Conteudo';
+
+  @Output()
+  returnPress = new EventEmitter();
+
+  @Output()
+  onTextChange = new EventEmitter();
 
   value = '';
 
@@ -34,8 +47,23 @@ export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAc
 
   changeEvent(event: any) {
     let noFormatText: string = '';
+    let defaultValue: any;
     if (event.object.text) {
+      defaultValue = event.object.text;
       noFormatText = event.object.text.replace(/\D/g, '');
+    }
+    this.onTextChange.emit(noFormatText);
+
+    if (noFormatText.length <= 11 && this.type !== DocumentType.PHONE) {
+      this.type = DocumentType.CPF;
+    } else if (
+      noFormatText.length > 11 &&
+      noFormatText.length <= 15 &&
+      this.type !== DocumentType.PHONE
+    ) {
+      this.type = DocumentType.CNPJ;
+    } else if (this.type !== DocumentType.PHONE) {
+      return;
     }
 
     if (this.type === DocumentType.CPF) {
@@ -49,14 +77,19 @@ export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAc
     } else if (this.type === DocumentType.PHONE) {
       this.value = this.formatToPhone(noFormatText);
       this.setFocusPositionToFinish();
-      this.propagateOnChange(this.value.replace(/\D/g, ''));
+      this.propagateOnChange(noFormatText);
     }
   }
 
   writeValue(obj: string): void {
     if (obj) {
-      this.value = obj.length === 11 ? this.formatToCpf(obj) : this.formatToCnpj(obj);
+      this.value =
+        obj.length === 11 ? this.formatToCpf(obj) : this.formatToCnpj(obj);
     }
+  }
+
+  returnKeyPress(event: any): void {
+    this.returnPress.emit(event);
   }
   registerOnChange(fn: any): void {
     this.propagateOnChange = fn;
@@ -68,6 +101,15 @@ export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAc
     // todo
   }
 
+  public getMaxSize(): string {
+    const sizes = {
+      cpf: 18,
+      cnpj: 18,
+      phone: 13
+    };
+
+    return sizes[this.type.toString()];
+  }
   private formatToCpf(v: string): string {
     v = v.replace(/\D/g, ''); // Remove tudo o que não é dígito
     v = v.replace(/(\d{3})(\d)/, '$1.$2'); // Coloca um ponto entre o terceiro e o quarto dígitos
@@ -100,7 +142,7 @@ export class NativescriptDocumentMaskComponent implements OnInit, ControlValueAc
   }
 
   private setFocusPositionToFinish(): void {
-    const textField = this.page.getViewById(this.id);
+    const textField = this.page.getViewById(this.fieldId);
     if (textField && this.page.android) {
       textField.android.setSelection(textField.android.length());
     }

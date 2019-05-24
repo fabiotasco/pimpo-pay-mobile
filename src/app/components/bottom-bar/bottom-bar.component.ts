@@ -1,42 +1,27 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core';
 import { AnimationCurve } from 'tns-core-modules/ui/enums';
 import { screen } from 'tns-core-modules/platform';
-import * as storage from 'nativescript-localstorage';
-import { ACCESS, AccessType } from '~/app/utils/variables';
 
 @Component({
   moduleId: module.id,
-  selector: 'PimpoBottomBar',
-  templateUrl: './bottom-bar.component.html',
-  styleUrls: ['./bottom-bar.component.css']
+  selector: 'PimpoBottomBar,[PimpoBottomBar]',
+  templateUrl: './bottom-bar.component.html'
 })
 export class BottomBarComponent implements OnInit {
   @ViewChild('tabHighlight') tabHighlight: ElementRef;
+  @Input()
   selectedTab: number = 0;
-  acessType: string;
 
   @ViewChild('image1') image1: ElementRef;
   @ViewChild('image2') image2: ElementRef;
   @ViewChild('image3') image3: ElementRef;
   @ViewChild('image4') image4: ElementRef;
   @ViewChild('image5') image5: ElementRef;
-  transactionName: string;
 
   @Output() tabSelected = new EventEmitter<any>();
   constructor() {}
 
-  ngOnInit() {
-    this.acessType = storage.getItem(ACCESS);
-    this.transactionName =
-      this.acessType === AccessType.BUSINESS ? 'Venda' : 'Compra';
-  }
+  ngOnInit() {}
 
   selectTab(index: number, tabName: string) {
     let previousTab = this.selectedTab;
@@ -53,8 +38,8 @@ export class BottomBarComponent implements OnInit {
     }
   }
 
-  getImage(index: any) {
-    let currentImage: any;
+  getImage(index) {
+    let currentImage;
     switch (index) {
       case 0:
         currentImage = this.image1;

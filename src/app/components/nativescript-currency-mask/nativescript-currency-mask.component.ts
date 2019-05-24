@@ -1,4 +1,11 @@
-import { forwardRef, OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  forwardRef,
+  OnInit,
+  Component,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field';
 import { Page } from 'tns-core-modules/ui/page/page';
@@ -6,7 +13,7 @@ import { Page } from 'tns-core-modules/ui/page/page';
 @Component({
   moduleId: module.id,
   templateUrl: './nativescript-currency-mask.component.html',
-  selector: 'TextFieldCurrency',
+  selector: 'TextFieldCurrency,[TextFieldCurrency]',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -34,7 +41,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
   col: string;
 
   @Output()
-  blur = new EventEmitter();
+  returnPress = new EventEmitter();
 
   inputValue: string;
   private fieldValue: TextField;
@@ -87,7 +94,10 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
       } else if (value.length === 11) {
         value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3,$4');
       } else if (value.length === 12) {
-        value = value.replace(/(\d{1})(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3.$4,$5');
+        value = value.replace(
+          /(\d{1})(\d{3})(\d{3})(\d{3})(\d{2})/,
+          '$1.$2.$3.$4,$5'
+        );
       } else {
         value = value.replace(/(\d{10,})(\d{2})/, '$1.$2');
       }
@@ -103,7 +113,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
   }
 
   focusOut(event: any) {
-    this.blur.emit(event);
+    this.returnPress.emit(event);
   }
 
   private prepareToPropagate(value: string): string {

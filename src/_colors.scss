@@ -1,8 +1,8 @@
 $green: #4db6ac;
 $dark: #00867d;
-$greenSuccess:#009900;
+$greenSuccess:#1ed4b6;
 $light: #e1e2e1;
-$pink: #ec407a;
+$pink: #d41e98;
 $pink-light: #ff77a9;
 $pink-dark: #b4004e;
 $gray: #333633;
@@ -10,11 +10,12 @@ $gray-light: #5c605c;
 $gray-dark: #0c100c;
 $red: #ff0000;
 $redError: #cc0000;
-$blue: #004c99;
+$blue: #1E98D4;
+$lightBlue: #54B7CE;
 $orange: #f76b00;
 $light-green: #99f9bb;
 
-$principal: $green !default;
+$principal: $blue !default;
 $complementary: $pink !default;
 $complementary-light: $gray-light !default;
 $complementary-dark: $gray-dark !default;

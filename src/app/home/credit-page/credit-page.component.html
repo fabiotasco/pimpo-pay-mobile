@@ -22,8 +22,7 @@
       orientation="horizontal"
     >
       <StackLayout col="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout class="circle" backgroundColor="#009900" marginRight="8">
-        </StackLayout>
+        <StackLayout class="circle" backgroundColor="#009900" marginRight="8"> </StackLayout>
         <Label
           (tap)="cardClick('buyCard')"
           text="Valor"
@@ -56,13 +55,7 @@
       orientation="horizontal"
     >
       <StackLayout row="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout
-          id="buyCard"
-          class="circle"
-          backgroundColor="#ffffff"
-          marginRight="8"
-          (tap)="cardClick('buyCard')"
-        >
+        <StackLayout id="buyCard" class="circle" backgroundColor="#ffffff" marginRight="8" (tap)="cardClick('buyCard')">
         </StackLayout>
         <Label
           (tap)="cardClick('buyCard')"
@@ -74,16 +67,7 @@
         ></Label>
       </StackLayout>
 
-      <TextFieldCurrency
-        *ngIf="showBuyCard"
-        marginTop="16"
-        [(ngModel)]="selectedValue"
-        hint="0,00"
-        row="1"
-        className="input-transaction"
-      ></TextFieldCurrency>
-
-      <!--  <TextField
+      <TextField
         *ngIf="showBuyCard"
         marginTop="16"
         [(ngModel)]="selectedValue"
@@ -92,7 +76,7 @@
         row="1"
         class="input-transaction"
       ></TextField>
- -->
+
       <button
         *ngIf="showBuyCard"
         row="2"
@@ -120,8 +104,7 @@
       orientation="horizontal"
     >
       <StackLayout col="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout class="circle" backgroundColor="#009900" marginRight="8">
-        </StackLayout>
+        <StackLayout class="circle" backgroundColor="#009900" marginRight="8"> </StackLayout>
         <Label
           (tap)="cardClick('buyCard')"
           text="Plano"
@@ -134,11 +117,7 @@
 
       <Label
         col="1"
-        [text]="
-          selectedPlan.name === 'Prepaid'
-            ? 'Pré Pago'
-            : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'
-        "
+        [text]="selectedPlan.name === 'Prepaid' ? 'Pré Pago' : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'"
         class="text-bold"
         fontSize="16"
         paddingTop="4"
@@ -158,13 +137,7 @@
       orientation="horizontal"
     >
       <StackLayout row="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout
-          id="planCard"
-          class="circle"
-          marginRight="8"
-          (tap)="cardClick('planCard')"
-        >
-        </StackLayout>
+        <StackLayout id="planCard" class="circle" marginRight="8" (tap)="cardClick('planCard')"> </StackLayout>
         <Label
           text="Informe o plano"
           class="text-bold"
@@ -188,31 +161,10 @@
       ></Label>
       <StackLayout *ngIf="showPlanCard" row="2" class="hr-light"> </StackLayout>
 
-      <GridLayout
-        *ngIf="showPlanCard"
-        row="3"
-        rows="*,*"
-        paddingTop="8"
-        paddingBottom="8"
-      >
-        <GridLayout
-          row="0"
-          columns="*,auto"
-          (tap)="posPagClick($event, 'chevron-installment')"
-        >
-          <Label
-            col="0"
-            text="Pós Pago"
-            class="body"
-            fontSize="16"
-            textWrap="true"
-          ></Label>
-          <Image
-            id="chevron-installment"
-            col="1"
-            [src]="menuChevron"
-            width="24"
-          ></Image>
+      <GridLayout *ngIf="showPlanCard" row="3" rows="*,*" paddingTop="8" paddingBottom="8">
+        <GridLayout row="0" columns="*,auto" (tap)="posPagClick($event, 'chevron-installment')">
+          <Label col="0" text="Pós Pago" class="body" fontSize="16" textWrap="true"></Label>
+          <Image id="chevron-installment" col="1" [src]="menuChevron" width="24"></Image>
         </GridLayout>
 
         <StackLayout row="1" col="0" colSpan="2" *ngIf="showInstallmentField">
@@ -247,11 +199,11 @@
     ></button>
   </GridLayout>
 
-  <GridLayout rows="*,auto" *ngIf="transactionFinish && !isLoading">
+  <GridLayout rows="*,auto"  *ngIf="transactionFinish && !isLoading">
     <GridLayout
       row="0"
       rows="auto,*,auto,*,*"
-      paddingBottom="30"
+      paddingBottom="60"
       marginLeft="16"
       marginRight="16"
       marginTop="16"
@@ -265,21 +217,8 @@
         paddingBottom="16"
       ></Label>
 
-      <GridLayout
-        shadow="2"
-        row="1"
-        rows="*,auto,*"
-        columns="*,auto"
-        padding="16"
-      >
-        <Label
-          padding="8"
-          row="0"
-          col="0"
-          text="Valor"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
+      <GridLayout shadow="2" row="1" rows="*,auto,*" columns="*,auto" padding="16">
+        <Label padding="8" row="0" col="0" text="Valor" textWrap="true" fontSize="16"></Label>
         <Label
           padding="8"
           row="0"
@@ -289,28 +228,16 @@
           class="text-bold"
           textWrap="true"
         ></Label>
-        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light">
-        </StackLayout>
+        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
 
-        <Label
-          padding="8"
-          row="2"
-          col="0"
-          text="Plano"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
+        <Label padding="8" row="2" col="0" text="Plano" textWrap="true" fontSize="16"></Label>
         <Label
           row="2"
           col="1"
           class="text-bold"
           fontSize="16"
           padding="8"
-          [text]="
-            selectedPlan.name === 'Prepaid'
-              ? 'Pré Pago'
-              : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'
-          "
+          [text]="selectedPlan.name === 'Prepaid' ? 'Pré Pago' : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'"
           textWrap="true"
         ></Label>
       </GridLayout>
@@ -325,21 +252,9 @@
       ></Label>
 
       <StackLayout row="3" class="text-center" marginTop="16">
-        <FlexboxLayout
-          class="circle approved"
-          justifyContent="center"
-          alignItens="center"
-          [ngClass]="transactionSuccess ? 'approved bg-success' : 'rejected'"
-        >
-          <Image
-            [src]="transactionSuccess ? 'res://ok' : 'res://close'"
-            width="64"
-          ></Image>
-        </FlexboxLayout>
+        <StackLayout class="circle approved" [ngClass]="transactionSuccess ? 'approved' : 'rejected'"> </StackLayout>
         <Label
-          [text]="
-            transactionSuccess ? 'Depósito concluído com sucesso' : errorMessage
-          "
+          [text]="transactionSuccess ? 'Depósito Aprovada' : errorMessage"
           padding="8"
           fontSize="20"
           class="text-bold"
@@ -349,27 +264,17 @@
       </StackLayout>
     </GridLayout>
 
-    <FAB
-      row="1"
-      *ngIf="!transactionSuccess"
-      (tap)="newTransaction()"
-      icon="res://baseline_autorenew_white_48"
-      rippleColor="#ff77a9"
-      class="fab-button"
-    ></FAB>
+    <StackLayout row="1">
+      <FAB
+        (tap)="newTransaction()"
+        icon="res://baseline_autorenew_white_48"
+        rippleColor="#ff77a9"
+        class="fab-button"
+      ></FAB>
+    </StackLayout>
   </GridLayout>
 
-  <FlexboxLayout
-    *ngIf="isLoading"
-    flexDirection="column"
-    justifyContent="center"
-    alignItems="center"
-  >
-    <ActivityIndicator
-      width="100"
-      height="100"
-      [busy]="isLoading"
-      class="activity-indicator"
-    ></ActivityIndicator>
+  <FlexboxLayout *ngIf="isLoading" flexDirection="column" justifyContent="center" alignItems="center">
+    <ActivityIndicator width="100" height="100" [busy]="isLoading" class="activity-indicator"></ActivityIndicator>
   </FlexboxLayout>
 </ScrollView>

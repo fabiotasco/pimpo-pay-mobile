@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { Page, View, Color } from 'tns-core-modules/ui/page/page';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Page, View } from 'tns-core-modules/ui/page/page';
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { AccountService } from '~/app/services/account.service';
 import { TransactionService } from '~/app/services/trasaction.service';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
-import { AndroidData, ShapeEnum } from 'nativescript-ng-shadow';
-import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layout';
-import { Button } from 'tns-core-modules/ui/button';
-import { Plan } from '~/app/models/plan';
 import { UserData } from '~/app/models/user-data';
 import { Purchase } from '~/app/models/purchase';
 import * as moment from 'moment';
-import { PositionChevron } from '~/app/utils/variables';
-import * as storage from 'nativescript-localstorage';
-import { ACCESS, AccessType } from '~/app/utils/variables';
+import * as _ from 'lodash';
+import { TransactionCardService } from '~/app/components/transaction-card/transaction-card.service';
+import { Observable } from 'rxjs';
+import { TransactionValue } from '~/app/models/transaction-value';
+import { LoadingService } from '~/app/services/loading.service';
+import { ResumeModel, ResumeActionButton } from '~/app/utils/variables';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   moduleId: module.id,
@@ -21,198 +21,151 @@ import { ACCESS, AccessType } from '~/app/utils/variables';
   templateUrl: './buy-page.component.html',
   styleUrls: ['./buy-page.component.css']
 })
-export class BuyPageComponent implements OnInit {
-  public btnShadow: AndroidData = {
-    elevation: 2,
-    bgcolor: '#EC407A',
-    shape: ShapeEnum.RECTANGLE,
-    cornerRadius: 8
-  };
-  public menuChevron = 'res://baseline_chevron_left_black_24';
-  public actualPosition: PositionChevron;
-  public showInstallmentField = false;
-  public showQrCodeField = false;
-  public showPhoneNumberField = false;
-  public showBuyCard = true;
-  public showAccountCard = false;
-  public showPlanCard = false;
-
-  public selectedValue: number;
-  public selectedAccount: string;
-  public selectedPlan: Plan;
-  public valueOk = false;
-  public accountOk = false;
-  public planOk = false;
-
-  public useQrCode = false;
+export class BuyPageComponent implements OnInit, OnDestroy {
+  public transactionValues: TransactionValue;
+  public $cardOpened: Observable<string>;
+  public actualCardOpened = 'amount';
+  public showFinalButton = false;
   public myHolderNumber: string;
-  public destinationHash: string;
-
-  public isLoading = false;
-  public transactionFinish = false;
-  public transactionSuccess = false;
-  public errorMessage: string;
-  public transactionName: string;
-  public acessType: string;
-
+  public accountSelected: string;
+  public showResume = false;
+  public resumeModel: ResumeModel;
   constructor(
     private page: Page,
+    private transactionCardService: TransactionCardService,
     private barcode: BarcodeScanner,
     private accountService: AccountService,
     private transactionService: TransactionService,
-    private toastHelper: ToastHelperService
+    private toastHelper: ToastHelperService,
+    private loadingService: LoadingService,
+    private router: RouterExtensions
   ) {}
 
-  public ngOnInit() {
-    this.acessType = storage.getItem(ACCESS);
-    this.transactionName =
-      this.acessType === AccessType.BUSINESS ? 'Venda' : 'Compra';
-
+  ngOnInit() {
+    this.$cardOpened = this.transactionCardService.$partOpen;
     this.accountService.userData$.subscribe((user: UserData) => {
       this.myHolderNumber = user.phones[0].number;
     });
-    this.actualPosition = PositionChevron.CLOSE;
-    this.selectedPlan = new Plan();
-    this.selectedPlan.name = 'Prepaid';
+    this.transactionValues = new TransactionValue();
+  }
+
+  ngOnDestroy() {
+    this.transactionCardService.open('amount');
   }
 
   public scanCode(): void {
+    this.animationQrButton(this.page.getViewById('qrButton'));
     this.readQrCode();
   }
 
-  public finalizeTrasaction(btnId: string): void {
-    this.isLoading = true;
-    const view: Button = this.page.getViewById(btnId);
-    view
-      .animate({ backgroundColor: new Color('#ff77a9'), duration: 200 })
-      .then(() => {
-        view.animate({ backgroundColor: new Color('#ec407a'), duration: 200 });
-      });
+  public finalizeTrasaction(): void {
+    this.loadingService.show();
 
-    let destinationAccount: any = { hash: this.destinationHash };
-    if (!this.useQrCode) {
-      destinationAccount = { number: this.selectedAccount };
+    this.transactionService
+      .executePurchase(this.mountPurchaseModel())
+      .subscribe(
+        res => {
+          this.loadingService.hide();
+          this.prepareResumeModel(res);
+          this.showResume = true;
+
+          if (res.success) {
+            this.transactionValues = new TransactionValue();
+            this.transactionCardService.open('amount');
+            return;
+          }
+        },
+        err => {
+          this.loadingService.hide();
+          this.toastHelper.showToast(err.errors[0].message);
+        }
+      );
+  }
+
+  public open(part: string): void {
+    if (
+      this.actualCardOpened === 'destinationAccount' &&
+      !this.transactionValues.destinationHash
+    ) {
+      this.accountSelected = '+55' + this.transactionValues.destinationAccount;
     }
 
+    if (
+      (part !== this.actualCardOpened &&
+        this.transactionValues[this.actualCardOpened]) ||
+      (this.transactionValues[this.actualCardOpened] &&
+        this.transactionValues[part])
+    ) {
+      this.actualCardOpened = part;
+      this.transactionCardService.open(part);
+    } else if (
+      this.actualCardOpened === 'destinationAccount' &&
+      this.accountSelected
+    ) {
+      this.actualCardOpened = part;
+      this.transactionCardService.open(part);
+    } else if (part !== this.actualCardOpened) {
+      this.toastHelper.showToast('Preencha o campo solicitado');
+    }
+
+    this.validateData();
+  }
+
+  public selectPaymentType(paymentType: any): void {
+    this.transactionValues.plan = paymentType.type;
+    this.transactionValues.installments = paymentType.installments;
+    if (this.transactionValues.plan === 'Prepaid') {
+      this.transactionCardService.closeAll();
+    }
+    this.validateData();
+  }
+
+  public changeAccountValue(event: any): void {
+    if (this.resumeModel) {
+      setTimeout(() => {
+        this.resumeModel = null;
+      }, 200);
+    } else {
+      this.transactionValues.destinationHash = null;
+      this.accountSelected = null;
+    }
+  }
+
+  public done(): void {
+    this.transactionCardService.closeAll();
+  }
+
+  public resumeBtnClicked(btnClicked: string): void {
+    if (btnClicked === ResumeActionButton.RETRY) {
+      this.showResume = false;
+    }
+
+    if (btnClicked === ResumeActionButton.NEW) {
+      this.transactionValues = new TransactionValue();
+      this.transactionCardService.open('amount');
+      this.actualCardOpened = 'amount';
+      this.showFinalButton = false;
+      this.accountSelected = null;
+      this.showResume = false;
+    }
+  }
+
+  private mountPurchaseModel(): Purchase {
     const purchase: Purchase = {
-      amount: this.selectedValue,
+      amount: this.transactionValues.amount,
       currency: 'BRL',
       date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
-      destinationAccount: destinationAccount,
-      installments: this.selectedPlan.installments,
-      plan: this.selectedPlan.name,
+      destinationAccount: this.transactionValues.destinationHash
+        ? { hash: this.transactionValues.destinationHash }
+        : { number: this.accountSelected },
+      installments: this.transactionValues.installments,
+      plan: this.transactionValues.plan,
       holderAccount: {
         number: this.myHolderNumber
       }
     };
 
-    this.transactionService.executePurchase(purchase).subscribe(res => {
-      this.isLoading = false;
-      this.transactionFinish = true;
-      this.transactionSuccess = res.success;
-      if (!this.transactionSuccess) {
-        this.errorMessage = res.errors[0].message;
-      }
-    });
-  }
-
-  public newTransaction(): void {
-    this.transactionFinish = false;
-  }
-
-  public setValue() {
-    if (!this.selectedValue) {
-      this.toastHelper.showToast('Informe o valor da compra');
-      return;
-    }
-    this.valueOk = true;
-    this.showBuyCard = false;
-    this.showAccountCard = true;
-  }
-
-  public setAccount() {
-    if (!this.selectedValue) {
-      this.toastHelper.showToast('Informe o valor da compra');
-      return;
-    }
-
-    if (!this.selectedAccount) {
-      this.toastHelper.showToast('Informe a conta destino');
-      return;
-    }
-    if (!this.useQrCode) {
-      this.selectedAccount =
-        '+55' + this.selectedAccount.replace('-', '').trim();
-    }
-
-    this.accountOk = true;
-    this.showAccountCard = false;
-    this.showPlanCard = true;
-  }
-
-  public setPlan(plan: string, installment = 0) {
-    this.selectedPlan.name = plan;
-    this.selectedPlan.installments = installment;
-    this.planOk = true;
-    this.showAccountCard = false;
-    this.showBuyCard = false;
-  }
-
-  public cardClick(id: string): void {
-    const view: StackLayout = this.page.getViewById(id);
-
-    this.setCardExibition(view, id);
-  }
-
-  public qrCodeClick(event: any, imageViewId: string) {
-    const view = event.view.getViewById(imageViewId);
-    this.executeAnimation(view);
-    this.showQrCodeField = !this.showQrCodeField;
-  }
-
-  public phoneFieldClick(event: any, imageViewId: string) {
-    const view = event.view.getViewById(imageViewId);
-    this.executeAnimation(view);
-    this.showPhoneNumberField = !this.showPhoneNumberField;
-  }
-
-  public posPagClick(event: any, imageViewId: string) {
-    const view = event.view.getViewById(imageViewId);
-    this.executeAnimation(view);
-    this.showInstallmentField = !this.showInstallmentField;
-  }
-
-  public reenterValue(): void {
-    this.selectedValue = null;
-    this.showBuyCard = true;
-    this.valueOk = false;
-    setTimeout(() => {
-      const view: StackLayout = this.page.getViewById('buyCard');
-      view.style.background = '#ffffff';
-    }, 100);
-  }
-
-  public reenterAccount(): void {
-    this.selectedAccount = null;
-    this.showAccountCard = true;
-    this.useQrCode = false;
-    this.accountOk = false;
-
-    setTimeout(() => {
-      const view: StackLayout = this.page.getViewById('accountCard');
-      view.style.background = '#ffffff';
-    }, 100);
-  }
-
-  public reenterPlan(): void {
-    this.selectedPlan = new Plan();
-    this.showPlanCard = true;
-    this.planOk = false;
-
-    setTimeout(() => {
-      const view: StackLayout = this.page.getViewById('planCard');
-      view.style.background = '#ffffff';
-    }, 100);
+    return purchase;
   }
 
   private readQrCode() {
@@ -227,96 +180,56 @@ export class BuyPageComponent implements OnInit {
       })
       .then(result => {
         const scannerResult: any = JSON.parse(result.text);
-
-        this.useQrCode = true;
-        this.selectedAccount = scannerResult.phone.trim();
-        this.destinationHash = scannerResult.hash;
-        this.setAccount();
+        this.transactionValues.destinationHash = scannerResult.hash;
+        this.accountSelected = scannerResult.phone.trim();
+        this.open('plan');
+      })
+      .catch(err => {
+        this.toastHelper.showToast('Ação cancelada pelo usuário');
       });
   }
 
-  private executeAnimation(view: View): void {
-    if (this.actualPosition === PositionChevron.CLOSE) {
-      this.actualPosition = PositionChevron.OPEN;
-      view.animate({ rotate: PositionChevron.OPEN, duration: 200 });
-    } else if (this.actualPosition === PositionChevron.OPEN) {
-      this.actualPosition = PositionChevron.CLOSE;
-      view.animate({ rotate: PositionChevron.CLOSE, duration: 200 });
+  private validateData(): void {
+    if (
+      this.transactionValues.amount &&
+      this.transactionValues.plan &&
+      this.accountSelected
+    ) {
+      this.showFinalButton = true;
+    } else {
+      this.showFinalButton = false;
     }
   }
 
-  private setCardExibition(viewToAnimate, id: string): void {
-    const buyCardView: StackLayout = this.page.getViewById('buyCard');
-    const accountCardView: StackLayout = this.page.getViewById('accountCard');
-    const planCardView: StackLayout = this.page.getViewById('planCard');
-
-    switch (id) {
-      case 'buyCard':
-        if (!this.showBuyCard) {
-          this.showBuyCard = true;
-          this.showAccountCard = false;
-          this.showPlanCard = false;
-          this.excuteAnimationOfCards(viewToAnimate);
-          if (accountCardView && planCardView) {
-            accountCardView.animate({
-              backgroundColor: new Color('#5c605c'),
-              duration: 100
-            });
-            planCardView.animate({
-              backgroundColor: new Color('#5c605c'),
-              duration: 100
-            });
-          }
-        }
-
-        break;
-      case 'accountCard':
-        if (!this.showAccountCard) {
-          this.showAccountCard = !this.showAccountCard;
-          this.showBuyCard = false;
-          this.showPlanCard = false;
-          this.excuteAnimationOfCards(viewToAnimate);
-          if (buyCardView && planCardView) {
-            buyCardView.animate({
-              backgroundColor: new Color('#5c605c'),
-              duration: 100
-            });
-            planCardView.animate({
-              backgroundColor: new Color('#5c605c'),
-              duration: 100
-            });
-          }
-        }
-        break;
-      case 'planCard':
-        if (!this.showPlanCard) {
-          this.showPlanCard = !this.showPlanCard;
-          this.showAccountCard = false;
-          this.showBuyCard = false;
-          this.excuteAnimationOfCards(viewToAnimate);
-          if (buyCardView && accountCardView) {
-            accountCardView.animate({
-              backgroundColor: new Color('#5c605c'),
-              duration: 100
-            });
-            buyCardView.animate({
-              backgroundColor: new Color('#5c605c'),
-              duration: 100
-            });
-          }
-        }
-
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  private excuteAnimationOfCards(viewToAnimate: View): void {
-    viewToAnimate.animate({
-      backgroundColor: new Color('#ffffff'),
+  private animationQrButton(view: View): void {
+    const state1 = view.createAnimation({
+      scale: { x: 1.1, y: 1.1 },
       duration: 100
     });
+    const state2 = view.createAnimation({
+      scale: { x: 1, y: 1 }
+    });
+
+    state1.play().then(() => state2.play());
+  }
+
+  private prepareResumeModel(result: any): void {
+    const pluralInstallment =
+      this.transactionValues.installments > 1 ? 'Vezes' : 'Vez';
+    this.resumeModel = {
+      amount: this.transactionValues.amount,
+      destinyAccount: this.accountSelected,
+      hasFailure: !result.success,
+      status: result.errors ? result.errors[0].message : result.content.status,
+      statusCode: result.errors ? result.errors[0].code : null,
+      transactionType: 'Compra',
+      plan:
+        this.transactionValues.plan === 'Prepaid'
+          ? 'Pré-pago'
+          : 'Pós-pago ' +
+            this.transactionValues.installments +
+            ' ' +
+            pluralInstallment
+    };
   }
 }

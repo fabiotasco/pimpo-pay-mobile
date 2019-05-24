@@ -1,3 +1,3 @@
-export interface HolderAccount {
+export class HolderAccount {
   number: string;
 }

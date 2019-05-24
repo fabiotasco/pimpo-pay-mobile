@@ -1,6 +1,6 @@
 @import '../../app-common';
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,18 +8,17 @@
 }
 
 .page {
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   font-weight: 300;
-  background-color: $principal;
+  background: $principal;
 }
 
-.form {
-  margin-left:16;
-  margin-right: 16;
-  flex-grow: 2;
-  vertical-align: middle;
-}
+/* .login-icon {
+  border-bottom-width: 1;
+  border-bottom-color: #ffffff;
+} */
 
 .logo {
   margin-bottom: 12;
@@ -36,14 +35,8 @@
 .input-field {
   border-width: 0 0 1 0;
   border-color: #fff;
-  padding: 5 0 0 0;
-}
-
-.input {
-  placeholder-color: #fff;
-  color:#fff;
-  padding-top: 15;
-  padding-left: 5;
+  padding: 0;
+  margin: 0;
 }
 
 .error-label {
@@ -71,5 +64,3 @@
   color: #212121;
   font-weight: 300;
 }
-
-

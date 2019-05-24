@@ -5,9 +5,10 @@
   [col]="col"
   [colSpan]="colSpan"
   [isEnabled]="isEnabled"
-  (blur)="focusOut($event)"
+  (returnPress)="focusOut($event)"
   id="fieldValue"
   [text]="inputValue"
   keyboardType="number"
+  [returnType]="returnKeyType"
   (textChange)="changeValue($event)"
 ></TextField>

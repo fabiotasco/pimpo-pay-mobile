@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { ListView } from 'tns-core-modules/ui/list-view';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { TransactionStatus } from '~/app/utils/variables';
 
 @Component({
   moduleId: module.id,
@@ -50,53 +49,38 @@ export class BalancePageComponent implements OnInit {
       });
   }
 
-  public getTransactionType(type: string): void {
+  getTransactionType(type: string): void {
     const types = {
       Purchase: 'Compra',
       Deposit: 'Depósito',
-      Transfer: 'Transferência'
+      Transfer: 'Transferencia'
     };
 
     return types[type];
   }
 
-  public getPaymentType(item: any) {
+  getPaymentType(payment: string) {
     const paymentTypes = {
       Prepaid: 'Débito',
       Credit: 'Crédito'
     };
-    const type =
-      item.status === TransactionStatus.CANCELLED
-        ? 'Cancelada'
-        : item.status === TransactionStatus.DENIED
-        ? 'Negada'
-        : paymentTypes[item.planType];
 
-    return type;
+    return paymentTypes[payment];
   }
 
-  public getTypeCssClass(item: any): string {
-    const className =
-      item.status === TransactionStatus.CANCELLED
-        ? 'text-success text-bold'
-        : item.type === 'Purchase'
-        ? 'text-danger text-bold'
-        : 'text-bold';
-
-    return className;
-  }
-
-  public onItemTap(event: any, item: Transaction): void {
+  onItemTap(event: any, item: Transaction): void {
     const view: View = event.view;
 
-    view.animate({ scale: { x: 1.1, y: 1.1 }, duration: 100 }).then(() => {
-      view.animate({ scale: { x: 1, y: 1 }, duration: 100 });
-      const transactionString = JSON.stringify(item);
-      this.router.navigate(['detail'], {
-        queryParams: {
-          transaction: transactionString
-        }
+    view
+      .animate({ scale: { x: 1.05, y: 1.05 }, duration: 100 })
+      .then(() => {
+        view.animate({ scale: { x: 1, y: 1 }, duration: 100 });
+        const transactionString = JSON.stringify(item);
+        this.router.navigate(["detail"], {
+          queryParams: {
+            transaction: transactionString
+          }
+        });
       });
-    });
   }
 }

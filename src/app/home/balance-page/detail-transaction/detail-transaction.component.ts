@@ -23,9 +23,6 @@ import { RouterExtensions } from 'nativescript-angular/router';
 export class DetailTransactionComponent implements OnInit {
   transaction: Transaction;
   transactionStatus = TransactionStatus;
-  transactionType: string;
-  isDeposit = false;
-
   constructor(
     private page: Page,
     private activetadRoute: ActivatedRoute,
@@ -37,14 +34,6 @@ export class DetailTransactionComponent implements OnInit {
   ngOnInit() {
     this.activetadRoute.queryParams.subscribe(params => {
       this.transaction = JSON.parse(params['transaction']);
-
-      this.transactionType =
-        this.transaction.type === 'Deposit'
-          ? 'Depósito'
-          : this.transaction.type === 'Transfer'
-          ? 'Transferência'
-          : 'Compra';
-      this.isDeposit = this.transaction.type === 'Deposit';
     });
   }
 
@@ -59,7 +48,7 @@ export class DetailTransactionComponent implements OnInit {
     });
     const options: ConfirmOptions = {
       cancelButtonText: 'Voltar',
-      message: 'Cancelar Transação',
+      message: 'Cancelar Transaçao',
       title: 'Transação',
       okButtonText: 'Confirmar',
       cancelable: false
@@ -72,7 +61,6 @@ export class DetailTransactionComponent implements OnInit {
           .subscribe(res => {
             if (res.success) {
               this.toast.showToast('Transaçao Cancelada');
-              this.trasactionService.getBalance();
               this.router.back();
               return;
             }

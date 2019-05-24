@@ -9,4 +9,5 @@ export interface Purchase {
   plan: string;
   destinationAccount: DestinationAccount;
   holderAccount: HolderAccount;
+
 }

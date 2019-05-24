@@ -27,8 +27,3 @@ tns create my-app-name --template https://github.com/NativeScript/template-hello
 # Issues
 
 Issues related to `template-hello-world-ng` template should be logged in the https://github.com/NativeScript/NativeScript repository.
-
-# Access Business test
-
-cnpj: 48328826000100
-password: kayrossxp

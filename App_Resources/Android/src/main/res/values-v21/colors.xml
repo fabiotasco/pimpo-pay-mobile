@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="ns_accent">#ec407a</color>
+    <color name="ns_primary">#1e98d4</color>
+    <color name="ns_primaryDark">#1574ad</color>
+	<color name="ns_accent">#d45b1e</color>
+    <color name="transparent">#00000000</color> 
 </resources>

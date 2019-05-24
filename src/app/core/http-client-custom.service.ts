@@ -61,7 +61,7 @@ export class HttpClientCustom {
     }
   }
 
-  public action(url: string, data: any, headers: any = {}): Observable<any> {
+  public action(url, data: any, headers: any = {}): Observable<any> {
     let httpOptions: HttpOptions = this.buildHttpOptions(null, headers);
     return this.httpClient
       .post<any>(url, data, { headers: httpOptions.headers })
@@ -116,7 +116,7 @@ export class HttpClientCustom {
   }
 
   private errorHandler(err) {
-    this.toastHelper.showToast(`${err.status} ${err.statusText}`);
+    this.toastHelper.showToast(`${err.statusText}`);
     return err.message;
   }
 }

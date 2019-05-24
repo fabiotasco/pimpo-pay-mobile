@@ -1,0 +1,149 @@
+<ScrollView *ngIf="showResume">
+  <GridLayout rows="auto,auto,auto,auto,auto,auto" class="m-x-15 m-y-10">
+    <Label class="m-b-10" fontSize="16" row="0">
+      <FormattedString>
+        <Span text="Detalhes da transação" class="font-weight-bold"></Span>
+        <Span
+          [text]="' (' + resume.transactionType + ')'"
+          class="body text-secondary"
+        ></Span>
+      </FormattedString>
+    </Label>
+
+    <GridLayout class="card-list" row="1" rows="*,*,*,*,*,*" columns="*,auto">
+      <Label
+        text="Valor"
+        textWrap="true"
+        class="font-weight-bold"
+        row="0"
+        col="0"
+      ></Label>
+      <Label
+        [text]="resume.amount | currency: 'BRL':'symbol'"
+        textWrap="true"
+        class="body"
+        row="0"
+        col="1"
+      ></Label>
+
+      <StackLayout class="hr-light m-y-5" row="2" col="0" colSpan="2">
+      </StackLayout>
+
+      <Label
+        text="Conta Destino"
+        textWrap="true"
+        class="font-weight-bold"
+        row="3"
+        col="0"
+      ></Label>
+      <Label
+        [text]="resume.destinyAccount"
+        textWrap="true"
+        class="body"
+        row="3"
+        col="1"
+      ></Label>
+
+      <StackLayout class="hr-light m-y-5" row="4" col="0" colSpan="2">
+      </StackLayout>
+
+      <Label
+        text="Plano"
+        textWrap="true"
+        class="font-weight-bold"
+        row="5"
+        col="0"
+      ></Label>
+      <Label
+        [text]="resume.plan"
+        textWrap="true"
+        class="body"
+        row="5"
+        col="1"
+      ></Label>
+    </GridLayout>
+
+    <GridLayout
+      class="card-list m-t-10"
+      row="2"
+      rows="auto,auto,auto"
+      columns="*,auto"
+    >
+      <Label
+        *ngIf="resume.hasFailure"
+        text="Código"
+        textWrap="true"
+        class="font-weight-bold"
+        row="0"
+        col="0"
+      ></Label>
+      <Label
+        *ngIf="resume.hasFailure"
+        [text]="resume.statusCode || 'S/N'"
+        textWrap="true"
+        class="font-weight-bold"
+        [ngClass]="resume.hasFailure ? 'text-danger' : 'text-success'"
+        row="0"
+        col="1"
+      ></Label>
+
+      <StackLayout
+        *ngIf="resume.hasFailure"
+        class="hr-light m-y-5"
+        row="1"
+        col="0"
+        colSpan="2"
+      >
+      </StackLayout>
+
+      <Label
+        text="Situação"
+        verticalAlignment="center"
+        textWrap="true"
+        class="font-weight-bold"
+        row="2"
+        col="0"
+      ></Label>
+      <Label
+        [text]="resume.status"
+        textWrap="true"
+        class="body badge light"
+        [ngClass]="resume.hasFailure ? 'bg-danger' : 'bg-success'"
+        row="2"
+        col="1"
+      ></Label>
+    </GridLayout>
+
+    <Label class="m-b-5 m-t-20" fontSize="16" row="4">
+      <FormattedString>
+        <Span text="Ações Sugeridas:" class="font-weight-bold"></Span>
+      </FormattedString>
+    </Label>
+    <GridLayout row="5" rows="auto,auto,auto" class="card-list">
+      <Label
+        *ngIf="resume.hasFailure"
+        text="Tentar Novamente"
+        textWrap="true"
+        row="0"
+        (tap)="action('retry')"
+        class="font-weight-bold text-link secondary m-b-10"
+      ></Label>
+
+      <Label
+        text="Nova Transação"
+        textWrap="true"
+        row="1"
+        (tap)="action('new')"
+        class="font-weight-bold text-link primary m-b-10"
+      ></Label>
+
+     <!--  <Label
+        text="Consultar extrato"
+        textWrap="true"
+        row="2"
+        (tap)="action('goStart')"
+        class="font-weight-bold text-link primary m-b-10"
+      ></Label> -->
+    </GridLayout>
+  </GridLayout>
+</ScrollView>

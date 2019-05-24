@@ -8,8 +8,6 @@ declare var android: any;
 
 /* Endpoints enviroments */
 
-export const ACCESS = 'accesss';
-
 export const endpoint: string = 'http://35.243.251.185:8080/api';
 //export const endpoint:string = 'http://pimpopay.com/api';
 
@@ -77,28 +75,39 @@ export enum PositionChevron {
   OPEN = -90
 }
 
-export enum AccessType {
-  BUSINESS = 'Business',
-  PERSONAL = 'Personal'
-}
-
 export enum TransactionStatus {
-  AUTHORIZED = 'Authorized',
+  AUTHORIZED = 'AUTHORIZED',
   /** Negada */
-  DENIED = 'Denied',
+  DENIED = 'DENIED',
 
   /** Cancelada */
-  CANCELLED = 'Cancelled',
+  CANCELLED = 'CANCELLED',
 
   /** Liquidada */
-  SETTLED = 'Settled',
+  SETTLED = 'SETTLED',
 
   /** Disputada */
-  DISPUTED = 'Disputed',
+  DISPUTED = 'DISPUTED',
 
   /** Disputa respondida */
-  DISPUTE_RESPONDED = 'Dispute_Responded',
+  DISPUTE_RESPONDED = 'DISPUTE_RESPONDED',
 
   /** Arbitrada */
-  ARBITRATED = 'Arbitrated'
+  ARBITRATED = 'ARBITRATED'
+}
+
+export interface ResumeModel {
+  transactionType: string;
+  statusCode?: string;
+  status: string;
+  hasFailure: boolean;
+  amount: number;
+  destinyAccount?: string;
+  plan: string;
+}
+
+export enum ResumeActionButton {
+  RETRY = 'retry',
+  NEW = 'new',
+  GOSTART = 'goStart'
 }

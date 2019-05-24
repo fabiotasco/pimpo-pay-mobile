@@ -1,38 +1,63 @@
-@import '~nativescript-theme-core/scss/light';
-
+@import '~nativescript-theme-core/scss/sky';
+@import './colors';
 // Customize any of the theme’s variables here, for instance $btn-color: red;
-
+$blue: #1e98d4;
+$lightBlue: #54b7ce;
+$orange: #f76b00;
+$complementary: #d45b1e;
+$primary: $blue;
+$secondary: #d45b1e;
+$success: $greenSuccess;
 // Import the theme’s main ruleset.
 @import '~nativescript-theme-core/scss/index';
 
-@import '~nativescript-theme-core/css/core.light.css';
-@import './colors';
+.action-bar {
+  background-color: $primary;
+}
+
+.card-list {
+  padding: 15 15;
+  border-radius: 4;
+  background-color: #ffffff;
+}
+
+.body {
+  color: $gray;
+}
 
 .fab-button {
   height: 60;
   width: 60; /// this is required on iOS - Android does not require width so you might need to adjust styles
   margin: 15;
-  background-color: #ff4081;
+  background-color: $complementary;
   horizontal-align: right;
   vertical-align: bottom;
-  margin-bottom: 10px;
 }
 
+.dimmer {
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99998;
+  width: 100%;
+  height: 100%;
+}
+
+.loading-container {
+  z-index: 999999;
+  padding: 5;
+  width: 50%;
+  height: 60;
+  background-color: #ffffff;
+  border-radius: 4;
+}
 .gutters {
   margin: 16;
 }
 .action-title {
   font-size: 20;
-  color: $light;
-}
-
-.btn {
-  border-radius: 8;
-  text-transform: uppercase;
 }
 
 .bg-primary {
-  background-color: $principal;
+  background-color: $primary;
 }
 
 .bg-secondary {
@@ -41,6 +66,7 @@
 
 .bg-success {
   background-color: $success;
+  color: #ffffff;
 }
 
 .bg-light {
@@ -84,16 +110,20 @@
 }
 
 .text-complementary-dark {
-  color: $complementary-dark;
+  color: darken($complementary, 20%);
+}
+
+.text-danger {
+  color: $error;
 }
 
 .btn-primary {
-  background-color: $principal;
-  color: $light;
+  background-color: $primary;
+  color: #ffffff;
 }
 
 .btn-secondary {
-  background-color: $complementary;
+  background-color: $secondary;
   color: $light;
 }
 
@@ -104,14 +134,22 @@
 }
 
 .secondary {
-  border-color: $complementary;
-  color: $complementary;
+  border-color: $secondary;
+  color: $secondary;
+}
+
+.active-primary {
+  background-color: $primary;
+}
+
+.active-secondary {
+  background-color: $secondary;
 }
 
 .thumbnail {
   border-radius: 50%;
-  border-color: $secondary;
-  background-color: $pink-light;
+  border-color: lighten($complementary, 20%);
+  background-color: $complementary;
 
   &.sm {
     width: 56;
@@ -124,16 +162,19 @@
   }
 }
 
-.card-list {
-  padding: 8 16;
+.badge {
+  padding: 5;
   border-radius: 4;
-  height: auto;
+
+  &.light {
+    color: #fff;
+  }
 }
 
 .card {
   padding: 16;
   border-radius: 4;
-  height: 110;
+  height: 120;
 }
 
 .card-title {
@@ -162,12 +203,18 @@
 }
 
 .circle {
-  width: 30;
-  height: 30;
+  width: 20;
+  height: 20;
   border-radius: 50%;
   border-width: 1;
   border-color: $light;
-  background-color: $gray-light;
+  background-color: #e1e2e1;
+  margin: 10;
+}
+
+.active {
+  border-color: lighten($complementary, 20%);
+  background-color: $complementary;
 }
 
 .input-transaction {
@@ -184,14 +231,37 @@
 }
 
 .btn-transaction {
-  width: 80;
+  width: 100;
   height: 40;
   font-size: 12;
 }
 
+.btn-small {
+  height: 20;
+  font-size: 13;
+}
+
+.text-link {
+  border-width: 1;
+  padding: 3 5;
+  border-radius: 4;
+  text-align: center;
+  &.primary {
+    color: $primary;
+    border-color: $primary;
+  }
+  &.secondary {
+    color: $secondary;
+    border-color: $secondary;
+  }
+  &.success {
+    color: $success;
+    border-color: $success;
+  }
+}
 .link-label {
   font-size: 16;
-  color: $pink;
+  color: $complementary;
 }
 .qr-code {
   text-decoration: underline;
@@ -214,4 +284,29 @@
 .error {
   color: $redError;
   placeholder-color: $redError;
+}
+
+.input {
+  placeholder-color: #fff;
+  color: #fff;
+  padding-top: 15;
+  padding-left: 5;
+  width: 100%;
+}
+
+.with-bg-color {
+  background: $principal;
+}
+
+.bordered {
+  border-radius: 4;
+}
+
+.no-border-bottom {
+  border-bottom-width: 0;
+  border-bottom-color: red;
+}
+
+.form-control {
+  width: 100%;
 }
