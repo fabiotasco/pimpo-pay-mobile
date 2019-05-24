@@ -1,20 +1,11 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  Output,
-  EventEmitter,
-  Input
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core';
 import { AnimationCurve } from 'tns-core-modules/ui/enums';
 import { screen } from 'tns-core-modules/platform';
 
 @Component({
   moduleId: module.id,
   selector: 'PimpoBottomBar,[PimpoBottomBar]',
-  templateUrl: './bottom-bar.component.html',
-  styleUrls: ['./bottom-bar.component.css']
+  templateUrl: './bottom-bar.component.html'
 })
 export class BottomBarComponent implements OnInit {
   @ViewChild('tabHighlight') tabHighlight: ElementRef;

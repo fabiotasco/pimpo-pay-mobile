@@ -4,7 +4,6 @@ import { ResumeModel } from '~/app/utils/variables';
 @Component({
   selector: 'ns-resume',
   templateUrl: './resume.component.html',
-  styleUrls: ['./resume.component.css'],
   moduleId: module.id
 })
 export class ResumeComponent implements OnInit {
