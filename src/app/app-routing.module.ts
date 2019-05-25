@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginPageComponent },
   { path: 'new-account', component: NewAccountComponent },
-  { path: 'home', loadChildren: './home/home.module#HomeModule' },
+  { path: 'home', loadChildren: './app/home/home.module#HomeModule' },
   { path: 'detail', component: DetailTransactionComponent }
 ];
 
