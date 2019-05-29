@@ -14,13 +14,7 @@ export const endpoint: string = 'http://35.243.251.185:8080/api';
 /* Endpoints enviroments */
 
 export const redirectTo = (index: number): string => {
-  const urls = [
-    '/home/balance',
-    '/home/buy',
-    '/home/credit',
-    '/home/transfer',
-    '/home/user'
-  ];
+  const urls = ['/home/balance', '/home/buy', '/home/credit', '/home/transfer', '/home/user'];
   return urls[index];
 };
 
@@ -39,20 +33,13 @@ export const openRoute = (route): boolean => {
 
 export const btoa = (creditials: Credentials): string => {
   if (isIOS) {
-    let text = NSString.stringWithString(
-      creditials.username + ':' + creditials.password
-    );
+    let text = NSString.stringWithString(creditials.username + ':' + creditials.password);
     let data = text.dataUsingEncoding(NSUTF8StringEncoding);
     return data.base64EncodedStringWithOptions(0);
   } else {
-    let text = new java.lang.String(
-      creditials.username + ':' + creditials.password
-    );
+    let text = new java.lang.String(creditials.username + ':' + creditials.password);
     let data = text.getBytes('UTF-8');
-    return android.util.Base64.encodeToString(
-      data,
-      android.util.Base64.DEFAULT
-    );
+    return android.util.Base64.encodeToString(data, android.util.Base64.DEFAULT);
   }
 };
 
@@ -95,6 +82,16 @@ export enum TransactionStatus {
   /** Arbitrada */
   ARBITRATED = 'ARBITRATED'
 }
+
+export const transactionStatus = {
+  authorized: 'AUTORIZADA',
+  denied: 'NEGADA',
+  cancelled: 'CANCELADA',
+  settled: 'LIQUIDADA',
+  disputed: 'DISPUTADA',
+  dispute_responded: 'DISPUTA RESPONDIDA',
+  arbitradeds: 'ARBITRADA'
+};
 
 export interface ResumeModel {
   transactionType: string;

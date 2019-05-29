@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { AccountService } from '~/app/services/account.service';
 import { UserData } from '~/app/models/user-data';
+import { RouterExtensions } from 'nativescript-angular/router';
 const ZXing = require('nativescript-zxing');
 @Component({
   moduleId: module.id,
@@ -12,7 +13,7 @@ const ZXing = require('nativescript-zxing');
 export class UserPageComponent implements OnInit {
   image: any;
   userData: UserData;
-  constructor(private page: Page, private accountService: AccountService) {}
+  constructor(private page: Page, private accountService: AccountService, private router: RouterExtensions) {}
 
   ngOnInit() {
     this.accountService.userData$.subscribe(res => {
@@ -29,5 +30,9 @@ export class UserPageComponent implements OnInit {
         format: ZXing.QR_CODE
       });
     });
+  }
+
+  logout() {
+    this.router.navigate(['login'], { clearHistory: true });
   }
 }

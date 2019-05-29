@@ -1,22 +1,7 @@
 <ActionBar class="action-bar">
-  <StackLayout
-    orientation="horizontal"
-    ios:horizontalAlignment="center"
-    android:horizontalAlignment="left"
-  >
-    <Label
-      [text]="actionTitle"
-      class="action-title"
-      verticalAlignment="middle"
-    ></Label>
+  <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
+    <Label [text]="actionTitle" class="action-title" verticalAlignment="middle"></Label>
   </StackLayout>
-  <ActionItem
-    ios.position="right"
-    (tap)="logOut()"
-    text="Sair"
-    android.position="popup"
-  >
-  </ActionItem>
 </ActionBar>
 
 <GridLayout>

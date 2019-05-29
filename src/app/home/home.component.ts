@@ -45,11 +45,6 @@ export class HomePageComponent implements OnInit {
       }
     });
   }
-
-  logOut(): void {
-    this.routes.navigate(['login'], { clearHistory: true });
-  }
-
   navigateToPage(tab: any): void {
     this.actionTitle = tab.tabName;
     this.tabSelected = tab.tabIndex;

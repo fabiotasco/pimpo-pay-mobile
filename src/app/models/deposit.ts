@@ -3,6 +3,7 @@ export class Deposit {
   amount: number;
   currency: string;
   holderAccount: HolderAccount;
+  plan: string;
 
   constructor() {
     this.currency = 'BRL';

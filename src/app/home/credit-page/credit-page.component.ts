@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
 import { TransactionService } from '~/app/services/trasaction.service';
-import { Deposit } from '~/app/models/deposit';
-import { PositionChevron } from '~/app/utils/variables';
 import { AccountService } from '~/app/services/account.service';
-import { Color } from 'tns-core-modules/color/color';
-import { View, Page } from 'tns-core-modules/ui/page/page';
-import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layout';
-import { Plan } from '~/app/models/plan';
-import { Button } from 'tns-core-modules/ui/button/button';
+import { View } from 'tns-core-modules/ui/page/page';
 import { UserData } from '~/app/models/user-data';
-import { ShapeEnum, AndroidData } from 'nativescript-ng-shadow';
 import * as moment from 'moment';
+import { TransactionValue } from '~/app/models/transaction-value';
+import { Observable } from 'rxjs';
+import { ResumeModel, ResumeActionButton, transactionStatus } from '~/app/utils/variables';
+import { TransactionCardService } from '~/app/components/transaction-card/transaction-card.service';
+import { LoadingService } from '~/app/services/loading.service';
+import { RouterExtensions } from 'nativescript-angular/router';
+import { Deposit } from '~/app/models/deposit';
 
 @Component({
   moduleId: module.id,
@@ -22,171 +22,146 @@ import * as moment from 'moment';
   providers: [CurrencyPipe]
 })
 export class CreditPageComponent implements OnInit {
-  public btnShadow: AndroidData = {
-    elevation: 2,
-    bgcolor: '#EC407A',
-    shape: ShapeEnum.RECTANGLE,
-    cornerRadius: 8
-  };
-  public menuChevron = 'res://baseline_chevron_left_black_24';
-  public actualPosition: PositionChevron;
-  public showInstallmentField = false;
-  public showBuyCard = true;
-  public showPlanCard = false;
-
-  public selectedValue: number;
-  public selectedPlan: Plan;
-  public valueOk = false;
-  public planOk = false;
-
+  public transactionValues: TransactionValue;
+  public $cardOpened: Observable<string>;
+  public actualCardOpened = 'amount';
+  public showFinalButton = false;
   public myHolderNumber: string;
-
-  public isLoading = false;
-  public transactionFinish = false;
-  public transactionSuccess = false;
-  public errorMessage: string;
-  public deposit: Deposit;
+  public accountSelected: string;
+  public showResume = false;
+  public resumeModel: ResumeModel;
 
   constructor(
-    private page: Page,
+    private transactionCardService: TransactionCardService,
     private accountService: AccountService,
     private transactionService: TransactionService,
-    private toastHelper: ToastHelperService
+    private toastHelper: ToastHelperService,
+    private loadingService: LoadingService,
+    private router: RouterExtensions
   ) {}
 
-  public ngOnInit() {
-    this.deposit = new Deposit();
+  ngOnInit() {
+    this.$cardOpened = this.transactionCardService.$partOpen;
     this.accountService.userData$.subscribe((user: UserData) => {
       this.myHolderNumber = user.phones[0].number;
     });
-    this.actualPosition = PositionChevron.CLOSE;
-    this.selectedPlan = new Plan();
-    this.selectedPlan.name = 'Prepaid';
+    this.transactionValues = new TransactionValue();
   }
 
-  public finalizeTrasaction(btnId: string): void {
-    this.isLoading = true;
-    const view: Button = this.page.getViewById(btnId);
-    view.animate({ backgroundColor: new Color('#ff77a9'), duration: 200 }).then(() => {
-      view.animate({ backgroundColor: new Color('#ec407a'), duration: 200 });
-    });
+  ngOnDestroy() {
+    this.transactionCardService.open('amount');
+  }
 
-    this.deposit.amount = this.selectedValue;
-    this.deposit.currency = 'BRL';
-    this.deposit.date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    this.deposit.holderAccount.number = this.myHolderNumber;
+  public finalizeTrasaction(): void {
+    this.transactionCardService.closeAll();
 
-    this.transactionService.executeDeposit(this.deposit).subscribe(res => {
-      this.isLoading = false;
-      this.transactionFinish = true;
-      this.transactionSuccess = res.success;
-      if (!this.transactionSuccess) {
-        this.errorMessage = res.errors[0].message;
+    this.loadingService.show();
+
+    this.transactionService.executeDeposit(this.mountDepositModel()).subscribe(
+      res => {
+        this.loadingService.hide();
+        this.prepareResumeModel(res);
+        this.showResume = true;
+
+        if (res.success) {
+          this.transactionValues = new TransactionValue();
+          this.transactionCardService.open('amount');
+          return;
+        }
+      },
+      err => {
+        this.loadingService.hide();
+        this.toastHelper.showToast(err.errors[0].message);
       }
+    );
+  }
+
+  public open(part: string): void {
+    if (
+      (part !== this.actualCardOpened && this.transactionValues[this.actualCardOpened]) ||
+      (this.transactionValues[this.actualCardOpened] && this.transactionValues[part])
+    ) {
+      this.actualCardOpened = part;
+      this.transactionCardService.open(part);
+    } else if (part !== this.actualCardOpened) {
+      this.toastHelper.showToast('Preencha o campo solicitado');
+    }
+
+    this.validateData();
+  }
+
+  public selectPaymentType(paymentType: any): void {
+    this.transactionValues.plan = paymentType.type;
+    this.transactionValues.installments = paymentType.installments;
+
+    this.validateData();
+  }
+
+  public done(): void {
+    this.transactionCardService.closeAll();
+  }
+
+  public resumeBtnClicked(btnClicked: string): void {
+    if (btnClicked === ResumeActionButton.RETRY) {
+      this.showResume = false;
+    }
+
+    if (btnClicked === ResumeActionButton.NEW) {
+      this.transactionValues = new TransactionValue();
+      this.transactionCardService.open('amount');
+      this.actualCardOpened = 'amount';
+      this.showFinalButton = false;
+      this.accountSelected = null;
+      this.showResume = false;
+    }
+  }
+
+  private mountDepositModel(): Deposit {
+    const deposit: Deposit = {
+      amount: this.transactionValues.amount,
+      currency: 'BRL',
+      date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+      plan: this.transactionValues.plan,
+      holderAccount: {
+        number: this.myHolderNumber
+      }
+    };
+
+    return deposit;
+  }
+
+  private validateData(): void {
+    if (this.transactionValues.amount && this.transactionValues.plan) {
+      this.showFinalButton = true;
+    } else {
+      this.showFinalButton = false;
+    }
+  }
+
+  private animationQrButton(view: View): void {
+    const state1 = view.createAnimation({
+      scale: { x: 1.1, y: 1.1 },
+      duration: 100
     });
+    const state2 = view.createAnimation({
+      scale: { x: 1, y: 1 }
+    });
+
+    state1.play().then(() => state2.play());
   }
 
-  public newTransaction(): void {
-    this.transactionFinish = false;
-  }
-
-  public setValue() {
-    if (!this.selectedValue) {
-      this.toastHelper.showToast('Informe o valor da compra');
-      return;
-    }
-    this.valueOk = true;
-    this.showBuyCard = false;
-    this.showPlanCard = true;
-  }
-
-  public setPlan(plan: string, installment = 0) {
-    this.selectedPlan.name = plan;
-    this.selectedPlan.installments = installment;
-    this.planOk = true;
-    this.showBuyCard = false;
-  }
-
-  public cardClick(id: string): void {
-    const view: StackLayout = this.page.getViewById(id);
-
-    this.setCardExibition(view, id);
-  }
-
-  public posPagClick(event: any, imageViewId: string) {
-    const view = event.view.getViewById(imageViewId);
-    this.executeAnimation(view);
-    this.showInstallmentField = !this.showInstallmentField;
-  }
-
-  public reenterValue(): void {
-    this.selectedValue = null;
-    this.showBuyCard = true;
-    this.valueOk = false;
-    setTimeout(() => {
-      const view: StackLayout = this.page.getViewById('buyCard');
-      view.style.background = '#ffffff';
-    }, 100);
-  }
-
-  public reenterPlan(): void {
-    this.selectedPlan = new Plan();
-    this.showPlanCard = true;
-    this.planOk = false;
-
-    setTimeout(() => {
-      const view: StackLayout = this.page.getViewById('planCard');
-      view.style.background = '#ffffff';
-    }, 100);
-  }
-
-  private executeAnimation(view: View): void {
-    if (this.actualPosition === PositionChevron.CLOSE) {
-      this.actualPosition = PositionChevron.OPEN;
-      view.animate({ rotate: PositionChevron.OPEN, duration: 200 });
-    } else if (this.actualPosition === PositionChevron.OPEN) {
-      this.actualPosition = PositionChevron.CLOSE;
-      view.animate({ rotate: PositionChevron.CLOSE, duration: 200 });
-    }
-  }
-
-  private setCardExibition(viewToAnimate, id: string): void {
-    const buyCardView: StackLayout = this.page.getViewById('buyCard');
-    const accountCardView: StackLayout = this.page.getViewById('accountCard');
-    const planCardView: StackLayout = this.page.getViewById('planCard');
-
-    switch (id) {
-      case 'buyCard':
-        if (!this.showBuyCard) {
-          this.showBuyCard = true;
-          this.showPlanCard = false;
-          this.excuteAnimationOfCards(viewToAnimate);
-          if (accountCardView && planCardView) {
-            accountCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
-            planCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
-          }
-        }
-
-        break;
-      case 'planCard':
-        if (!this.showPlanCard) {
-          this.showPlanCard = !this.showPlanCard;
-          this.showBuyCard = false;
-          this.excuteAnimationOfCards(viewToAnimate);
-          if (buyCardView && accountCardView) {
-            accountCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
-            buyCardView.animate({ backgroundColor: new Color('#5c605c'), duration: 100 });
-          }
-        }
-
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  private excuteAnimationOfCards(viewToAnimate: View): void {
-    viewToAnimate.animate({ backgroundColor: new Color('#ffffff'), duration: 100 });
+  private prepareResumeModel(result: any): void {
+    const pluralInstallment = this.transactionValues.installments > 1 ? 'Vezes' : 'Vez';
+    this.resumeModel = {
+      amount: this.transactionValues.amount,
+      hasFailure: !result.success,
+      status: result.errors ? result.errors[0].message : transactionStatus[result.content.status.toLowerCase()],
+      statusCode: result.errors ? result.errors[0].code : null,
+      transactionType: 'Deposito',
+      plan:
+        this.transactionValues.plan === 'Prepaid'
+          ? 'Pré-pago'
+          : 'Pós-pago ' + this.transactionValues.installments + ' ' + pluralInstallment
+    };
   }
 }
