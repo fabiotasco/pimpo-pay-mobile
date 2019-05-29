@@ -12,7 +12,7 @@ import { TransactionCardService } from '~/app/components/transaction-card/transa
 import { Observable } from 'rxjs';
 import { TransactionValue } from '~/app/models/transaction-value';
 import { LoadingService } from '~/app/services/loading.service';
-import { ResumeModel, ResumeActionButton } from '~/app/utils/variables';
+import { ResumeModel, ResumeActionButton, transactionStatus } from '~/app/utils/variables';
 import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
@@ -61,47 +61,37 @@ export class BuyPageComponent implements OnInit, OnDestroy {
   public finalizeTrasaction(): void {
     this.loadingService.show();
 
-    this.transactionService
-      .executePurchase(this.mountPurchaseModel())
-      .subscribe(
-        res => {
-          this.loadingService.hide();
-          this.prepareResumeModel(res);
-          this.showResume = true;
+    this.transactionService.executePurchase(this.mountPurchaseModel()).subscribe(
+      res => {
+        this.loadingService.hide();
+        this.prepareResumeModel(res);
+        this.showResume = true;
 
-          if (res.success) {
-            this.transactionValues = new TransactionValue();
-            this.transactionCardService.open('amount');
-            return;
-          }
-        },
-        err => {
-          this.loadingService.hide();
-          this.toastHelper.showToast(err.errors[0].message);
+        if (res.success) {
+          this.transactionValues = new TransactionValue();
+          this.transactionCardService.open('amount');
+          return;
         }
-      );
+      },
+      err => {
+        this.loadingService.hide();
+        this.toastHelper.showToast(err.errors[0].message);
+      }
+    );
   }
 
   public open(part: string): void {
-    if (
-      this.actualCardOpened === 'destinationAccount' &&
-      !this.transactionValues.destinationHash
-    ) {
+    if (this.actualCardOpened === 'destinationAccount' && !this.transactionValues.destinationHash) {
       this.accountSelected = '+55' + this.transactionValues.destinationAccount;
     }
 
     if (
-      (part !== this.actualCardOpened &&
-        this.transactionValues[this.actualCardOpened]) ||
-      (this.transactionValues[this.actualCardOpened] &&
-        this.transactionValues[part])
+      (part !== this.actualCardOpened && this.transactionValues[this.actualCardOpened]) ||
+      (this.transactionValues[this.actualCardOpened] && this.transactionValues[part])
     ) {
       this.actualCardOpened = part;
       this.transactionCardService.open(part);
-    } else if (
-      this.actualCardOpened === 'destinationAccount' &&
-      this.accountSelected
-    ) {
+    } else if (this.actualCardOpened === 'destinationAccount' && this.accountSelected) {
       this.actualCardOpened = part;
       this.transactionCardService.open(part);
     } else if (part !== this.actualCardOpened) {
@@ -114,9 +104,6 @@ export class BuyPageComponent implements OnInit, OnDestroy {
   public selectPaymentType(paymentType: any): void {
     this.transactionValues.plan = paymentType.type;
     this.transactionValues.installments = paymentType.installments;
-    if (this.transactionValues.plan === 'Prepaid') {
-      this.transactionCardService.closeAll();
-    }
     this.validateData();
   }
 
@@ -179,10 +166,12 @@ export class BuyPageComponent implements OnInit, OnDestroy {
         openSettingsIfPermissionWasPreviouslyDenied: true
       })
       .then(result => {
-        const scannerResult: any = JSON.parse(result.text);
-        this.transactionValues.destinationHash = scannerResult.hash;
-        this.accountSelected = scannerResult.phone.trim();
-        this.open('plan');
+        setTimeout(() => {
+          const scannerResult: any = JSON.parse(result.text);
+          this.transactionValues.destinationHash = scannerResult.hash;
+          this.accountSelected = scannerResult.phone.trim();
+          this.open('plan');
+        }, 200);
       })
       .catch(err => {
         this.toastHelper.showToast('Ação cancelada pelo usuário');
@@ -190,11 +179,7 @@ export class BuyPageComponent implements OnInit, OnDestroy {
   }
 
   private validateData(): void {
-    if (
-      this.transactionValues.amount &&
-      this.transactionValues.plan &&
-      this.accountSelected
-    ) {
+    if (this.transactionValues.amount && this.transactionValues.plan && this.accountSelected) {
       this.showFinalButton = true;
     } else {
       this.showFinalButton = false;
@@ -214,22 +199,18 @@ export class BuyPageComponent implements OnInit, OnDestroy {
   }
 
   private prepareResumeModel(result: any): void {
-    const pluralInstallment =
-      this.transactionValues.installments > 1 ? 'Vezes' : 'Vez';
+    const pluralInstallment = this.transactionValues.installments > 1 ? 'Vezes' : 'Vez';
     this.resumeModel = {
       amount: this.transactionValues.amount,
       destinyAccount: this.accountSelected,
       hasFailure: !result.success,
-      status: result.errors ? result.errors[0].message : result.content.status,
+      status: result.errors ? result.errors[0].message : transactionStatus[result.content.status.toLowerCase()],
       statusCode: result.errors ? result.errors[0].code : null,
       transactionType: 'Compra',
       plan:
         this.transactionValues.plan === 'Prepaid'
           ? 'Pré-pago'
-          : 'Pós-pago ' +
-            this.transactionValues.installments +
-            ' ' +
-            pluralInstallment
+          : 'Pós-pago ' + this.transactionValues.installments + ' ' + pluralInstallment
     };
   }
 }

@@ -10,7 +10,7 @@ import { Button } from 'tns-core-modules/ui/button';
 import { Plan } from '~/app/models/plan';
 import { UserData } from '~/app/models/user-data';
 import * as moment from 'moment';
-import { PositionChevron, ResumeModel, ResumeActionButton } from '~/app/utils/variables';
+import { PositionChevron, ResumeModel, ResumeActionButton, transactionStatus } from '~/app/utils/variables';
 import { Transfer } from '~/app/models/transfer';
 import { TransactionValue } from '~/app/models/transaction-value';
 import { Observable } from 'rxjs';
@@ -178,7 +178,7 @@ export class TransferPageComponent implements OnInit, AfterViewInit {
         const scannerResult: any = JSON.parse(result.text);
         this.transactionValues.destinationHash = scannerResult.hash;
         this.accountSelected = scannerResult.phone.trim();
-        this.open('plan');
+        this.open(null);
       })
       .catch(err => {
         this.toastHelper.showToast('Ação cancelada pelo usuário');
@@ -210,7 +210,7 @@ export class TransferPageComponent implements OnInit, AfterViewInit {
       amount: this.transactionValues.amount,
       destinyAccount: this.accountSelected,
       hasFailure: !result.success,
-      status: result.errors ? result.errors[0].message : result.content.status,
+      status: result.errors ? result.errors[0].message : transactionStatus[result.content.status.toLowerCase()],
       statusCode: result.errors ? result.errors[0].code : null,
       transactionType: 'Transferência'
     };

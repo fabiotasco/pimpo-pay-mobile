@@ -196,16 +196,13 @@
           textWrap="true"
         ></Label>
       </GridLayout>
-      <GridLayout
-        [ngClass]="
-          ($cardOpened | async) === 'plan'
-            ? 'account-data open'
-            : 'account-data close'
-        "
+
+     <GridLayout
+        [ngClass]="($cardOpened | async) === 'plan' ? 'account-data open' : 'account-data close'"
         row="1"
         col="0"
         colSpan="3"
-        columns="auto,*"
+        columns="auto,auto,*"
         rows="auto,auto,auto"
       >
         <Label
@@ -213,29 +210,15 @@
           col="0"
           text="Pré-Pago"
           verticalAlignment="center"
-          class="plan"
+          class="plan m-r-10"
           [class.selected]="transactionValues.plan === 'Prepaid'"
           (tap)="selectPaymentType({ type: 'Prepaid', installments: 1 })"
           textWrap="true"
         ></Label>
-        <TextField
-          row="0"
-          col="1"
-          width="100"
-          returnType="done"
-          marginLeft="10"
-          verticalAlignment="center"
-          class="hide-install-input input-transaction text-center"
-          horizontalAlignment="right"
-          hint="Prepaid"
-        ></TextField>
-
-        <StackLayout row="1" col="0" colSpan="2" class="hr-light">
-        </StackLayout>
 
         <Label
-          row="2"
-          col="0"
+          row="0"
+          col="1"
           text="Pós-Pago"
           class="plan"
           [class.selected]="transactionValues.plan === 'Credit'"
@@ -245,8 +228,8 @@
         ></Label>
 
         <TextField
-          row="2"
-          col="1"
+          row="0"
+          col="2"
           width="100"
           returnType="done"
           keyboardType="number"
@@ -255,11 +238,7 @@
           [(ngModel)]="transactionValues.installments"
           verticalAlignment="center"
           class="input-transaction text-center"
-          [ngClass]="
-            transactionValues.plan === 'Credit'
-              ? 'show-install-input'
-              : 'hide-install-input'
-          "
+          [ngClass]="transactionValues.plan === 'Credit' ? 'show-install-input' : 'hide-install-input'"
           horizontalAlignment="right"
           hint="Parcelas"
         ></TextField>

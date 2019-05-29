@@ -71,7 +71,9 @@
           verticalAlignment="center"
           class="circle"
           [class.active]="($cardOpened | async) === 'destinationAccount'"
-          [class.done]="transactionValues.destinationAccount && ($cardOpened | async) !== 'destinationAccount'"
+          [class.done]="
+            (accountSelected || transactionValues.destinationAccount) && ($cardOpened | async) !== 'destinationAccount'
+          "
           id="setAccount"
           row="0"
           col="0"
@@ -114,7 +116,6 @@
           name="document"
           [(ngModel)]="transactionValues.destinationAccount"
           [returnKeyType]="'next'"
-          
           (returnPress)="open(null)"
         ></TextFieldDocument>
 

@@ -93,7 +93,6 @@ export class CreditPageComponent implements OnInit {
   public selectPaymentType(paymentType: any): void {
     this.transactionValues.plan = paymentType.type;
     this.transactionValues.installments = paymentType.installments;
-
     this.validateData();
   }
 
@@ -136,18 +135,6 @@ export class CreditPageComponent implements OnInit {
     } else {
       this.showFinalButton = false;
     }
-  }
-
-  private animationQrButton(view: View): void {
-    const state1 = view.createAnimation({
-      scale: { x: 1.1, y: 1.1 },
-      duration: 100
-    });
-    const state2 = view.createAnimation({
-      scale: { x: 1, y: 1 }
-    });
-
-    state1.play().then(() => state2.play());
   }
 
   private prepareResumeModel(result: any): void {
