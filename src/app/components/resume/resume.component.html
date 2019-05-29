@@ -11,16 +11,30 @@
       <Label text="Valor" textWrap="true" class="font-weight-bold" row="0" col="0"></Label>
       <Label [text]="resume.amount | currency: 'BRL':'symbol'" textWrap="true" class="body" row="0" col="1"></Label>
 
-      <StackLayout class="hr-light m-y-5" row="2" col="0" colSpan="2" *ngIf="resume.transactionType === 'Compra'">
+      <StackLayout class="hr-light m-y-5" row="2" col="0" colSpan="2" *ngIf="resume.transactionType !== 'Depósito'">
       </StackLayout>
 
-      <Label text="Conta Destino" textWrap="true" class="font-weight-bold" row="3" col="0" *ngIf="resume.transactionType === 'Compra'"></Label>
-      <Label [text]="resume.destinyAccount" textWrap="true" class="body" row="3" col="1" *ngIf="resume.transactionType === 'Compra'"></Label>
+      <Label
+        text="Conta Destino"
+        textWrap="true"
+        class="font-weight-bold"
+        row="3"
+        col="0"
+        *ngIf="resume.transactionType !== 'Depósito'"
+      ></Label>
+      <Label
+        [text]="resume.destinyAccount"
+        textWrap="true"
+        class="body"
+        row="3"
+        col="1"
+        *ngIf="resume.transactionType !== 'Depósito'"
+      ></Label>
 
-      <StackLayout class="hr-light m-y-5" row="4" col="0" colSpan="2"> </StackLayout>
+      <StackLayout class="hr-light m-y-5" row="4" col="0" colSpan="2" *ngIf="resume.transactionType !== 'Transferência'"> </StackLayout>
 
-      <Label text="Plano" textWrap="true" class="font-weight-bold" row="5" col="0"></Label>
-      <Label [text]="resume.plan" textWrap="true" class="body" row="5" col="1"></Label>
+      <Label text="Plano" *ngIf="resume.transactionType !== 'Transferência'" textWrap="true" class="font-weight-bold" row="5" col="0"></Label>
+      <Label [text]="resume.plan" *ngIf="resume.transactionType !== 'Transferência'" textWrap="true" class="body" row="5" col="1"></Label>
     </GridLayout>
 
     <GridLayout class="card-list m-t-10" row="2" rows="auto,auto,auto" columns="*,auto">
@@ -60,6 +74,7 @@
         <Span text="Ações Sugeridas:" class="font-weight-bold"></Span>
       </FormattedString>
     </Label>
+
     <GridLayout row="5" rows="auto,auto,auto" class="card-list">
       <Label
         *ngIf="resume.hasFailure"

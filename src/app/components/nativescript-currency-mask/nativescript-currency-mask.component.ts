@@ -1,11 +1,4 @@
-import {
-  forwardRef,
-  OnInit,
-  Component,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { forwardRef, OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field';
 import { Page } from 'tns-core-modules/ui/page/page';
@@ -54,9 +47,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(obj: any): void {
-    if (obj) {
-      this.inputValue = obj;
-    }
+   
   }
 
   registerOnChange(fn: any): void {
@@ -94,10 +85,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
       } else if (value.length === 11) {
         value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3,$4');
       } else if (value.length === 12) {
-        value = value.replace(
-          /(\d{1})(\d{3})(\d{3})(\d{3})(\d{2})/,
-          '$1.$2.$3.$4,$5'
-        );
+        value = value.replace(/(\d{1})(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3.$4,$5');
       } else {
         value = value.replace(/(\d{10,})(\d{2})/, '$1.$2');
       }

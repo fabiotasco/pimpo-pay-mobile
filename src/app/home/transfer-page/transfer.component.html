@@ -1,534 +1,142 @@
-<ScrollView class="bg-light" height="100%">
-  <GridLayout
-    *ngIf="!transactionFinish && !isLoading"
-    rows="*,*,*,*"
-    paddingBottom="60"
-    marginLeft="16"
-    marginRight="16"
-    marginTop="16"
-  >
-    <!-- Card de Informe o Valor -->
-    <GridLayout
-      row="0"
-      *ngIf="valueOk"
-      (tap)="reenterValue()"
-      columns="*,auto"
-      paddingLeft="16"
-      paddingRight="16"
-      paddingTop="16"
-      verticalAlignment="middle"
-      shadow="2"
-      marginBottom="16"
-      orientation="horizontal"
-    >
-      <StackLayout col="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout class="circle" backgroundColor="#009900" marginRight="8">
-        </StackLayout>
-        <Label
-          (tap)="cardClick('buyCard')"
-          text="Valor"
-          class="text-bold"
-          fontSize="16"
-          paddingTop="4"
-          textWrap="true"
-        ></Label>
-      </StackLayout>
-
-      <Label
-        col="1"
-        [text]="selectedValue | currency: 'BRL':'symbol'"
-        class="text-bold"
-        fontSize="16"
-        paddingTop="4"
-        textWrap="true"
-      ></Label>
-    </GridLayout>
-    <GridLayout
-      row="0"
-      *ngIf="!valueOk"
-      rows="*,*,*"
-      paddingLeft="16"
-      paddingRight="16"
-      paddingTop="16"
-      verticalAlignment="middle"
-      shadow="2"
-      marginBottom="16"
-      orientation="horizontal"
-    >
-      <StackLayout row="0" orientation="horizontal" paddingBottom="16">
+<GridLayout>
+  <GridLayout *ngIf="!showResume" rows="auto,auto,*" padding="15">
+    <!-- GRID DE VALOR -->
+    <StackLayout row="0">
+      <GridLayout
+        (tap)="open('amount')"
+        id="setValueContainer"
+        rows="*"
+        columns="auto, *, *"
+        class="action-card card-top"
+      >
         <StackLayout
-          id="buyCard"
+          verticalAlignment="center"
           class="circle"
-          backgroundColor="#ffffff"
-          marginRight="8"
-          (tap)="cardClick('buyCard')"
+          [class.active]="($cardOpened | async) === 'amount'"
+          [class.done]="transactionValues.amount && ($cardOpened | async) !== 'amount'"
+          row="0"
+          col="0"
         >
         </StackLayout>
+
         <Label
-          (tap)="cardClick('buyCard')"
-          text="Digite o valor a transferir"
-          class="text-bold"
-          fontSize="16"
-          paddingTop="4"
+          verticalAlignment="center"
+          [text]="($cardOpened | async) === 'amount' ? 'Informe o Valor' : 'Valor'"
+          class="font-weight-bold"
+          row="0"
+          col="1"
           textWrap="true"
         ></Label>
-      </StackLayout>
 
-      <!--  <TextField
-          *ngIf="showBuyCard"
-          marginTop="16"
-          [(ngModel)]="selectedValue"
-          keyboardType="number"
+        <Label
+          *ngIf="transactionValues.amount && ($cardOpened | async) !== 'amount'"
+          verticalAlignment="center"
+          horizontalAlignment="right"
+          paddingRight="8"
+          [text]="transactionValues.amount + ' R$'"
+          class="font-weight-normal"
+          row="0"
+          col="2"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+      <StackLayout
+        [ngClass]="($cardOpened | async) === 'amount' ? 'account-data open' : 'account-data close'"
+        id="setValue"
+        row="1"
+        col="0"
+        colSpan="3"
+      >
+        <TextFieldCurrency
+          name="amountField"
+          className="input-transaction"
+          [(ngModel)]="transactionValues.amount"
+          [returnKeyType]="'next'"
+          (returnPress)="open('destinationAccount')"
           hint="0,00"
-          row="1"
-          class="input-transaction"
-        ></TextField> -->
-
-      <TextFieldCurrency
-        row="1"
-        className="input-transaction"
-        *ngIf="showBuyCard"
-        marginTop="16"
-        [(ngModel)]="selectedValue"
-        hint="0,00"
-      ></TextFieldCurrency>
-
-      <button
-        *ngIf="showBuyCard"
-        row="2"
-        (tap)="setValue()"
-        horizontalAlignment="right"
-        [shadow]="btnShadow"
-        class="btn btn-secondary btn-transaction"
-        text="Próximo"
-      ></button>
-    </GridLayout>
-    <!-- Fim do Card Informe o Valor -->
-
-    <!-- Card de Informe a Conta -->
-    <GridLayout
-      row="1"
-      *ngIf="accountOk"
-      (tap)="reenterAccount()"
-      columns="*,auto"
-      paddingLeft="16"
-      paddingRight="16"
-      paddingTop="16"
-      verticalAlignment="middle"
-      shadow="2"
-      marginBottom="16"
-      orientation="horizontal"
-    >
-      <StackLayout col="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout class="circle" backgroundColor="#009900" marginRight="8">
-        </StackLayout>
-        <Label
-          (tap)="cardClick('buyCard')"
-          text="Conta Destino"
-          class="text-bold"
-          fontSize="16"
-          paddingTop="4"
-          textWrap="true"
-        ></Label>
+        ></TextFieldCurrency>
       </StackLayout>
-
-      <Label
-        col="1"
-        [text]="selectedAccount"
-        class="text-bold"
-        fontSize="16"
-        paddingTop="4"
-        textWrap="true"
-      ></Label>
-    </GridLayout>
-    <GridLayout
-      row="1"
-      *ngIf="!accountOk"
-      rows="*,*,*,*,*"
-      paddingLeft="16"
-      paddingRight="16"
-      paddingTop="16"
-      verticalAlignment="middle"
-      shadow="2"
-      marginBottom="16"
-      orientation="horizontal"
-    >
-      <StackLayout row="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout
-          id="accountCard"
-          class="circle"
-          marginRight="8"
-          (tap)="cardClick('accountCard')"
-        >
-        </StackLayout>
-        <Label
-          text="Informe a conta destino"
-          class="text-bold"
-          fontSize="16"
-          paddingTop="4"
-          textWrap="true"
-          (tap)="cardClick('accountCard')"
-        ></Label>
-      </StackLayout>
-
-      <GridLayout
-        *ngIf="showAccountCard"
-        row="1"
-        rows="*,*"
-        paddingTop="8"
-        paddingBottom="8"
-        marginTop="16"
-      >
-        <GridLayout row="0" columns="*,auto" (tap)="scanCode()">
-          <Label
-            col="0"
-            text="Ler Qr Code"
-            class="body"
-            fontSize="16"
-            textWrap="true"
-          ></Label>
-          <Image
-            id="chevron-qrcode"
-            col="1"
-            [src]="menuChevron"
-            width="24"
-          ></Image>
-        </GridLayout>
-      </GridLayout>
-
-      <StackLayout *ngIf="showAccountCard" row="2" class="hr-light">
-      </StackLayout>
-
-      <GridLayout
-        *ngIf="showAccountCard"
-        row="3"
-        rows="*,*"
-        paddingBottom="8"
-        marginTop="8"
-      >
-        <GridLayout
-          row="0"
-          columns="*,auto"
-          (tap)="phoneFieldClick($event, 'chevron-phone')"
-        >
-          <Label
-            col="0"
-            text="Digitar Telefone"
-            class="body"
-            fontSize="16"
-            textWrap="true"
-          ></Label>
-          <Image
-            id="chevron-phone"
-            col="1"
-            [src]="menuChevron"
-            width="24"
-          ></Image>
-        </GridLayout>
-
-        <StackLayout row="1" col="0" colSpan="2" *ngIf="showPhoneNumberField">
-          <TextField
-            hint="Digite o telefone"
-            [(ngModel)]="selectedAccount"
-            keyboardType="phone"
-            fontSize1="18"
-            class="input-transaction"
-            text=""
-          ></TextField>
-        </StackLayout>
-      </GridLayout>
-
-      <button
-        *ngIf="showAccountCard"
-        row="4"
-        (tap)="setAccount()"
-        horizontalAlignment="right"
-        [shadow]="btnShadow"
-        class="btn btn-secondary btn-transaction"
-        text="Próximo"
-      ></button>
-    </GridLayout>
-    <!-- Fim do Card Informe a Conta -->
-
-    <!-- Card de Informe o Plano -->
-    <!-- <GridLayout
-      row="2"
-      *ngIf="planOk"
-      (tap)="reenterPlan()"
-      columns="*,auto"
-      paddingLeft="16"
-      paddingRight="16"
-      paddingTop="16"
-      verticalAlignment="middle"
-      shadow="2"
-      marginBottom="16"
-      orientation="horizontal"
-    >
-      <StackLayout col="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout class="circle" backgroundColor="#009900" marginRight="8">
-        </StackLayout>
-        <Label
-          (tap)="cardClick('buyCard')"
-          text="Plano"
-          class="text-bold"
-          fontSize="16"
-          paddingTop="4"
-          textWrap="true"
-        ></Label>
-      </StackLayout>
-
-      <Label
-        col="1"
-        [text]="
-          selectedPlan.name === 'Prepaid'
-            ? 'Pré Pago'
-            : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'
-        "
-        class="text-bold"
-        fontSize="16"
-        paddingTop="4"
-        textWrap="true"
-      ></Label>
-    </GridLayout> -->
-
-   <!--  <GridLayout
-      row="2"
-      *ngIf="!planOk"
-      rows="*,*,*,*"
-      paddingLeft="16"
-      paddingRight="16"
-      paddingTop="16"
-      verticalAlignment="middle"
-      shadow="2"
-      marginBottom="16"
-      orientation="horizontal"
-    >
-      <StackLayout row="0" orientation="horizontal" paddingBottom="16">
-        <StackLayout
-          id="planCard"
-          class="circle"
-          marginRight="8"
-          (tap)="cardClick('planCard')"
-        >
-        </StackLayout>
-        <Label
-          text="Informe o plano"
-          class="text-bold"
-          fontSize="16"
-          paddingTop="4"
-          textWrap="true"
-          (tap)="cardClick('planCard')"
-        ></Label>
-      </StackLayout>
-
-      <Label
-        *ngIf="showPlanCard"
-        row="1"
-        text="Pré Pago"
-        (tap)="setPlan('Prepaid')"
-        class="body"
-        fontSize="16"
-        marginTop="16"
-        paddingBottom="8"
-        textWrap="true"
-      ></Label>
-      <StackLayout *ngIf="showPlanCard" row="2" class="hr-light"> </StackLayout>
-
-      <GridLayout
-        *ngIf="showPlanCard"
-        row="3"
-        rows="*,*"
-        paddingTop="8"
-        paddingBottom="8"
-      >
-        <GridLayout
-          row="0"
-          columns="*,auto"
-          (tap)="posPagClick($event, 'chevron-installment')"
-        >
-          <Label
-            col="0"
-            text="Pós Pago"
-            class="body"
-            fontSize="16"
-            textWrap="true"
-          ></Label>
-          <Image
-            id="chevron-installment"
-            col="1"
-            [src]="menuChevron"
-            width="24"
-          ></Image>
-        </GridLayout>
-
-        <StackLayout row="1" col="0" colSpan="2" *ngIf="showInstallmentField">
-          <TextField
-            name="installment"
-            ngModel
-            #installment="ngModel"
-            keyboardType="number"
-            hint="Selecione quantidade de parcelas"
-            class="input-transaction"
-            text=""
-          ></TextField>
-          <button
-            (tap)="setPlan('Credit', installment.value)"
-            horizontalAlignment="right"
-            [shadow]="btnShadow"
-            class="btn btn-secondary btn-transaction"
-            text="Próximo"
-          ></button>
-        </StackLayout>
-      </GridLayout>
-    </GridLayout> -->
-    <!-- Fim do Card Informe o Plano -->
-
-    <button
-      *ngIf="valueOk && accountOk"
-      (tap)="finalizeTrasaction('finalizeBtn')"
-      id="finalizeBtn"
-      row="3"
-      class="btn btn-secondary"
-      text="Finalizar"
-    ></button>
-  </GridLayout>
-
-  <GridLayout rows="*,auto" *ngIf="transactionFinish && !isLoading">
-    <GridLayout
-      row="0"
-      rows="auto,*,auto,*,*"
-      paddingBottom="60"
-      marginLeft="16"
-      marginRight="16"
-      marginTop="16"
-    >
-      <Label
-        row="0"
-        text="RESUMO DA TRANSAÇÃO"
-        class="text-bold m-y-10"
-        fontSize="16"
-        textWrap="true"
-        paddingBottom="16"
-      ></Label>
-
-      <GridLayout
-        shadow="2"
-        row="1"
-        rows="*,auto,*,auto,*"
-        columns="*,auto"
-        padding="16"
-      >
-        <Label
-          padding="8"
-          row="0"
-          col="0"
-          text="Valor"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
-        <Label
-          padding="8"
-          row="0"
-          col="1"
-          [text]="selectedValue | currency: 'BRL':'symbol'"
-          fontSize="16"
-          class="text-bold"
-          textWrap="true"
-        ></Label>
-        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light">
-        </StackLayout>
-
-        <Label
-          row="2"
-          col="0"
-          padding="8"
-          text="Cliente"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
-        <Label
-          row="2"
-          col="1"
-          padding="8"
-          [text]="selectedAccount"
-          textWrap="true"
-          class="text-bold"
-          fontSize="16"
-        ></Label>
-        <StackLayout row="3" padding="8" col="0" colSpan="2" class="hr-light">
-        </StackLayout>
-
-        <!-- <Label
-          padding="8"
-          row="4"
-          col="0"
-          text="Plano"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
-        <Label
-          row="4"
-          col="1"
-          class="text-bold"
-          fontSize="16"
-          padding="8"
-          [text]="
-            selectedPlan.name === 'Prepaid'
-              ? 'Pré Pago'
-              : 'Pós Pago' + ' ' + selectedPlan.installments + 'x'
-          "
-          textWrap="true"
-        ></Label> -->
-      </GridLayout>
-
-      <Label
-        row="2"
-        text="STATUS PROCESSAMENTO"
-        class="text-bold m-y-10"
-        fontSize="16"
-        textWrap="true"
-        paddingTop="16"
-      ></Label>
-      <StackLayout row="2" class="hr-light m-t-30"> </StackLayout>
-
-      <StackLayout row="3" class="text-center" marginTop="16">
-        <StackLayout
-          class="circle approved"
-          [ngClass]="transactionSuccess ? 'approved bg-success' : 'rejected'"
-        >
-        </StackLayout>
-        <Label
-          [text]="transactionSuccess ? 'Trnansferencia Aprovada' : errorMessage"
-          padding="8"
-          fontSize="20"
-          class="text-bold"
-          [ngClass]="transactionSuccess ? 'text-success' : 'text-danger'"
-          textWrap="true"
-        ></Label>
-      </StackLayout>
-    </GridLayout>
-
-    <StackLayout row="1">
-      <FAB
-        (tap)="newTransaction()"
-        icon="res://baseline_autorenew_white_48"
-        rippleColor="#ff77a9"
-        class="fab-button"
-      ></FAB>
     </StackLayout>
+
+    <!-- GRID DE CONTA -->
+    <StackLayout row="1">
+      <GridLayout
+        (tap)="open('destinationAccount')"
+        id="setAccountContainer"
+        rows="*,*"
+        columns="auto, *, *"
+        class="action-card"
+      >
+        <StackLayout
+          verticalAlignment="center"
+          class="circle"
+          [class.active]="($cardOpened | async) === 'destinationAccount'"
+          [class.done]="transactionValues.destinationAccount && ($cardOpened | async) !== 'destinationAccount'"
+          id="setAccount"
+          row="0"
+          col="0"
+        >
+        </StackLayout>
+
+        <Label
+          text="Conta Destino"
+          verticalAlignment="center"
+          class="font-weight-bold"
+          row="0"
+          col="1"
+          textWrap="true"
+        ></Label>
+
+        <Label
+          *ngIf="accountSelected && ($cardOpened | async) !== 'destinationAccount'"
+          verticalAlignment="center"
+          horizontalAlignment="right"
+          paddingRight="8"
+          [text]="accountSelected"
+          class="font-weight-normal"
+          row="0"
+          col="2"
+          textWrap="true"
+        ></Label>
+      </GridLayout>
+      <GridLayout
+        [ngClass]="($cardOpened | async) === 'destinationAccount' ? 'account-data open' : 'account-data close'"
+        row="1"
+        col="0"
+        colSpan="3"
+        columns="*,auto"
+      >
+        <TextFieldDocument
+          [id]="'documentNumber'"
+          [type]="'phone'"
+          [className]="'text-right'"
+          [fieldHint]="'Insira o telefone com DDD'"
+          name="document"
+          [(ngModel)]="transactionValues.destinationAccount"
+          [returnKeyType]="'next'"
+          
+          (returnPress)="open(null)"
+        ></TextFieldDocument>
+
+        <FlexboxLayout
+          id="qrButton"
+          col="1"
+          (tap)="scanCode()"
+          class="btn-scan"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Image src="res://ic_qrcode_black_24dp" stretch="none"></Image>
+        </FlexboxLayout>
+      </GridLayout>
+    </StackLayout>
+
+    <FlexboxLayout row="2" *ngIf="showFinalButton" justifyContent="center" alignItems="center">
+      <Label (tap)="finalizeTrasaction()" class="btn btn-finalize" text="Finalizar"></Label>
+    </FlexboxLayout>
   </GridLayout>
 
-  <FlexboxLayout
-    *ngIf="isLoading"
-    flexDirection="column"
-    justifyContent="center"
-    alignItems="center"
-  >
-    <ActivityIndicator
-      width="100"
-      height="100"
-      [busy]="isLoading"
-      class="activity-indicator"
-    ></ActivityIndicator>
-  </FlexboxLayout>
-</ScrollView>
+  <StackLayout class="of-bottom">
+    <ns-resume [resume]="resumeModel" (actionClick)="resumeBtnClicked($event)" [showResume]="showResume"></ns-resume>
+  </StackLayout>
+</GridLayout>

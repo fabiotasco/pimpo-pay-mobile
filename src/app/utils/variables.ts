@@ -100,7 +100,7 @@ export interface ResumeModel {
   hasFailure: boolean;
   amount: number;
   destinyAccount?: string;
-  plan: string;
+  plan?: string;
 }
 
 export enum ResumeActionButton {
