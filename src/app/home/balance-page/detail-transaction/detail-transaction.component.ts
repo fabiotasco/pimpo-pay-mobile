@@ -5,12 +5,7 @@ import { Transaction } from '~/app/models/transaction';
 import { TransactionStatus } from '~/app/utils/variables';
 
 import { TransactionService } from '~/app/services/trasaction.service';
-import {
-  ConfirmOptions,
-  confirm,
-  AlertOptions,
-  alert
-} from 'tns-core-modules/ui/dialogs/dialogs';
+import { ConfirmOptions, confirm, AlertOptions, alert } from 'tns-core-modules/ui/dialogs/dialogs';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 
@@ -56,24 +51,22 @@ export class DetailTransactionComponent implements OnInit {
 
     confirm(options).then(res => {
       if (res) {
-        this.trasactionService
-          .executeCancel(this.transaction.id)
-          .subscribe(res => {
-            if (res.success) {
-              this.toast.showToast('Transaçao Cancelada');
-              this.router.back();
-              return;
-            }
+        this.trasactionService.executeCancel(this.transaction.id).subscribe(res => {
+          if (res.success) {
+            this.toast.showToast('Transaçao Cancelada');
+            this.router.back();
+            return;
+          }
 
-            const error: AlertOptions = {
-              message: 'Não foi possivel cancelar a transação',
-              title: res.errors[0].code,
-              okButtonText: 'Ok',
-              cancelable: false
-            };
+          const error: AlertOptions = {
+            message: res.errors[0].message,
+            title: '',
+            okButtonText: 'Ok',
+            cancelable: false
+          };
 
-            alert(error);
-          });
+          alert(error);
+        });
       }
     });
   }

@@ -33,7 +33,7 @@
           verticalAlignment="center"
           horizontalAlignment="right"
           paddingRight="8"
-          [text]="transactionValues.amount + ' R$'"
+          [text]="transactionValues.amount | currency: 'BRL':'symbol'"
           class="font-weight-normal"
           row="0"
           col="2"

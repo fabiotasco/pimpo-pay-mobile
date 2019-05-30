@@ -38,17 +38,24 @@ export class HomePageComponent implements OnInit {
         const tab = JSON.parse(params['tab']);
         this.navigateToPage(tab);
       } else {
-        this.loadingService.show();
-        this.transactionService.getBalance().subscribe(res => {
-          this.loadingService.hide();
-        });
+        this.updateBalance();
       }
     });
   }
   navigateToPage(tab: any): void {
     this.actionTitle = tab.tabName;
     this.tabSelected = tab.tabIndex;
+
+    if (tab.tabName === 'Extrato') {
+      this.updateBalance();
+    }
     this.routes.navigate([redirectTo(tab.tabIndex)], { clearHistory: true });
   }
 
+  private updateBalance(): void {
+    this.loadingService.show();
+    this.transactionService.getBalance().subscribe(res => {
+      this.loadingService.hide();
+    });
+  }
 }

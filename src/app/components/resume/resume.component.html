@@ -8,8 +8,8 @@
     </Label>
 
     <GridLayout class="card-list" row="1" rows="*,*,*,*,*,*" columns="*,auto">
-      <Label text="Valor" textWrap="true" class="font-weight-bold" row="0" col="0"></Label>
-      <Label [text]="resume.amount | currency: 'BRL':'symbol'" textWrap="true" class="body" row="0" col="1"></Label>
+      <Label text="Valor" textWrap="true" class="font-weight-bold p-y-5" row="0" col="0"></Label>
+      <Label [text]="resume.amount | currency: 'BRL':'symbol'" textWrap="true" class="body text-right p-y-5" row="0" col="1"></Label>
 
       <StackLayout class="hr-light m-y-5" row="2" col="0" colSpan="2" *ngIf="resume.transactionType !== 'Depósito'">
       </StackLayout>
@@ -17,7 +17,7 @@
       <Label
         text="Conta Destino"
         textWrap="true"
-        class="font-weight-bold"
+        class="font-weight-bold p-y-5"
         row="3"
         col="0"
         *ngIf="resume.transactionType !== 'Depósito'"
@@ -25,7 +25,7 @@
       <Label
         [text]="resume.destinyAccount"
         textWrap="true"
-        class="body"
+        class="body text-right p-y-5"
         row="3"
         col="1"
         *ngIf="resume.transactionType !== 'Depósito'"
@@ -33,8 +33,8 @@
 
       <StackLayout class="hr-light m-y-5" row="4" col="0" colSpan="2" *ngIf="resume.transactionType !== 'Transferência'"> </StackLayout>
 
-      <Label text="Plano" *ngIf="resume.transactionType !== 'Transferência'" textWrap="true" class="font-weight-bold" row="5" col="0"></Label>
-      <Label [text]="resume.plan" *ngIf="resume.transactionType !== 'Transferência'" textWrap="true" class="body" row="5" col="1"></Label>
+      <Label text="Plano" *ngIf="resume.transactionType !== 'Transferência'" textWrap="true" class="font-weight-bold p-y-5" row="5" col="0"></Label>
+      <Label [text]="resume.plan" *ngIf="resume.transactionType !== 'Transferência'" textWrap="true" class="body text-right p-y-5" row="5" col="1"></Label>
     </GridLayout>
 
     <GridLayout class="card-list m-t-10" row="2" rows="auto,auto,auto" columns="*,auto">

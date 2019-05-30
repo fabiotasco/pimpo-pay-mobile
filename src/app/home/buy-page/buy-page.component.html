@@ -13,9 +13,7 @@
           verticalAlignment="center"
           class="circle"
           [class.active]="($cardOpened | async) === 'amount'"
-          [class.done]="
-            transactionValues.amount && ($cardOpened | async) !== 'amount'
-          "
+          [class.done]="transactionValues.amount && ($cardOpened | async) !== 'amount'"
           row="0"
           col="0"
         >
@@ -23,9 +21,7 @@
 
         <Label
           verticalAlignment="center"
-          [text]="
-            ($cardOpened | async) === 'amount' ? 'Informe o Valor' : 'Valor'
-          "
+          [text]="($cardOpened | async) === 'amount' ? 'Informe o Valor' : 'Valor'"
           class="font-weight-bold"
           row="0"
           col="1"
@@ -37,7 +33,7 @@
           verticalAlignment="center"
           horizontalAlignment="right"
           paddingRight="8"
-          [text]="transactionValues.amount + ' R$'"
+          [text]="transactionValues.amount | currency: 'BRL':'symbol'"
           class="font-weight-normal"
           row="0"
           col="2"
@@ -45,11 +41,7 @@
         ></Label>
       </GridLayout>
       <StackLayout
-        [ngClass]="
-          ($cardOpened | async) === 'amount'
-            ? 'account-data open'
-            : 'account-data close'
-        "
+        [ngClass]="($cardOpened | async) === 'amount' ? 'account-data open' : 'account-data close'"
         id="setValue"
         row="1"
         col="0"
@@ -79,9 +71,7 @@
           verticalAlignment="center"
           class="circle"
           [class.active]="($cardOpened | async) === 'destinationAccount'"
-          [class.done]="
-            accountSelected && ($cardOpened | async) !== 'destinationAccount'
-          "
+          [class.done]="accountSelected && ($cardOpened | async) !== 'destinationAccount'"
           id="setAccount"
           row="0"
           col="0"
@@ -98,9 +88,7 @@
         ></Label>
 
         <Label
-          *ngIf="
-            accountSelected && ($cardOpened | async) !== 'destinationAccount'
-          "
+          *ngIf="accountSelected && ($cardOpened | async) !== 'destinationAccount'"
           verticalAlignment="center"
           horizontalAlignment="right"
           paddingRight="8"
@@ -112,11 +100,7 @@
         ></Label>
       </GridLayout>
       <GridLayout
-        [ngClass]="
-          ($cardOpened | async) === 'destinationAccount'
-            ? 'account-data open'
-            : 'account-data close'
-        "
+        [ngClass]="($cardOpened | async) === 'destinationAccount' ? 'account-data open' : 'account-data close'"
         row="1"
         col="0"
         colSpan="3"
@@ -159,9 +143,7 @@
         <StackLayout
           class="circle"
           [class.active]="($cardOpened | async) === 'plan'"
-          [class.done]="
-            transactionValues.plan && ($cardOpened | async) !== 'plan'
-          "
+          [class.done]="transactionValues.plan && ($cardOpened | async) !== 'plan'"
           id="setPaymentType"
           verticalAlignment="center"
           row="0"
@@ -170,11 +152,7 @@
         </StackLayout>
 
         <Label
-          [text]="
-            ($cardOpened | async) === 'plan'
-              ? 'Forma de Pagamento'
-              : 'Pagamento'
-          "
+          [text]="($cardOpened | async) === 'plan' ? 'Forma de Pagamento' : 'Pagamento'"
           class="font-weight-bold"
           row="0"
           verticalAlignment="center"
@@ -187,9 +165,7 @@
           verticalAlignment="center"
           horizontalAlignment="right"
           paddingRight="8"
-          [text]="
-            transactionValues.plan === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'
-          "
+          [text]="transactionValues.plan === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'"
           class="font-weight-normal"
           row="0"
           col="2"
@@ -197,7 +173,7 @@
         ></Label>
       </GridLayout>
 
-     <GridLayout
+      <GridLayout
         [ngClass]="($cardOpened | async) === 'plan' ? 'account-data open' : 'account-data close'"
         row="1"
         col="0"
@@ -245,25 +221,12 @@
       </GridLayout>
     </StackLayout>
 
-    <FlexboxLayout
-      row="3"
-      *ngIf="showFinalButton"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Label
-        (tap)="finalizeTrasaction()"
-        class="btn btn-finalize"
-        text="Finalizar"
-      ></Label>
+    <FlexboxLayout row="3" *ngIf="showFinalButton" justifyContent="center" alignItems="center">
+      <Label (tap)="finalizeTrasaction()" class="btn btn-finalize" text="Finalizar"></Label>
     </FlexboxLayout>
   </GridLayout>
 
   <StackLayout class="of-bottom">
-    <ns-resume
-      [resume]="resumeModel"
-      (actionClick)="resumeBtnClicked($event)"
-      [showResume]="showResume"
-    ></ns-resume>
+    <ns-resume [resume]="resumeModel" (actionClick)="resumeBtnClicked($event)" [showResume]="showResume"></ns-resume>
   </StackLayout>
 </GridLayout>

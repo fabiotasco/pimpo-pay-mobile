@@ -64,10 +64,10 @@ export class BuyPageComponent implements OnInit, OnDestroy {
     this.transactionService.executePurchase(this.mountPurchaseModel()).subscribe(
       res => {
         this.loadingService.hide();
-        this.prepareResumeModel(res);
-        this.showResume = true;
 
         if (res.success) {
+          this.prepareResumeModel(res);
+          this.showResume = true;
           this.transactionValues = new TransactionValue();
           this.transactionCardService.open('amount');
           return;
@@ -75,7 +75,7 @@ export class BuyPageComponent implements OnInit, OnDestroy {
       },
       err => {
         this.loadingService.hide();
-        this.toastHelper.showToast(err.errors[0].message);
+        this.toastHelper.showToast(err.error);
       }
     );
   }
@@ -200,6 +200,7 @@ export class BuyPageComponent implements OnInit, OnDestroy {
 
   private prepareResumeModel(result: any): void {
     const pluralInstallment = this.transactionValues.installments > 1 ? 'Vezes' : 'Vez';
+
     this.resumeModel = {
       amount: this.transactionValues.amount,
       destinyAccount: this.accountSelected,
