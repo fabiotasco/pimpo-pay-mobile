@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { RouterExtensions } from 'nativescript-angular/router';
-import { redirectTo } from '../utils/variables';
+import { redirectTo, appTimout } from '../utils/variables';
 import { AccountService } from '../services/account.service';
 import { UserData } from '../models/user-data';
 import { Observable } from 'rxjs';
 import { TransactionService } from '../services/trasaction.service';
 import { LoadingService } from '../services/loading.service';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   moduleId: module.id,
@@ -20,13 +21,15 @@ export class HomePageComponent implements OnInit {
   userData$: Observable<UserData>;
   $isLoading: Observable<boolean>;
   tabSelected = 0;
+  timout: moment.Moment;
+
   constructor(
     private page: Page,
-    private routes: RouterExtensions,
+    private router: RouterExtensions,
     private accountService: AccountService,
     private transactionService: TransactionService,
     private loadingService: LoadingService,
-    private activeRouter: ActivatedRoute
+    private activeRouter: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -49,7 +52,7 @@ export class HomePageComponent implements OnInit {
     if (tab.tabName === 'Extrato') {
       this.updateBalance();
     }
-    this.routes.navigate([redirectTo(tab.tabIndex)], { clearHistory: true });
+    this.router.navigate([redirectTo(tab.tabIndex)], { clearHistory: true });
   }
 
   private updateBalance(): void {

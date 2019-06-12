@@ -18,11 +18,7 @@ export class BalancePageComponent implements OnInit {
   accountBalance$: Observable<number>;
   lista: any[] = [];
 
-  constructor(
-    private page: Page,
-    private transactionService: TransactionService,
-    private router: RouterExtensions
-  ) {}
+  constructor(private page: Page, private transactionService: TransactionService, private router: RouterExtensions) {}
 
   ngOnInit() {
     this.accountBalance$ = this.transactionService.accountBalance$;
@@ -49,11 +45,11 @@ export class BalancePageComponent implements OnInit {
       });
   }
 
-  getTransactionType(type: string): void {
+  getTransactionType(type: string, value: number): void {
     const types = {
       Purchase: 'Compra',
       Deposit: 'Depósito',
-      Transfer: 'Transferencia'
+      Transfer: value < 0 ? 'TEC Enviada' : 'TEC Recebida'
     };
 
     return types[type];
@@ -71,16 +67,14 @@ export class BalancePageComponent implements OnInit {
   onItemTap(event: any, item: Transaction): void {
     const view: View = event.view;
 
-    view
-      .animate({ scale: { x: 1.05, y: 1.05 }, duration: 100 })
-      .then(() => {
-        view.animate({ scale: { x: 1, y: 1 }, duration: 100 });
-        const transactionString = JSON.stringify(item);
-        this.router.navigate(["detail"], {
-          queryParams: {
-            transaction: transactionString
-          }
-        });
+    view.animate({ scale: { x: 1.05, y: 1.05 }, duration: 100 }).then(() => {
+      view.animate({ scale: { x: 1, y: 1 }, duration: 100 });
+      const transactionString = JSON.stringify(item);
+      this.router.navigate(['detail'], {
+        queryParams: {
+          transaction: transactionString
+        }
       });
+    });
   }
 }

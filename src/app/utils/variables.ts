@@ -9,6 +9,7 @@ declare var android: any;
 /* Endpoints enviroments */
 
 export const endpoint: string = 'http://35.243.251.185:8080/api';
+export const appTimout = 10 // in seconds;
 //export const endpoint:string = 'http://pimpopay.com/api';
 
 /* Endpoints enviroments */

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { LoadingService } from '~/app/services/loading.service';
 
 @Component({
   selector: 'ns-loading',

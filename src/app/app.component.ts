@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { GlobalEventService } from './services/global-event.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ToastHelperService } from './core/toast-helper.service';
+import { AccountService } from './services/account.service';
 
 @Component({
   selector: 'ns-app',
@@ -9,11 +10,7 @@ import { ToastHelperService } from './core/toast-helper.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private globalEvent: GlobalEventService,
-    private routes: RouterExtensions,
-    private toastHelper: ToastHelperService
-  ) {}
+  constructor(private globalEvent: GlobalEventService, private router: RouterExtensions) {}
 
   ngOnInit(): void {
     this.subscribeEvents();
@@ -21,11 +18,11 @@ export class AppComponent implements OnInit {
 
   private subscribeEvents(): void {
     this.globalEvent.loggedIn.subscribe(() => {
-      this.routes.navigate(['/home/balance'], { clearHistory: true });
+      this.router.navigate(['/home/balance'], { clearHistory: true });
     });
 
     this.globalEvent.disconneted.subscribe(() => {
-      this.routes.navigate(['/login'], { clearHistory: true });
+      this.router.navigate(['/login'], { clearHistory: true });
     });
   }
 }

@@ -144,7 +144,7 @@ export class CreditPageComponent implements OnInit {
       hasFailure: !result.success,
       status: result.errors ? result.errors[0].message : transactionStatus[result.content.status.toLowerCase()],
       statusCode: result.errors ? result.errors[0].code : null,
-      transactionType: 'Depósito',
+      transactionType: 'Venda',
       plan:
         this.transactionValues.plan === 'Prepaid'
           ? 'Pré-pago'
