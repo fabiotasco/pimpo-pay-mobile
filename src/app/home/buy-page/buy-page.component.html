@@ -49,7 +49,7 @@
       >
         <TextFieldCurrency
           name="amountField"
-          className="input-transaction"
+          [className]="'input-transaction'"
           [(ngModel)]="transactionValues.amount"
           [returnKeyType]="'next'"
           (returnPress)="open('destinationAccount')"

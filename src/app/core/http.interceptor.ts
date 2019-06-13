@@ -32,6 +32,6 @@ export class HeaderInterceptor implements HttpInterceptor {
     }
 
     const authReq = req.clone({ headers });
-    return next.handle(authReq).pipe(timeout(10000));
+    return next.handle(authReq).pipe(timeout(5000));
   }
 }

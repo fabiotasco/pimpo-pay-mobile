@@ -55,12 +55,11 @@ export class LoginPageComponent implements OnInit {
         },
         (err: HttpErrorResponse) => {
           this.loadingService.hide();
-
           if (err.message.includes('Timeout has occurred')) {
             this.toastHelper.showToast('Verifique a conexão');
             return;
           }
-          this.toastHelper.showToast(err.message);
+          this.toastHelper.showToast('Operação não realizada. Verifique a conexão e tente novamente.');
         }
       );
     } else {

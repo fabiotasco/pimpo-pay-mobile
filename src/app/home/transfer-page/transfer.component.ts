@@ -1,22 +1,17 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Page, View, Color } from 'tns-core-modules/ui/page/page';
+import { Component, OnInit } from '@angular/core';
+import { Page, View } from 'tns-core-modules/ui/page/page';
 import { BarcodeScanner } from 'nativescript-barcodescanner';
 import { AccountService } from '~/app/services/account.service';
 import { TransactionService } from '~/app/services/trasaction.service';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
-import { AndroidData, ShapeEnum } from 'nativescript-ng-shadow';
-import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layout';
-import { Button } from 'tns-core-modules/ui/button';
-import { Plan } from '~/app/models/plan';
 import { UserData } from '~/app/models/user-data';
 import * as moment from 'moment';
-import { PositionChevron, ResumeModel, ResumeActionButton, transactionStatus } from '~/app/utils/variables';
+import { ResumeModel, ResumeActionButton, transactionStatus } from '~/app/utils/variables';
 import { Transfer } from '~/app/models/transfer';
 import { TransactionValue } from '~/app/models/transaction-value';
 import { Observable } from 'rxjs';
 import { TransactionCardService } from '~/app/components/transaction-card/transaction-card.service';
 import { LoadingService } from '~/app/services/loading.service';
-import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   moduleId: module.id,
@@ -24,7 +19,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
   templateUrl: './transfer.component.html',
   styleUrls: ['./transfer.component.css']
 })
-export class TransferPageComponent implements OnInit, AfterViewInit {
+export class TransferPageComponent implements OnInit {
   public transactionValues: TransactionValue;
   public $cardOpened: Observable<string>;
   public actualCardOpened = 'amount';
@@ -40,8 +35,7 @@ export class TransferPageComponent implements OnInit, AfterViewInit {
     private accountService: AccountService,
     private transactionService: TransactionService,
     private toastHelper: ToastHelperService,
-    private loadingService: LoadingService,
-    private router: RouterExtensions
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -52,8 +46,6 @@ export class TransferPageComponent implements OnInit, AfterViewInit {
     this.transactionValues = new TransactionValue();
   }
 
-  ngAfterViewInit() {}
-
   ngOnDestroy() {
     this.transactionCardService.open('amount');
   }
@@ -63,30 +55,10 @@ export class TransferPageComponent implements OnInit, AfterViewInit {
     this.readQrCode();
   }
 
-  public finalizeTrasaction(): void {
-    this.loadingService.show();
-
-    this.transactionService.executeTransfer(this.mountTransferModel()).subscribe(
-      res => {
-        this.loadingService.hide();
-        this.prepareResumeModel(res);
-        this.showResume = true;
-
-        if (res.success) {
-          this.transactionValues = new TransactionValue();
-          this.transactionCardService.open('amount');
-          return;
-        }
-      },
-      err => {
-        this.loadingService.hide();
-        this.toastHelper.showToast(err.errors[0].message);
-      }
-    );
-  }
-
   public open(part: string): void {
-    if (this.actualCardOpened === 'destinationAccount' && !this.transactionValues.destinationHash) {
+    if (this.actualCardOpened === 'destinationAccount' && !this.phoneValid(this.transactionValues.destinationAccount)) {
+      return;
+    } else if (this.actualCardOpened === 'destinationAccount' && !this.transactionValues.destinationHash) {
       this.accountSelected = '+55' + this.transactionValues.destinationAccount;
     }
 
@@ -94,11 +66,6 @@ export class TransferPageComponent implements OnInit, AfterViewInit {
       (part !== this.actualCardOpened && this.transactionValues[this.actualCardOpened]) ||
       (this.transactionValues[this.actualCardOpened] && this.transactionValues[part])
     ) {
-      if (!part || part === 'null') {
-        this.closeAll();
-        return;
-      }
-
       this.actualCardOpened = part;
       this.transactionCardService.open(part);
     } else if (this.actualCardOpened === 'destinationAccount' && this.accountSelected) {
@@ -111,40 +78,41 @@ export class TransferPageComponent implements OnInit, AfterViewInit {
     this.validateData();
   }
 
+  public finalizeTrasaction(): void {
+    this.loadingService.show();
+
+    this.transactionService.executeTransfer(this.mountTransferModel()).subscribe(
+      res => {
+        this.loadingService.hide();
+        this.prepareResumeModel(res);
+        this.showResume = true;
+        this.transactionCardService.open('amount');
+        return;
+      },
+      err => {
+        this.loadingService.hide();
+        this.toastHelper.showToast(err.errors[0].message);
+      }
+    );
+  }
+
   public closeAll(): void {
     this.transactionCardService.closeAll();
     this.validateData();
   }
-
-  /*   public changeAccountValue(event: any): void {
-    if (this.resumeModel) {
-      console.log('resumeModel existe');
-      setTimeout(() => {
-        this.resumeModel = null;
-      }, 200);
-    } else {
-      console.log('Account selected para NULL');
-      this.transactionValues.destinationHash = null;
-      this.accountSelected = null;
-    }
-  } */
 
   public done(): void {
     this.transactionCardService.closeAll();
   }
 
   public resumeBtnClicked(btnClicked: string): void {
-    if (btnClicked === ResumeActionButton.RETRY) {
-      this.showResume = false;
-    }
+    this.actualCardOpened = 'amount';
+    this.showResume = false;
 
     if (btnClicked === ResumeActionButton.NEW) {
       this.transactionValues = new TransactionValue();
-      this.transactionCardService.open('amount');
-      this.actualCardOpened = 'amount';
       this.showFinalButton = false;
       this.accountSelected = null;
-      this.showResume = false;
     }
   }
 
@@ -214,5 +182,18 @@ export class TransferPageComponent implements OnInit, AfterViewInit {
       statusCode: result.errors ? result.errors[0].code : null,
       transactionType: 'Transferência'
     };
+  }
+
+  private phoneValid(phone: string): boolean {
+    if (!phone) {
+      this.toastHelper.showToast('Preencha o número de telefone');
+      return false;
+    }
+    if (phone.length < 11) {
+      this.toastHelper.showToast('Número de telefone inválido');
+      return false;
+    }
+
+    return true;
   }
 }

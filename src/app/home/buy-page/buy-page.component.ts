@@ -65,13 +65,10 @@ export class BuyPageComponent implements OnInit, OnDestroy {
       res => {
         this.loadingService.hide();
 
-        if (res.success) {
-          this.prepareResumeModel(res);
-          this.showResume = true;
-          this.transactionValues = new TransactionValue();
-          this.transactionCardService.open('amount');
-          return;
-        }
+        this.prepareResumeModel(res);
+        this.showResume = true;
+        this.transactionCardService.open('amount');
+        return;
       },
       err => {
         this.loadingService.hide();
@@ -81,7 +78,9 @@ export class BuyPageComponent implements OnInit, OnDestroy {
   }
 
   public open(part: string): void {
-    if (this.actualCardOpened === 'destinationAccount' && !this.transactionValues.destinationHash) {
+    if (this.actualCardOpened === 'destinationAccount' && !this.phoneValid(this.transactionValues.destinationAccount)) {
+      return;
+    } else if (this.actualCardOpened === 'destinationAccount' && !this.transactionValues.destinationHash) {
       this.accountSelected = '+55' + this.transactionValues.destinationAccount;
     }
 
@@ -123,17 +122,13 @@ export class BuyPageComponent implements OnInit, OnDestroy {
   }
 
   public resumeBtnClicked(btnClicked: string): void {
-    if (btnClicked === ResumeActionButton.RETRY) {
-      this.showResume = false;
-    }
+    this.showResume = false;
+    this.actualCardOpened = 'amount';
 
     if (btnClicked === ResumeActionButton.NEW) {
       this.transactionValues = new TransactionValue();
-      this.transactionCardService.open('amount');
-      this.actualCardOpened = 'amount';
       this.showFinalButton = false;
       this.accountSelected = null;
-      this.showResume = false;
     }
   }
 
@@ -213,5 +208,18 @@ export class BuyPageComponent implements OnInit, OnDestroy {
           ? 'Pré-pago'
           : 'Pós-pago ' + this.transactionValues.installments + ' ' + pluralInstallment
     };
+  }
+
+  private phoneValid(phone: string): boolean {
+    if (!phone) {
+      this.toastHelper.showToast('Preencha o número de telefone');
+      return false;
+    }
+    if (phone.length < 11) {
+      this.toastHelper.showToast('Número de telefone inválido');
+      return false;
+    }
+
+    return true;
   }
 }
