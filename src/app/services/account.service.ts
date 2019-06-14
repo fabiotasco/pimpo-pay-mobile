@@ -33,8 +33,6 @@ export class AccountService extends BaseService {
         if (res.success) {
           this.saveSession(res.content.hash, credential);
           this.subject.next(res.content);
-        } else {
-          this.toastHepler.showToast(`${res.errors[0].message} `);
         }
       })
     );

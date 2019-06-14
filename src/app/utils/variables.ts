@@ -7,7 +7,7 @@ declare var java: any;
 declare var android: any;
 
 /* Endpoints enviroments */
-
+export const installmentAmount = 10;
 export const endpoint: string = 'http://35.243.251.185:8080/api';
 export const appTimout = 10 // in seconds;
 //export const endpoint:string = 'http://pimpopay.com/api';

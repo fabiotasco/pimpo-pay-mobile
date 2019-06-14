@@ -92,7 +92,7 @@
           verticalAlignment="center"
           horizontalAlignment="right"
           paddingRight="8"
-          [text]="transactionValues.plan === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'"
+          [text]="transactionValues.plan === 'Prepaid' ? 'À Vista' : 'A Prazo'"
           class="font-weight-normal"
           row="0"
           col="2"
@@ -104,15 +104,15 @@
         row="1"
         col="0"
         colSpan="3"
-        columns="auto,auto,*"
+        columns="*,*,*"
         rows="auto,auto,auto"
       >
         <Label
           row="0"
           col="0"
-          text="Pré-Pago"
+          text="À Vista"
           verticalAlignment="center"
-          class="plan m-r-10"
+          class="plan m-r-10 text-center"
           [class.selected]="transactionValues.plan === 'Prepaid'"
           (tap)="selectPaymentType({ type: 'Prepaid', installments: 1 })"
           textWrap="true"
@@ -121,29 +121,25 @@
         <Label
           row="0"
           col="1"
-          text="Pós-Pago"
-          class="plan"
+          text="A Prazo"
+          class="plan text-center"
           [class.selected]="transactionValues.plan === 'Credit'"
-          (tap)="selectPaymentType({ type: 'Credit', installments: 1 })"
+          (tap)="selectPaymentType({ type: 'Credit', installments: 0 })"
           verticalAlignment="center"
           textWrap="true"
         ></Label>
 
-        <TextField
+        <DropDown
           row="0"
           col="2"
-          width="100"
-          returnType="done"
-          keyboardType="number"
-          (returnPress)="done()"
-          marginLeft="10"
-          [(ngModel)]="transactionValues.installments"
-          verticalAlignment="center"
-          class="input-transaction text-center"
-          [ngClass]="transactionValues.plan === 'Credit' ? 'show-install-input' : 'hide-install-input'"
+          #installments
           horizontalAlignment="right"
-          hint="Parcelas"
-        ></TextField>
+          class="dropdown"
+          [ngClass]="transactionValues.plan === 'Credit' ? 'show-install-input' : 'hide-install-input'"
+          id="installments"
+          (selectedIndexChanged)="selectInstallment($event)"
+          verticalAlignment="center"
+        ></DropDown>
       </GridLayout>
     </StackLayout>
 

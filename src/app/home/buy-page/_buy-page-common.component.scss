@@ -1,4 +1,10 @@
-@import '../../../app-common';
+@import "../../../app-common";
+
+.dropdown {
+  width: 60;
+  padding: 2;
+  text-align: center;
+}
 
 .input-transaction {
   widows: 100%;

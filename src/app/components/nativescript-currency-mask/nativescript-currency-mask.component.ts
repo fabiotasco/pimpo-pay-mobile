@@ -93,7 +93,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
       const resetedValue = this.prepareToPropagate(value);
       this.propagateChange(resetedValue);
     } else {
-      this.propagateChange('');
+     /*  this.propagateChange(''); */
     }
   }
 

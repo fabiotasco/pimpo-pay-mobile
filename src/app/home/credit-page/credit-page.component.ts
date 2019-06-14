@@ -3,16 +3,17 @@ import { CurrencyPipe } from '@angular/common';
 import { ToastHelperService } from '~/app/core/toast-helper.service';
 import { TransactionService } from '~/app/services/trasaction.service';
 import { AccountService } from '~/app/services/account.service';
-import { View } from 'tns-core-modules/ui/page/page';
+import { View, Page } from 'tns-core-modules/ui/page/page';
 import { UserData } from '~/app/models/user-data';
 import * as moment from 'moment';
 import { TransactionValue } from '~/app/models/transaction-value';
 import { Observable } from 'rxjs';
-import { ResumeModel, ResumeActionButton, transactionStatus } from '~/app/utils/variables';
+import { ResumeModel, ResumeActionButton, transactionStatus, installmentAmount } from '~/app/utils/variables';
 import { TransactionCardService } from '~/app/components/transaction-card/transaction-card.service';
 import { LoadingService } from '~/app/services/loading.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { Deposit } from '~/app/models/deposit';
+import { ValueList, DropDown, SelectedIndexChangedEventData } from 'nativescript-drop-down';
 
 @Component({
   moduleId: module.id,
@@ -30,14 +31,16 @@ export class CreditPageComponent implements OnInit {
   public accountSelected: string;
   public showResume = false;
   public resumeModel: ResumeModel;
+  public installmentList: ValueList<number>;
+  public dd:DropDown;
 
   constructor(
+    private page:Page,
     private transactionCardService: TransactionCardService,
     private accountService: AccountService,
     private transactionService: TransactionService,
     private toastHelper: ToastHelperService,
     private loadingService: LoadingService,
-    private router: RouterExtensions
   ) {}
 
   ngOnInit() {
@@ -87,12 +90,23 @@ export class CreditPageComponent implements OnInit {
       this.toastHelper.showToast('Preencha o campo solicitado');
     }
 
+    if (part === "plan" && this.transactionValues.plan === "Credit") {
+      this.generateInstallmentList();
+      this.transactionValues.installments = this.installmentList.getValue(this.dd.selectedIndex);
+    }
+
+
     this.validateData();
   }
 
   public selectPaymentType(paymentType: any): void {
     this.transactionValues.plan = paymentType.type;
     this.transactionValues.installments = paymentType.installments;
+
+    if (paymentType.type === "Credit") {
+      this.generateInstallmentList();
+      this.transactionValues.installments = this.installmentList.getValue(this.dd.selectedIndex);
+    }
     this.validateData();
   }
 
@@ -115,6 +129,11 @@ export class CreditPageComponent implements OnInit {
     }
   }
 
+  public selectInstallment(event: SelectedIndexChangedEventData) {
+    this.transactionValues.installments = this.installmentList.getValue(event.newIndex);
+    this.validateData();
+  }
+
   private mountDepositModel(): Deposit {
     const deposit: Deposit = {
       amount: this.transactionValues.amount,
@@ -130,6 +149,12 @@ export class CreditPageComponent implements OnInit {
   }
 
   private validateData(): void {
+    if(this.transactionValues.plan === 'Credit' && !this.transactionValues.installments){
+      this.toastHelper.showToast('Informe a quantidade de parcelas');
+      this.showFinalButton = false;
+      return;
+    }
+
     if (this.transactionValues.amount && this.transactionValues.plan) {
       this.showFinalButton = true;
     } else {
@@ -147,8 +172,21 @@ export class CreditPageComponent implements OnInit {
       transactionType: 'Venda',
       plan:
         this.transactionValues.plan === 'Prepaid'
-          ? 'Pré-pago'
-          : 'Pós-pago ' + this.transactionValues.installments + ' ' + pluralInstallment
+          ? 'À Vista'
+          : 'A Prazo ' + this.transactionValues.installments + ' ' + pluralInstallment
     };
+  }
+
+  private generateInstallmentList(): void {
+    this.dd = this.page.getViewById<DropDown>("installments");
+
+    this.installmentList = new ValueList<number>();
+    for (let index = 0; index < installmentAmount; index++) {
+      const installment = index + 1;
+      this.installmentList.push({ value: installment, display: installment + "" });
+    }
+
+    this.dd.items = this.installmentList;
+  
   }
 }
