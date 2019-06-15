@@ -87,7 +87,7 @@
               ? '-' + (transaction.amount | currency: 'BRL':'symbol')
               : (transaction.amount | currency: 'BRL':'symbol')
           "
-          [class]="transaction.planType === 'Credit' ? 'text-bold text-danger text-right' : 'text-bold text-right'"
+          [class]="transaction.planType === 'Credit' ? 'text-danger text-right' : ' text-right'"
           textWrap="true"
         ></Label>
         <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
@@ -98,7 +98,7 @@
           col="1"
           fontSize="16"
           [text]="transaction.planType === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'"
-          class="text-bold text-right"
+          class="text-right"
           textWrap="true"
         ></Label>
         <StackLayout padding="8" row="3" col="0" colSpan="2" class="hr-light"> </StackLayout>
@@ -109,7 +109,7 @@
           col="1"
           fontSize="16"
           [text]="transaction.planType === 'Prepaid' ? 'A Vista' : 'Crédito'"
-          class="text-bold text-right"
+          class="text-right"
           textWrap="true"
         ></Label>
       </GridLayout>
@@ -132,7 +132,7 @@
           col="1"
           fontSize="16"
           text="29.687.531-86"
-          class="text-bold text-right"
+          class="text-right"
           textWrap="true"
         ></Label>
         <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
@@ -143,7 +143,7 @@
           col="1"
           fontSize="16"
           text="+55 21 98815-2861"
-          class="text-bold text-right"
+          class="text-right"
           textWrap="true"
         ></Label>
       </GridLayout>
