@@ -121,6 +121,11 @@ $success: $greenSuccess;
   color: #ffffff;
 }
 
+.btn-danger {
+  background-color: $danger;
+  color: #fff;
+}
+
 .btn-secondary {
   background-color: $secondary;
   color: $light;

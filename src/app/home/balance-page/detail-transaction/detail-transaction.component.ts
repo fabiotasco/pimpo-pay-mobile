@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Page, View } from 'tns-core-modules/ui/page/page';
-import { ActivatedRoute } from '@angular/router';
-import { Transaction } from '~/app/models/transaction';
-import { TransactionStatus } from '~/app/utils/variables';
+import { Component, OnInit } from "@angular/core";
+import { Page, View } from "tns-core-modules/ui/page/page";
+import { ActivatedRoute } from "@angular/router";
+import { Transaction } from "~/app/models/transaction";
+import { TransactionStatus, transactionsType } from "~/app/utils/variables";
 
-import { TransactionService } from '~/app/services/trasaction.service';
-import { ConfirmOptions, confirm, AlertOptions, alert } from 'tns-core-modules/ui/dialogs/dialogs';
-import { ToastHelperService } from '~/app/core/toast-helper.service';
-import { RouterExtensions } from 'nativescript-angular/router';
+import { TransactionService } from "~/app/services/trasaction.service";
+import { ConfirmOptions, confirm, AlertOptions, alert } from "tns-core-modules/ui/dialogs/dialogs";
+import { ToastHelperService } from "~/app/core/toast-helper.service";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
-  selector: 'ns-detail-transaction',
-  templateUrl: './detail-transaction.component.html',
-  styleUrls: ['./detail-transaction.component.css'],
+  selector: "ns-detail-transaction",
+  templateUrl: "./detail-transaction.component.html",
+  styleUrls: ["./detail-transaction.component.css"],
   moduleId: module.id
 })
 export class DetailTransactionComponent implements OnInit {
@@ -28,7 +28,7 @@ export class DetailTransactionComponent implements OnInit {
 
   ngOnInit() {
     this.activetadRoute.queryParams.subscribe(params => {
-      this.transaction = JSON.parse(params['transaction']);
+      this.transaction = JSON.parse(params["transaction"]);
     });
   }
 
@@ -37,15 +37,15 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   cancelTransaction(event: any): void {
-    const btnView: View = this.page.getViewById('btnCancel');
+    const btnView: View = this.page.getViewById("btnCancel");
     btnView.animate({ scale: { x: 0.9, y: 0.9 }, duration: 100 }).then(() => {
       btnView.animate({ scale: { x: 1, y: 1 }, duration: 100 });
     });
     const options: ConfirmOptions = {
-      cancelButtonText: 'Voltar',
-      message: 'Cancelar Transaçao',
-      title: 'Transação',
-      okButtonText: 'Confirmar',
+      cancelButtonText: "Voltar",
+      message: "Cancelar Transaçao",
+      title: "Transação",
+      okButtonText: "Confirmar",
       cancelable: false
     };
 
@@ -53,15 +53,15 @@ export class DetailTransactionComponent implements OnInit {
       if (res) {
         this.trasactionService.executeCancel(this.transaction.id).subscribe(res => {
           if (res.success) {
-            this.toast.showToast('Transaçao Cancelada');
+            this.toast.showToast("Transaçao Cancelada");
             this.router.back();
             return;
           }
 
           const error: AlertOptions = {
             message: res.errors[0].message,
-            title: '',
-            okButtonText: 'Ok',
+            title: "",
+            okButtonText: "Ok",
             cancelable: false
           };
 
@@ -73,21 +73,21 @@ export class DetailTransactionComponent implements OnInit {
 
   getTransactionStatusColor(status: string): string {
     const colors = {
-      AUTHORIZED: '#004c99',
+      AUTHORIZED: "#004c99",
       /** Negada */
-      DENIED: '#cc0000',
+      DENIED: "#cc0000",
 
       /** Cancelada */
-      CANCELLED: '#cc0000',
+      CANCELLED: "#cc0000",
 
       /** Liquidada */
-      SETTLED: '#009900',
+      SETTLED: "#009900",
 
       /** Disputada */
-      DISPUTED: 'DISPUTED',
+      DISPUTED: "DISPUTED",
 
       /** Disputa respondida */
-      DISPUTE_RESPONDED: 'DISPUTE_RESPONDED'
+      DISPUTE_RESPONDED: "DISPUTE_RESPONDED"
     };
 
     return colors[status.toLocaleUpperCase()];
@@ -95,23 +95,34 @@ export class DetailTransactionComponent implements OnInit {
 
   getTransactionName(status: string): string {
     const colors = {
-      AUTHORIZED: 'Autorizado',
+      AUTHORIZED: "Autorizado",
       /** Negada */
-      DENIED: 'Negada',
+      DENIED: "Negada",
 
       /** Cancelada */
-      CANCELLED: 'Cancelada',
+      CANCELLED: "Cancelada",
 
       /** Liquidada */
-      SETTLED: 'Liquidada',
+      SETTLED: "Liquidada",
 
       /** Disputada */
-      DISPUTED: 'Disputada',
+      DISPUTED: "Disputada",
 
       /** Disputa respondida */
-      DISPUTE_RESPONDED: 'Disputa respondida'
+      DISPUTE_RESPONDED: "Disputa respondida"
     };
 
     return colors[status.toUpperCase()];
+  }
+
+  getTransactionType(type: string): string {
+    return transactionsType[type];
+  }
+  getDestinyLabel(): string {
+    return this.transaction.type === "Purchase"
+      ? "Estabelecimento Comercial"
+      : this.transaction.type === "Transfer"
+      ? "Favorecido"
+      : "";
   }
 }

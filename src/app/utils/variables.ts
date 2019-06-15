@@ -109,3 +109,9 @@ export enum ResumeActionButton {
   NEW = 'new',
   GOSTART = 'goStart'
 }
+
+export const transactionsType = {
+  Purchase:'Compra',
+  Deposit:'Depósito',
+  Transfer:'Transferência'
+}

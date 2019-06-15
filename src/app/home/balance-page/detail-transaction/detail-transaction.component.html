@@ -11,7 +11,7 @@
           row="0"
           col="0"
           class="font-weight-bold"
-          text="SITUAÇÃO"
+          text="Situação"
           textWrap="true"
           fontSize="16"
         ></Label>
@@ -46,7 +46,6 @@
           col="0"
           fontSize="16"
           text="Motivo"
-          class="text-bold"
           textWrap="true"
         ></Label>
 
@@ -70,8 +69,8 @@
 
       <Label
         row="2"
-        text="TRANSFERÊNCIA"
-        class="text-bold m-y-10"
+        [text]="getTransactionType(transaction.type)"
+        class="text-bold m-y-10 text-uppercase"
         fontSize="16"
         textWrap="true"
         paddingTop="16"
@@ -115,10 +114,11 @@
         ></Label>
       </GridLayout>
 
-      <Label row="4" text="FAVORECIDO" class="text-bold m-y-10" fontSize="16" textWrap="true" paddingTop="16"></Label>
+      <Label row="4" [text]="getDestinyLabel()" class="text-bold m-y-10 text-uppercase" fontSize="16" textWrap="true" paddingTop="16"></Label>
       <GridLayout
         shadow="2"
         row="5"
+        *ngIf="transaction.type !== 'Deposit'"
         rows="*,auto,*,auto,*"
         columns="*,auto"
         paddingLeft="16"
@@ -151,10 +151,10 @@
       <Button
         row="6"
         id="btnCancel"
-        *ngIf="transaction.status !== 'Denied' || transaction.status !== 'Cancelled'"
+        *ngIf="transaction.status !== 'Denied' && transaction.status !== 'Cancelled'"
         (tap)="cancelTransaction()"
         text="Cancelar"
-        class="btn btn-outline secondary"
+        class="btn btn-danger"
         marginTop="32"
         height="50"
       ></Button>
