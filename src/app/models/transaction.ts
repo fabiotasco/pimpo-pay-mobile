@@ -5,6 +5,7 @@ export class Transaction {
   currencyType: string;
   installments: number;
   reasonCode: string;
+  reasonMessage: string;
   type: string;
   planType: string;
   status: string;

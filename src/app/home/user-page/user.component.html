@@ -1,33 +1,13 @@
 <ScrollView class="bg-light" height="100%">
-  
-  <GridLayout rows="auto,*" padding="16" class="bg-light">
-    <Label
-      text="MINHA CONTA"
-      class="text-bold"
-      marginBottom="16"
-      textWrap="true"
-    ></Label>
+  <GridLayout rows="auto,*,*" padding="16" class="bg-light">
+    <Label text="MINHA CONTA" class="text-bold" marginBottom="16" row="0" textWrap="true"></Label>
 
-    <GridLayout
-      backgroundColor="white"
-      rows="*,auto,*"
-      horizontalAlignment="center"
-      row="1"
-    >
+    <GridLayout backgroundColor="white" rows="*,auto,*" horizontalAlignment="center" row="1">
       <Image [src]="image" width="300" row="0"></Image>
-      <StackLayout row="1" marginBottom="8" class="hr-light">
-      </StackLayout>
+      <StackLayout row="1" marginBottom="8" class="hr-light"> </StackLayout>
       <StackLayout row="2" padding="16">
         <GridLayout rows="*,*,*" columns="*,*" horizontalAlignment="center">
-          <Label
-            row="0"
-            class="h3"
-            col="0"
-            fontSize="18"
-            class="h3"
-            text="Telefone"
-            textWrap="true"
-          ></Label>
+          <Label row="0" class="h3" col="0" fontSize="18" class="h3" text="Telefone" textWrap="true"></Label>
           <Label
             row="0"
             col="1"
@@ -37,14 +17,7 @@
             textWrap="true"
           ></Label>
 
-          <Label
-            row="1"
-            fontSize="18"
-            class="h3"
-            col="0"
-            text="Operadora"
-            textWrap="true"
-          ></Label>
+          <Label row="1" fontSize="18" class="h3" col="0" text="Operadora" textWrap="true"></Label>
           <Label
             row="1"
             col="1"
@@ -54,25 +27,18 @@
             textWrap="true"
           ></Label>
 
-          <Label
-            row="2"
-            fontSize="18"
-            class="h3"
-            col="0"
-            text="Plano"
-            textWrap="true"
-          ></Label>
+          <Label row="2" fontSize="18" class="h3" col="0" text="Plano" textWrap="true"></Label>
           <Label
             row="2"
             col="1"
             fontSize="18"
             class="text-bold"
-            [text]="
-              userData.plans[0].name === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'
-            "
+            [text]="userData.plans[0].name === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'"
             textWrap="true"
           ></Label>
         </GridLayout> </StackLayout
     ></GridLayout>
+
+    <Button text="Logout" class="btn  btn-primary m-t-10" (tap)="logout()" row="2"></Button>
   </GridLayout>
 </ScrollView>

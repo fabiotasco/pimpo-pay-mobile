@@ -1,44 +1,15 @@
 <ActionBar class="action-bar bg-primary text-light">
-  <StackLayout
-    orientation="horizontal"
-    ios:horizontalAlignment="center"
-    android:horizontalAlignment="left"
-  >
-    <Label
-      text="Criar Conta"
-      class="action-title"
-      color="#ffffff"
-      verticalAlignment="middle"
-    ></Label>
+  <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
+    <Label text="Criar Conta" class="action-title" color="#ffffff" verticalAlignment="middle"></Label>
   </StackLayout>
-  <ActionItem ios.position="right" text="Sair" android.position="popup">
-  </ActionItem>
 </ActionBar>
 
 <ScrollView class="bg-light">
   <GridLayout height="100%">
-    <GridLayout
-      padding="10"
-      rows="auto,auto,auto,auto,auto,auto,*"
-      columns="auto,*"
-      [formGroup]="enrolForm"
-    >
-      <Label
-        class="font-weight-bold m-y-10"
-        text="Conta de Celular"
-        row="0"
-        col="0"
-        colSpan="2"
-      ></Label>
+    <GridLayout padding="10" rows="auto,auto,auto,auto,auto,auto,*" columns="auto,*" [formGroup]="enrolForm">
+      <Label class="font-weight-bold m-y-10" text="Conta de Celular" row="0" col="0" colSpan="2"></Label>
 
-      <GridLayout
-        row="1"
-        col="0"
-        columns="auto,*"
-        class="form-conteiner"
-        orientation="horizontal"
-        colSpan="2"
-      >
+      <GridLayout row="1" col="0" columns="auto,*" class="form-conteiner" orientation="horizontal" colSpan="2">
         <StackLayout row="0" col="0" class="form">
           <Label text="Informe a Operadora" class="m-y-5"></Label>
           <DropDown
@@ -55,7 +26,7 @@
             [fieldId]="'phoneNumber'"
             [type]="'phone'"
             [className]="'form-control text-right'"
-            [fieldHint]="'(**) *****-****'"
+            [fieldHint]="'Telefone com DDD'"
             name="phone"
             [returnKeyType]="'next'"
             formControlName="number"
@@ -68,9 +39,7 @@
           ></Label>
 
           <Label
-            *ngIf="
-              isSubmit && fc.number.errors && fc.number.errors.invalidFormat
-            "
+            *ngIf="isSubmit && fc.number.errors && fc.number.errors.invalidFormat"
             class="body text-danger text-right"
             fontSize="10"
             text="*Formato Inválido"
@@ -78,22 +47,9 @@
         </StackLayout>
       </GridLayout>
 
-      <Label
-        class="font-weight-bold m-y-10"
-        text="Documento"
-        row="2"
-        col="0"
-        colSpan="2"
-      ></Label>
+      <Label class="font-weight-bold m-y-10" text="Documento" row="2" col="0" colSpan="2"></Label>
 
-      <GridLayout
-        class="form-conteiner"
-        orientation="horizontal"
-        row="3"
-        col="0"
-        colSpan="2"
-        columns="auto,*"
-      >
+      <GridLayout class="form-conteiner" orientation="horizontal" row="3" col="0" colSpan="2" columns="auto,*">
         <StackLayout col="0" class="form">
           <Label text="Tipo de Documento" class="m-y-5"></Label>
           <DropDown
@@ -125,22 +81,10 @@
         </StackLayout>
       </GridLayout>
 
-      <Label
-        class="font-weight-bold m-y-10"
-        text="Dados de Usuários"
-        row="4"
-        col="0"
-        colSpan="2"
-      ></Label>
+      <Label class="font-weight-bold m-y-10" text="Dados de Usuários" row="4" col="0" colSpan="2"></Label>
 
       <StackLayout class="form-conteiner" row="5" col="0" colSpan="2">
-        <TextField
-          secure="true"
-          class="input-field"
-          hint="Senha"
-          formControlName="password"
-          id="password"
-        ></TextField>
+        <TextField secure="true" class="input-field" hint="Senha" formControlName="password" id="password"></TextField>
         <Label
           *ngIf="isSubmit && fc.password.errors && fc.password.errors.required"
           class="body text-danger text-right"
@@ -165,45 +109,20 @@
         ></Label>
       </StackLayout>
 
-      <FlexboxLayout
-        justifyContent="center"
-        class="m-t-10"
-        alignItems="center"
-        row="6"
-        col="0"
-        colSpan="2"
-      >
-        <button
-          text="Salvar"
-          (tap)="doEnroll()"
-          class="btn btn-secondary"
-          height="50"
-          width="100%"
-        ></button>
+      <FlexboxLayout justifyContent="center" class="m-t-10" alignItems="center" row="6" col="0" colSpan="2">
+        <button text="Salvar" (tap)="doEnroll()" class="btn btn-secondary" height="50" width="100%"></button>
       </FlexboxLayout>
     </GridLayout>
 
-    <StackLayout
-      class="dimmer"
-      visibility="{{ ($isLoading | async) ? 'visible' : 'collapsed' }}"
-    ></StackLayout>
+    <StackLayout class="dimmer" visibility="{{ ($isLoading | async) ? 'visible' : 'collapsed' }}"></StackLayout>
     <GridLayout
       columns="40,*"
       class="loading-container"
       rows="*"
       visibility="{{ ($isLoading | async) ? 'visible' : 'collapsed' }}"
     >
-      <ActivityIndicator
-        col="0"
-        busy="true"
-        verticalAlignment="center"
-      ></ActivityIndicator>
-      <Label
-        class="font-weight-bold m-l-10"
-        text="Aguarde..."
-        col="1"
-        verticalAlignment="center"
-      ></Label>
+      <ActivityIndicator col="0" busy="true" verticalAlignment="center"></ActivityIndicator>
+      <Label class="font-weight-bold m-l-10" text="Aguarde..." col="1" verticalAlignment="center"></Label>
     </GridLayout>
   </GridLayout>
 </ScrollView>

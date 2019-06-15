@@ -5,7 +5,7 @@ import { Credentials } from '../models/credentials';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { GlobalEventService } from './global-event.service';
 import { btoa } from '../utils/variables';
-import { tap } from 'rxjs/operators';
+import { tap, timeout } from 'rxjs/operators';
 import * as storage from 'nativescript-localstorage';
 import { Enroll } from '../models/enroll';
 import { ToastHelperService } from '../core/toast-helper.service';
@@ -16,7 +16,6 @@ const CREDENTIALS = 'credentials';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService extends BaseService {
-  
   private subject = new BehaviorSubject(new UserData());
   userData$: Observable<UserData> = this.subject.asObservable();
 
@@ -34,8 +33,6 @@ export class AccountService extends BaseService {
         if (res.success) {
           this.saveSession(res.content.hash, credential);
           this.subject.next(res.content);
-        } else {
-          this.toastHepler.showToast(`${res.errors[0].message} `);
         }
       })
     );

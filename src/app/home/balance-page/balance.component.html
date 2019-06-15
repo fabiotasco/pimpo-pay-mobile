@@ -1,25 +1,10 @@
-<ScrollView row="0" class="bg-light">
+<ScrollView height="100%" row="0" class="bg-light">
   <GridLayout height="100%" rows="auto,auto,*">
     <StackLayout row="0" class="m-y-10 m-x-15">
-      <Label
-        text="Saldo"
-        class="text-uppercase font-weight-bold  "
-        textWrap="true"
-        marginBottom="8"
-      ></Label>
+      <Label text="Saldo" class="text-uppercase font-weight-bold  " textWrap="true" marginBottom="8"></Label>
 
-      <GridLayout
-        columns="*,auto"
-        verticalAlignment="middle"
-        class="card-list"
-        orientation="horizontal"
-      >
-        <Label
-          text="Conta Corrente"
-          col="0"
-          class="text-uppercase font-weight-bold "
-          textWrap="true"
-        ></Label>
+      <GridLayout columns="*,auto" verticalAlignment="middle" class="card-list" orientation="horizontal">
+        <Label text="Conta Corrente" col="0" class="text-uppercase font-weight-bold " textWrap="true"></Label>
         <Label
           [text]="accountBalance$ | async | currency: 'BRL':'symbol'"
           col="1"
@@ -37,56 +22,61 @@
       marginBottom="8"
     ></Label>
 
-    <StackLayout row="2">
+    <StackLayout height="90%" row="2">
       <ListView
         [items]="transactions$ | async"
-        *ngIf="(transactions$ | async)"
+        *ngIf="transactions$ | async"
         (itemTap)="onItemTap($event)"
         class="list-group m-x-15"
       >
-        <ng-template
-          let-item="item"
-          let-i="index"
-          let-odd="odd"
-          let-even="even"
-        >
-          <GridLayout
-            rows="*,*"
-            columns="*,auto"
-            (tap)="onItemTap($event, item)"
-            class="card-list"
-          >
+        <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+          <GridLayout rows="*,*" columns="*,auto" (tap)="onItemTap($event, item)" class="card-list">
             <Label
               [nsTransactionType]
-              [text]="getTransactionType(item.type)"
+              [text]="getTransactionType(item.type, item.amount)"
               col="0"
               row="0"
               class="font-weight-bold m-b-5"
+              [ngClass]="item.status === 'Cancelled' ? 'text-danger' : ''"
               textWrap="true"
             ></Label>
 
             <Label
               [text]="item.date | date: 'dd/MM/yyyy HH:mm'"
               class="body"
+              [ngClass]="item.status === 'Cancelled' ? 'text-danger' : ''"
               col="0"
               row="1"
               textWrap="true"
             ></Label>
 
             <Label
+              text="Cancelado"
+              textWrap="true"
+              *ngIf="item.status === 'Cancelled'"
+              row="0"
+              col="1"
+              class="text-danger text-right"
+            ></Label>
+
+            <Label
               verticalAlignment="middle"
               [class]="
-                item.type === 'Purchase'
-                  ? 'text-danger font-weight-bold'
-                  : 'font-weight-bold'
+                item.type === 'Purchase' && item.status !== 'Cancelled'
+                  ? 'text-secondary font-weight-bold text-right'
+                  : item.status === 'Cancelled'
+                  ? 'text-danger font-weight-bold text-right'
+                  : 'font-weight-bold text-right'
               "
               [text]="
-                item.type === 'Purchase'
-                  ? ('-' + item.amount | currency: 'BRL':'symbol')
+                item.status === 'Denied'
+                  ? item.reasonMessage
+                  : item.type === 'Purchase'
+                  ? (item.amount | currency: 'BRL':'symbol')
                   : (item.amount | currency: 'BRL':'symbol')
               "
-              row="0"
-              col="2"
+              row="1"
+              col="1"
               rowSpan="2"
               class="text-bold text-primary"
               textWrap="true"

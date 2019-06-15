@@ -1,11 +1,4 @@
-import {
-  forwardRef,
-  OnInit,
-  Component,
-  Input,
-  Output,
-  EventEmitter
-} from '@angular/core';
+import { forwardRef, OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TextField } from 'tns-core-modules/ui/text-field';
 import { Page } from 'tns-core-modules/ui/page/page';
@@ -53,11 +46,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
     this.fieldValue = <TextField>this.page.getViewById('fieldValue');
   }
 
-  writeValue(obj: any): void {
-    if (obj) {
-      this.inputValue = obj;
-    }
-  }
+  writeValue(obj: any): void {}
 
   registerOnChange(fn: any): void {
     this.propagateChange = fn;
@@ -70,10 +59,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
     if (event.object.text) {
       let value: string = event.object.text;
 
-      value = value.replace(/\D/, '');
-      value = value.replace(',', ''); // para conter o bug do replace
-      value = value.replace('.', ''); // de nao substituir todos os caracteres.
-      value = value.replace('.', '');
+      value = value.replace(/\D/g, '');
 
       if (value.length === 3) {
         value = value.replace(/(\d{1})(\d{2})/, '$1,$2');
@@ -94,10 +80,7 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
       } else if (value.length === 11) {
         value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3,$4');
       } else if (value.length === 12) {
-        value = value.replace(
-          /(\d{1})(\d{3})(\d{3})(\d{3})(\d{2})/,
-          '$1.$2.$3.$4,$5'
-        );
+        value = value.replace(/(\d{1})(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3.$4,$5');
       } else {
         value = value.replace(/(\d{10,})(\d{2})/, '$1.$2');
       }
@@ -109,6 +92,8 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
 
       const resetedValue = this.prepareToPropagate(value);
       this.propagateChange(resetedValue);
+    } else {
+     /*  this.propagateChange(''); */
     }
   }
 
@@ -117,13 +102,13 @@ export class CurrencyMaskPtComponent implements OnInit, ControlValueAccessor {
   }
 
   private prepareToPropagate(value: string): string {
-    value = value.replace(/\D/, '');
-    value = value.replace(',', ''); // para conter o bug do replace
-    value = value.replace('.', ''); // de nao substituir todos os caracteres.
-    value = value.replace('.', '');
+    if (value) {
+      value = value.replace(/\D/g, '');
+      const integerPart = value.slice(0, value.length - 2);
+      const decimalPart = value.slice(value.length - 2);
+      return parseFloat(integerPart + '.' + decimalPart).toFixed(2);
+    }
 
-    const integerPart = value.slice(0, value.length - 2);
-    const decimalPart = value.slice(value.length - 2);
-    return parseFloat(integerPart + '.' + decimalPart).toFixed(2);
+    return undefined;
   }
 }

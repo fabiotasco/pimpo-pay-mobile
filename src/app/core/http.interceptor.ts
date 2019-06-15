@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { AccountService } from '../services/account.service';
 import { openRoute, btoa } from '../utils/variables';
+import { timeout } from 'rxjs/operators';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
@@ -31,6 +32,6 @@ export class HeaderInterceptor implements HttpInterceptor {
     }
 
     const authReq = req.clone({ headers });
-    return next.handle(authReq);
+    return next.handle(authReq).pipe(timeout(5000));
   }
 }

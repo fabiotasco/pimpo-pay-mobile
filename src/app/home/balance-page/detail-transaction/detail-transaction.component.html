@@ -1,42 +1,17 @@
 <ActionBar title="Detalhe" class="action-bar bg-primary text-light">
-  <NavigationButton
-    text="Back"
-    (tap)="goBack()"
-    android.systemIcon="ic_ab_back_material_dark"
-  ></NavigationButton>
+  <NavigationButton text="Back" (tap)="goBack()" android.systemIcon="ic_ab_back_material_dark"></NavigationButton>
 </ActionBar>
 
 <ScrollView class="bg-light" height="auto">
   <GridLayout rows="*,*">
-    <GridLayout
-      row="0"
-      rows="auto,*,auto,*,*,*,*"
-      paddingBottom="60"
-      marginLeft="16"
-      marginRight="16"
-      marginTop="16"
-    >
-      <Label
-        row="0"
-        text="SITUAÇÃO"
-        class="text-bold m-y-10"
-        fontSize="16"
-        textWrap="true"
-        paddingBottom="16"
-      ></Label>
-
-      <GridLayout
-        shadow="2"
-        row="1"
-        rows="*,auto,*"
-        columns="*,auto"
-        padding="16"
-      >
+    <GridLayout row="0" rows="auto,*,auto,*,*,*,*" paddingBottom="60" marginLeft="16" marginRight="16" marginTop="16">
+      <GridLayout shadow="2" row="1" rows="*,auto,*" columns="*,auto" padding="16">
         <Label
           padding="8"
           row="0"
           col="0"
-          text="Status"
+          class="font-weight-bold"
+          text="SITUAÇÃO"
           textWrap="true"
           fontSize="16"
         ></Label>
@@ -47,7 +22,7 @@
           fontSize="16"
           [text]="getTransactionName(transaction.status)"
           [color]="getTransactionStatusColor(transaction.status)"
-          class="text-bold"
+          class="text-bold text-right"
           textWrap="true"
         ></Label>
         <StackLayout
@@ -86,13 +61,8 @@
         >
           <Label
             fontSize="16"
-            [text]="transaction.reasonCode"
-            class="text-bold"
-            textWrap="true"
-          ></Label>
-          <Label
-            fontSize="16"
-            text="Definir texto de cada reasonCode"
+            [text]="transaction.status === 'Cancelled' ? 'Cancelado pelo remetente' : transaction.reasonMessage"
+            class="body"
             textWrap="true"
           ></Label>
         </StackLayout>
@@ -100,27 +70,14 @@
 
       <Label
         row="2"
-        text="COMPRA"
+        text="TRANSFERÊNCIA"
         class="text-bold m-y-10"
         fontSize="16"
         textWrap="true"
         paddingTop="16"
       ></Label>
-      <GridLayout
-        shadow="2"
-        row="3"
-        rows="*,auto,*,auto,*"
-        columns="*,auto"
-        padding="16"
-      >
-        <Label
-          padding="8"
-          row="0"
-          col="0"
-          text="Valor"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
+      <GridLayout shadow="2" row="3" rows="*,auto,*,auto,*" columns="*,auto" padding="16">
+        <Label padding="8" row="0" col="0" text="Valor" textWrap="true" fontSize="16"></Label>
         <Label
           padding="8"
           row="0"
@@ -131,61 +88,34 @@
               ? '-' + (transaction.amount | currency: 'BRL':'symbol')
               : (transaction.amount | currency: 'BRL':'symbol')
           "
-          [class]="
-            transaction.planType === 'Credit'
-              ? 'text-bold text-danger'
-              : 'text-bold'
-          "
+          [class]="transaction.planType === 'Credit' ? 'text-bold text-danger text-right' : 'text-bold text-right'"
           textWrap="true"
         ></Label>
-        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light">
-        </StackLayout>
-        <Label
-          padding="8"
-          row="2"
-          col="0"
-          text="Plano"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
+        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
+        <Label padding="8" row="2" col="0" text="Plano" textWrap="true" fontSize="16"></Label>
         <Label
           padding="8"
           row="2"
           col="1"
           fontSize="16"
           [text]="transaction.planType === 'Prepaid' ? 'Pré-Pago' : 'Pós-Pago'"
-          class="text-bold"
+          class="text-bold text-right"
           textWrap="true"
         ></Label>
-        <StackLayout padding="8" row="3" col="0" colSpan="2" class="hr-light">
-        </StackLayout>
-        <Label
-          padding="8"
-          row="4"
-          col="0"
-          text="Condição de Pgto."
-          textWrap="true"
-          fontSize="16"
-        ></Label>
+        <StackLayout padding="8" row="3" col="0" colSpan="2" class="hr-light"> </StackLayout>
+        <Label padding="8" row="4" col="0" text="Condição de Pgto." textWrap="true" fontSize="16"></Label>
         <Label
           padding="8"
           row="4"
           col="1"
           fontSize="16"
           [text]="transaction.planType === 'Prepaid' ? 'A Vista' : 'Crédito'"
-          class="text-bold"
+          class="text-bold text-right"
           textWrap="true"
         ></Label>
       </GridLayout>
 
-      <Label
-        row="4"
-        text="ESTABELECIMENTO COMERCIAL"
-        class="text-bold m-y-10"
-        fontSize="16"
-        textWrap="true"
-        paddingTop="16"
-      ></Label>
+      <Label row="4" text="FAVORECIDO" class="text-bold m-y-10" fontSize="16" textWrap="true" paddingTop="16"></Label>
       <GridLayout
         shadow="2"
         row="5"
@@ -195,40 +125,25 @@
         paddingRight="16"
         paddingTop="16"
       >
-        <Label
-          padding="8"
-          row="0"
-          col="0"
-          text="Registro"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
+        <Label padding="8" row="0" col="0" text="Registro" textWrap="true" fontSize="16"></Label>
         <Label
           padding="8"
           row="0"
           col="1"
           fontSize="16"
           text="29.687.531-86"
-          class="text-bold"
+          class="text-bold text-right"
           textWrap="true"
         ></Label>
-        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light">
-        </StackLayout>
-        <Label
-          padding="8"
-          row="2"
-          col="0"
-          text="Celular"
-          textWrap="true"
-          fontSize="16"
-        ></Label>
+        <StackLayout padding="8" row="1" col="0" colSpan="2" class="hr-light"> </StackLayout>
+        <Label padding="8" row="2" col="0" text="Celular" textWrap="true" fontSize="16"></Label>
         <Label
           padding="8"
           row="2"
           col="1"
           fontSize="16"
           text="+55 21 98815-2861"
-          class="text-bold "
+          class="text-bold text-right"
           textWrap="true"
         ></Label>
       </GridLayout>
@@ -236,6 +151,7 @@
       <Button
         row="6"
         id="btnCancel"
+        *ngIf="transaction.status !== 'Denied' || transaction.status !== 'Cancelled'"
         (tap)="cancelTransaction()"
         text="Cancelar"
         class="btn btn-outline secondary"

@@ -1,4 +1,10 @@
-@import '../../../app-common';
+@import "../../../app-common";
+
+.dropdown {
+  width: 60;
+  padding: 2;
+  text-align: center;
+}
 
 .input-transaction {
   widows: 100%;
@@ -50,7 +56,10 @@
 
 .plan {
   border-radius: 4;
-  padding: 2 5;
+  padding: 5 5;
+  background-color: #fff;
+  border-width: 1;
+  border-color: $secondary;
   &.selected {
     font-weight: 700;
     border-color: lighten($complementary, 20%);

@@ -3,80 +3,42 @@
     <Label class="m-b-10" fontSize="16" row="0">
       <FormattedString>
         <Span text="Detalhes da transação" class="font-weight-bold"></Span>
-        <Span
-          [text]="' (' + resume.transactionType + ')'"
-          class="body text-secondary"
-        ></Span>
+        <Span [text]="' (' + resume.transactionType + ')'" class="body text-secondary"></Span>
       </FormattedString>
     </Label>
 
     <GridLayout class="card-list" row="1" rows="*,*,*,*,*,*" columns="*,auto">
-      <Label
-        text="Valor"
-        textWrap="true"
-        class="font-weight-bold"
-        row="0"
-        col="0"
-      ></Label>
-      <Label
-        [text]="resume.amount | currency: 'BRL':'symbol'"
-        textWrap="true"
-        class="body"
-        row="0"
-        col="1"
-      ></Label>
+      <Label text="Valor" textWrap="true" class="font-weight-bold p-y-5" row="0" col="0"></Label>
+      <Label [text]="resume.amount | currency: 'BRL':'symbol'" textWrap="true" class="body text-right p-y-5" row="0" col="1"></Label>
 
-      <StackLayout class="hr-light m-y-5" row="2" col="0" colSpan="2">
+      <StackLayout class="hr-light m-y-5" row="2" col="0" colSpan="2" *ngIf="resume.transactionType !== 'Depósito'">
       </StackLayout>
 
       <Label
         text="Conta Destino"
         textWrap="true"
-        class="font-weight-bold"
+        class="font-weight-bold p-y-5"
         row="3"
         col="0"
+        *ngIf="resume.transactionType !== 'Depósito'"
       ></Label>
       <Label
         [text]="resume.destinyAccount"
         textWrap="true"
-        class="body"
+        class="body text-right p-y-5"
         row="3"
         col="1"
+        *ngIf="resume.transactionType !== 'Depósito'"
       ></Label>
 
-      <StackLayout class="hr-light m-y-5" row="4" col="0" colSpan="2">
-      </StackLayout>
+      <StackLayout class="hr-light m-y-5" row="4" col="0" colSpan="2" *ngIf="resume.transactionType !== 'Transferência'"> </StackLayout>
 
-      <Label
-        text="Plano"
-        textWrap="true"
-        class="font-weight-bold"
-        row="5"
-        col="0"
-      ></Label>
-      <Label
-        [text]="resume.plan"
-        textWrap="true"
-        class="body"
-        row="5"
-        col="1"
-      ></Label>
+      <Label text="Plano" *ngIf="resume.transactionType !== 'Transferência'" textWrap="true" class="font-weight-bold p-y-5" row="5" col="0"></Label>
+      <Label [text]="resume.plan" *ngIf="resume.transactionType !== 'Transferência'" textWrap="true" class="body text-right p-y-5" row="5" col="1"></Label>
     </GridLayout>
 
-    <GridLayout
-      class="card-list m-t-10"
-      row="2"
-      rows="auto,auto,auto"
-      columns="*,auto"
-    >
-      <Label
-        *ngIf="resume.hasFailure"
-        text="Código"
-        textWrap="true"
-        class="font-weight-bold"
-        row="0"
-        col="0"
-      ></Label>
+    <GridLayout class="card-list m-t-10" row="2" rows="auto,auto,auto" columns="*,auto">
+      <Label *ngIf="resume.hasFailure" text="Código" textWrap="true" class="font-weight-bold" row="0" col="0"></Label>
       <Label
         *ngIf="resume.hasFailure"
         [text]="resume.statusCode || 'S/N'"
@@ -87,14 +49,7 @@
         col="1"
       ></Label>
 
-      <StackLayout
-        *ngIf="resume.hasFailure"
-        class="hr-light m-y-5"
-        row="1"
-        col="0"
-        colSpan="2"
-      >
-      </StackLayout>
+      <StackLayout *ngIf="resume.hasFailure" class="hr-light m-y-5" row="1" col="0" colSpan="2"> </StackLayout>
 
       <Label
         text="Situação"
@@ -119,6 +74,7 @@
         <Span text="Ações Sugeridas:" class="font-weight-bold"></Span>
       </FormattedString>
     </Label>
+
     <GridLayout row="5" rows="auto,auto,auto" class="card-list">
       <Label
         *ngIf="resume.hasFailure"
@@ -137,7 +93,7 @@
         class="font-weight-bold text-link primary m-b-10"
       ></Label>
 
-     <!--  <Label
+      <!--  <Label
         text="Consultar extrato"
         textWrap="true"
         row="2"
