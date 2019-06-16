@@ -63,7 +63,7 @@ export class LoginPageComponent implements OnInit {
         }
       );
     } else {
-      this.toastHelper.showToast('Informe o documento e o senha');
+      this.toastHelper.showToast('Informe o documento e a senha');
     }
   }
 }
