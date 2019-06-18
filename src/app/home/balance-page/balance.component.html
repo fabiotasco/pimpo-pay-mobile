@@ -70,7 +70,7 @@
               "
               [text]="
                 item.status === 'Denied'
-                  ? item.reasonMessage
+                  ? 'Negada'
                   : item.type === 'Purchase'
                   ? (item.amount | currency: 'BRL':'symbol')
                   : (item.amount | currency: 'BRL':'symbol')
