@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
     "lodash": "^4.17.11",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "nativescript-angular": "~7.0.0",
     "nativescript-barcodescanner": "^2.7.9",
     "nativescript-drop-down": "^4.0.1",
